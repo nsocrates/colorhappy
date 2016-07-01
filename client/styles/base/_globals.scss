@@ -1,0 +1,47 @@
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+html {
+  box-sizing: border-box;
+  font-size: $global-font-size;
+}
+
+body {
+  color: rgba($gray-dark, $primary);
+  font-family: $base-font-family;
+  font-feature-settings: "liga" 1,"kern" 1;
+  font-kerning: normal;
+  font-size: rem($base-font-size);
+  font-weight: $base-font-weight;
+  line-height: $base-line-height;
+  min-width: map-get($container, min);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  transition: font-size 0.25s ease-in-out;
+
+  @include media($medium) {
+    font-size: rem($base-font-size-lg);
+  }
+}
+
+input,
+textarea {
+  color: inherit;
+}
+
+textarea {
+  resize: vertical;
+}
+
+img {
+  display: block;
+  width: 100%;
+}

@@ -1,0 +1,10 @@
+{
+  "verbose": false,
+  "watch": [
+    "server",
+    "config",
+    "client/scripts/routes/index.js",
+    "client/scripts/redux/reducers/index.js"
+  ],
+  "exec": "npm run build:server && npm run dev"
+}

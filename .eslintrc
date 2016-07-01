@@ -1,0 +1,24 @@
+{
+  "extends": "airbnb",
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module"
+  },
+  "env": {
+    "browser": true,
+    "es6": true,
+    "node": true
+  },
+  "rules": {
+    "camelcase": 0,
+    "semi": 0,
+    "no-underscore-dangle": 0,
+    "func-names": 0,
+    "no-param-reassign": [2, { "props": false }],
+    "prefer-arrow-callback": 0,
+    "new-cap": 0,
+    "no-constant-condition": 0,
+    "import/no-unresolved": 0
+  }
+}

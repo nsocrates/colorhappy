@@ -1,0 +1,52 @@
+@import "~styles/helpers";
+
+.c__link {
+  color: $text-color;
+
+  &:hover {
+    color: #db404b;
+  }
+}
+
+.header {
+  @include clearfix;
+  padding: map-get($header, padding);
+  height: map-get($header, height);
+  box-shadow: 0 0 0 1px map-get($gray, 300);
+
+  @include media($medium) {
+    padding: map-get($header, md-padding);
+    height: map-get($header, md-height);
+  }
+}
+
+.link {
+  composes: c__link;
+}
+
+// Left Section
+// ===================
+.sectionLeft {
+  line-height: map-get($header, height) / 2 - map-get($header, padding);
+  float: left;
+}
+
+.title {
+  margin: 0;
+  line-height: 1;
+}
+
+.description {
+  margin: 0;
+}
+
+// Right Section
+// ===================
+.sectionRight {
+  float: right;
+  line-height: map-get($header, height) - (map-get($header, padding) * 2);
+}
+
+.login {
+  composes: c__link;
+}

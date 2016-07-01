@@ -1,0 +1,8 @@
+@import "~styles/helpers";
+
+.footer {
+  height: map-get($footer, height);
+  padding-left: map-get($footer, padding);
+  padding-right: map-get($footer, padding);
+  line-height: map-get($footer, height);
+}

@@ -1,0 +1,76 @@
+// == Remove Unit
+@function strip($number) {
+  @if type-of($number) == "number" and not unitless($number) {
+    @return $number / ($number * 0 + 1);
+  }
+
+  @return $number;
+}
+
+// == Px to Em
+@function em($px, $ctx: 16px) {
+  @if (unit($px) == "rem" or unit($px) == "em") {
+    @return strip($px) * 1em;
+  }
+
+  @if (unitless($px)) {
+    $px: $px * 1px;
+  }
+
+  @if (unitless($ctx)) {
+    $ctx: $ctx * 1px;
+  }
+
+  @return $px / $ctx * 1em;
+}
+
+// == Px to Rem
+@function rem($px, $ctx: 16px) {
+  @if (unit($px) == "rem" or unit($px) == "em") {
+    @return strip($px) * 1em;
+  }
+
+  @if (unitless($px)) {
+    $px: $px * 1px;
+  }
+
+  @if (unitless($ctx)) {
+    $ctx: $ctx * 1px;
+  }
+
+  @return $px / $ctx * 1rem;
+}
+
+// == Column
+@function span($span, $spacing: $gutter) {
+  $multiplier: $span / $columns;
+  @return calc((99.99999% * #{$multiplier}) - (#{$spacing} - #{$spacing} * #{$multiplier}));
+}
+
+// == Power
+@function pow($number, $exponent) {
+  $value: 1;
+
+  @if $exponent > 0 {
+    @for $i from 1 through $exponent {
+      $value: $value * $number;
+    }
+  } @else if $exponent < 0 {
+    @for $i from 1 through -$exponent {
+      $value: $value / $number;
+    }
+  }
+
+  @return $value;
+}
+
+// == Ratio
+@function sm($exponent: 0, $base: 16px, $r: 1.618) {
+  @return em($base * pow($r, $exponent));
+}
+
+// == Map function
+@function get($key, $value) {
+  @return map-get($key, $value)
+}
+
