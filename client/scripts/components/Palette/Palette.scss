@@ -43,7 +43,8 @@
 .hexInput {
   font-size: map-get($font-size, h4);
   font-family: $heading-font-family;
-  font-weight: 400;
+  font-weight: 700;
+  letter-spacing: em(0.25px);
   cursor: pointer;
   opacity: 0.38;
   text-transform: uppercase;
