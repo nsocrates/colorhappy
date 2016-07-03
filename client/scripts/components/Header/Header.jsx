@@ -4,10 +4,10 @@ import s from './Header.scss'
 import { Link } from 'react-router'
 
 const propTypes = {
-  children: PropTypes.node,
+  location: PropTypes.object,
 }
 
-function Header() {
+function Header(props) {
   return (
     <header className={s.header}>
       <section className={s.sectionLeft}>
@@ -25,7 +25,16 @@ function Header() {
         </p>
       </section>
       <section className={s.sectionRight}>
-        <Link className={s.login} to="/">Login</Link>
+        <Link
+          className={s.login}
+          to="/login"
+          state={{
+            isModal: true,
+            returnPath: props.location.pathname,
+          }}
+        >
+          Login
+        </Link>
       </section>
     </header>
   )

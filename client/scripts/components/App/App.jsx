@@ -4,8 +4,10 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles'
 import s from './App.scss'
 import Header from 'components/Header/Header'
 import Footer from 'components/Footer/Footer'
+import ModalHOC from 'components/Modal/ModalHOC'
 
 class App extends React.Component {
+  static oldChildren = this
   componentDidMount() {
     // ...
   }
@@ -15,12 +17,13 @@ class App extends React.Component {
   }
 
   render() {
-    const { children } = this.props
+    const { prevOrCurrChildren, modalChildren, location } = this.props
 
     return (
       <div className={s.app}>
-        <Header />
-        {children}
+        <Header location={location} />
+        {prevOrCurrChildren}
+        {modalChildren}
         <Footer />
       </div>
     )
@@ -28,17 +31,21 @@ class App extends React.Component {
 }
 
 App.propTypes = {
-  children: PropTypes.node.isRequired,
   dispatch: PropTypes.func.isRequired,
+  location: PropTypes.object.isRequired,
+  prevOrCurrChildren: PropTypes.node.isRequired,
+  modalChildren: PropTypes.node,
+  oldChildren: PropTypes.node,
 }
 
 App.defaultProps = {
-  children: null,
+  modalChildren: null,
 }
 
 function mapStateToProps(state) {
   return { state }
 }
 
-const AppWithStyles = withStyles(s)(App)
+const AppModal = ModalHOC(App)
+const AppWithStyles = withStyles(s)(AppModal)
 export default connect(mapStateToProps)(AppWithStyles)

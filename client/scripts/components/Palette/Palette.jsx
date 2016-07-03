@@ -9,14 +9,19 @@ const propTypes = {
 
 class Palette extends Component {
   render() {
+    const handleChange = e => {
+      e.preventDefault()
+      console.log(e.currentTarget.value)
+    }
+
     return (
       <main className={s.main}>
         <ul className={s.paletteList}>
-          <PaletteItem color={'#dde8b9'} />
-          <PaletteItem color={'#e8d2ae'} />
-          <PaletteItem color={'#d7b29d'} />
-          <PaletteItem color={'#cb8589'} />
-          <PaletteItem color={'#796465'} />
+          <PaletteItem color={'#dde8b9'} onChange={handleChange} />
+          <PaletteItem color={'#e8d2ae'} onChange={handleChange} />
+          <PaletteItem color={'#d7b29d'} onChange={handleChange} />
+          <PaletteItem color={'#cb8589'} onChange={handleChange} />
+          <PaletteItem color={'#796465'} onChange={handleChange} />
         </ul>
       </main>
     )
