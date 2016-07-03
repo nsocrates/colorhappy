@@ -9,7 +9,7 @@ axios.defaults.headers.post['Content-Type'] = 'application/json'
 function callApi(method, endpoint, options) {
   return axios[method](endpoint, options)
     .then(response => response.data)
-    .catch(error => Promise.reject([{ message: error.message }]))
+    .catch(error => Promise.reject([{ message: error.message || 'Something went wrong...' }]))
 }
 
 // API services
@@ -33,6 +33,6 @@ export function signup({ email, password, passwordConfirm }) {
   return callApi('post', '/api/users/', { email, password })
 }
 
-export const login = ({ email, password }) => callApi('post', '/auth/local', { email, password })
+export const login = data => callApi('post', '/auth/local', data)
 export const getMe = () => callApi('get', '/api/users/me')
 export const updateMe = body => callApi('put', '/api/users/me', body)
