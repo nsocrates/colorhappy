@@ -1,5 +1,3 @@
-/* eslint-disable global-require */
-
 import development from './config/dev'
 import production from './config/dist'
 import server from './config/server'

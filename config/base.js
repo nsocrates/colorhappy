@@ -1,9 +1,9 @@
 import path from 'path'
 import autoprefixer from 'autoprefixer'
 
-const srcPath = path.join(__dirname, '..', 'client')
-const scriptsPath = path.join(__dirname, '..', 'client', 'scripts')
-const outputPath = path.join(__dirname, '..', 'dist')
+const srcPath = path.resolve(__dirname, '..', 'client')
+const scriptsPath = path.resolve(__dirname, '..', 'client', 'scripts')
+const outputPath = path.resolve(__dirname, '..', 'dist')
 
 const baseConfig = {
   context: srcPath,

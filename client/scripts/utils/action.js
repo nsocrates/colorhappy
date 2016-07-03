@@ -8,6 +8,6 @@ export function createRequestTypes(base) {
   }, {})
 }
 
-export function actionCreator(type, payload = {}) {
+export function action(type, payload = {}) {
   return Object.assign({}, { type }, payload)
 }
