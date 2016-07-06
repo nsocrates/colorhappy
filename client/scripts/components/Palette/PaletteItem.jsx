@@ -1,29 +1,36 @@
 import React, { PropTypes } from 'react'
 import withStyles from 'isomorphic-style-loader/lib/withStyles'
 import s from './Palette.scss'
-import { contrast } from 'utils/color/hex'
+import { round, hex as h } from 'utils/color/index'
 
 const propTypes = {
-  color: PropTypes.string.isRequired,
+  hex: PropTypes.string.isRequired,
   onChange: PropTypes.func,
 }
 
-function PaletteItem({ color, ...rest }) {
+function PaletteItem({ hex, ...rest }) {
+  const rgb = round(h.toRgb(hex)).join(', ')
   return (
     <li
       className={s.paletteListItem}
       style={{
-        backgroundColor: color,
-        boxShadow: `0 0 0 1px ${color}`,
-        color: contrast(color),
+        backgroundColor: hex,
+        boxShadow: `0 0 0 1px ${hex}`,
+        color: h.contrast(hex),
       }}
     >
-      <div className={s.hex}>
+      <div className={s.colorCode}>
         <input
           {...rest}
           type="text"
           className={s.hexInput}
-          value={color}
+          value={hex}
+        />
+        <input
+          {...rest}
+          type="text"
+          className={s.rgbInput}
+          value={rgb}
         />
       </div>
     </li>

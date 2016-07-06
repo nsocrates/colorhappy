@@ -1,0 +1,126 @@
+@import "~styles/helpers";
+
+.main {
+  padding: em(15px);
+  background-color: map-get($gray, 50);
+}
+
+.paletteGroup {
+  position: relative;
+  margin-bottom: em(15px);
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.overlay {
+  @include clearfix;
+  opacity: 0;
+  display: table;
+  background-color: rgba($black, 0.38);
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+}
+
+.overlayItem {
+  width: 25%;
+  text-align: center;
+  display: table-cell;
+  vertical-align: middle;
+  padding: em(25px) 0;
+  color: rgba($white, 0.54);
+  font-weight: 600;
+  text-transform: uppercase;
+
+  &:hover {
+    color: $white;
+  }
+}
+
+.articleHeading {
+  @include clearfix;
+  display: block;
+  overflow: hidden;
+  height: em(26px);
+}
+
+.articleHeadingLeft {
+  float: left;
+}
+
+.articleHeadingRight {
+  text-align: right;
+  float: right;
+}
+
+.countGroup {
+  margin-right: em(10px);
+  color: rgba($text-color, 0.87);
+
+  &:last-child {
+    margin-right: 0;
+  }
+}
+
+.count {
+  vertical-align: middle;
+  font-weight: 400;
+}
+
+.countIcon {
+  vertical-align: middle;
+}
+
+.title {
+  margin: 0;
+  display: inline-block;
+}
+
+.titleLink {
+  color: $text-color;
+}
+
+.letterSpace {
+  margin: 0 em(10px);
+}
+
+.user {
+  font-weight: 600;
+  font-family: $heading-font-family;
+
+  &:hover {
+    color: $accent2-color;
+  }
+}
+
+.articleBody {
+  position: relative;
+}
+
+.colorGroup {
+  @include clearfix;
+  border-radius: em(3px);
+  box-shadow: 0 0 0 1px rgba($black, 0.12);
+}
+
+.paletteColor {
+  float: left;
+  height: em(75px);
+  width: 20%;
+
+  &:first-child {
+    border-top-left-radius: em(3px);
+    border-bottom-left-radius: em(3px);
+  }
+
+  &:last-child {
+    border-top-right-radius: em(3px);
+    border-bottom-right-radius: em(3px);
+  }
+}

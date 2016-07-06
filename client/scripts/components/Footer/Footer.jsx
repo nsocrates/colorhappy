@@ -10,7 +10,7 @@ const propTypes = {
 function Footer() {
   return (
     <footer className={s.footer}>
-      <small>This is my footer.</small>
+      <small>ColorMe.</small>
     </footer>
   )
 }

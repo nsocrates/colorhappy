@@ -1,5 +1,25 @@
 @import "~styles/helpers";
 
+.c__input {
+  display: block;
+  cursor: pointer;
+  opacity: 0.38;
+  text-transform: uppercase;
+  background: 0;
+  outline: 0;
+  border: 0;
+  width: rem(125px);
+
+  @include media($medium) {
+    width: 100%;
+    text-align: center;
+  }
+
+  &:hover {
+    opacity: 0.87;
+  }
+}
+
 .main {
   height: calc(100% - #{map-get($header, height)} - #{map-get($footer, height)});
   min-height: rem(500px);
@@ -28,10 +48,9 @@
   }
 }
 
-.hex {
+.colorCode {
   display: table-cell;
   vertical-align: middle;
-  white-space: nowrap;
   margin: 0;
   line-height: 1;
 
@@ -41,24 +60,17 @@
 }
 
 .hexInput {
-  font-size: map-get($font-size, h4);
+  composes: c__input;
   font-family: $heading-font-family;
-  font-weight: 700;
   letter-spacing: em(0.25px);
-  cursor: pointer;
-  opacity: 0.38;
-  text-transform: uppercase;
-  background: 0;
-  outline: 0;
-  border: 0;
-  width: rem(120px);
+  font-size: map-get($font-size, h4);
+  font-weight: 700;
+  margin-bottom: em(5px);
+}
 
-  @include media($medium) {
-    width: 100%;
-    text-align: center;
-  }
-
-  &:hover {
-    opacity: 0.87;
-  }
+.rgbInput {
+  composes: c__input;
+  font-family: $base-font-family;
+  font-size: map-get($font-size, h6);
+  font-weight: 700;
 }

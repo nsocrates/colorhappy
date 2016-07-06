@@ -1,49 +1,74 @@
-import React, { PropTypes } from 'react'
+import React, { Component, PropTypes } from 'react'
 import s from '../Account.scss'
 import withStyles from 'isomorphic-style-loader/lib/withStyles'
-import SvgClose from 'components/Svg/SvgClose'
+import { Close } from 'components/Svg'
+import { login } from 'actions/auth'
 
 const propTypes = {
   handleReplace: PropTypes.func,
   handleExit: PropTypes.func,
+  dispatch: PropTypes.func.isRequired,
 }
 
-function Login(props) {
-  const { handleReplace, handleExit } = props
+class Login extends Component {
+  constructor(props) {
+    super(props)
+    this.handleLogin = this.handleLogin.bind(this)
+  }
 
-  const handleToSignup = handleReplace('/signup')
+  handleLogin(e) {
+    const { dispatch } = this.props
+    e.preventDefault()
+    dispatch(login.request({ username: this._username.value, password: this._password.value }))
+  }
 
-  return (
-    <div
-      className={s.component}
-      onClick={e => e.stopPropagation()}
-    >
+  render() {
+    const { handleReplace, handleExit } = this.props
 
-      <button className={s.closeBtn} onClick={handleExit}>
-        <SvgClose className={s.svgClose} />
-      </button>
+    const handleToSignup = handleReplace('/signup')
 
-      <section className={s.content}>
+    return (
+      <div
+        className={s.component}
+        onClick={e => e.stopPropagation()}
+      >
 
-        <header className={s.header}>
-          <h4>Login</h4>
-        </header>
-
-        <form className={s.form}>
-          <input className={s.input} type="text" placeholder="Email" />
-          <input className={s.input} type="password" placeholder="Password" />
-          <button className={s.primaryBtn} type="submit">
-            Login
-          </button>
-        </form>
-
-        <button className={s.secondaryBtn} onClick={handleToSignup}>
-          Signup
+        <button className={s.closeBtn} onClick={handleExit}>
+          <Close className={s.svgClose} />
         </button>
 
-      </section>
-    </div>
-  )
+        <section className={s.content}>
+
+          <header className={s.header}>
+            <h4>Login</h4>
+          </header>
+
+          <form className={s.form} onSubmit={this.handleLogin}>
+            <input
+              className={s.input}
+              type="text"
+              placeholder="Username"
+              ref={c => (this._username = c)}
+            />
+            <input
+              className={s.input}
+              type="password"
+              placeholder="Password"
+              ref={c => (this._password = c)}
+            />
+            <button className={s.primaryBtn} type="submit">
+              Login
+            </button>
+          </form>
+
+          <button className={s.secondaryBtn} onClick={handleToSignup}>
+            Signup
+          </button>
+
+        </section>
+      </div>
+    )
+  }
 }
 
 Login.propTypes = propTypes

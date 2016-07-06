@@ -19,8 +19,8 @@ function Header(props) {
         <p className={s.description}>
           <small>
             <strong>Explore</strong>,
-            <strong> create</strong>, and
-            <strong> save</strong> your palettes.
+            <strong>{" create"}</strong>, and
+            <strong>{" save"}</strong> your palettes.
           </small>
         </p>
       </section>
@@ -35,6 +35,20 @@ function Header(props) {
         >
           Login
         </Link>
+
+        <span>{" or "}</span>
+
+        <Link
+          className={s.login}
+          to="/signup"
+          state={{
+            isModal: true,
+            returnPath: props.location.pathname,
+          }}
+        >
+          Signup
+        </Link>
+
       </section>
     </header>
   )

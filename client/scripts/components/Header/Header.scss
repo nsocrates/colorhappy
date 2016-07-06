@@ -12,7 +12,9 @@
   @include clearfix;
   padding: map-get($header, padding);
   height: map-get($header, height);
-  box-shadow: 0 0 0 1px map-get($gray, 300);
+  box-shadow: inset 0 -1px 1px -1px map-get($gray, 300);
+  border-bottom: 1px solid map-get($gray, 300);
+  overflow: hidden;
 
   @include media($medium) {
     padding: map-get($header, md-padding);
@@ -49,4 +51,11 @@
 
 .login {
   composes: c__link;
+}
+
+// Bottom Section
+// ====================
+.sectionBottom {
+  float: left;
+  width: 100%;
 }
