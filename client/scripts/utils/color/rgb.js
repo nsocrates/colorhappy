@@ -1,3 +1,5 @@
+import { round } from './helpers'
+
 function calcHue([r, g, b]) {
   const max = Math.max(r, g, b)
   const min = Math.min(r, g, b)
@@ -15,7 +17,7 @@ function calcHue([r, g, b]) {
 
   if (hue < 0) hue = hue + 360
 
-  return Math.round(hue)
+  return hue
 }
 
 const calcSaturation = (min, max) => lum => {
@@ -24,11 +26,10 @@ const calcSaturation = (min, max) => lum => {
   else if (lum <= 0.5) saturation = (max - min) / (max + min)
   else saturation = (max - min) / (2 - max - min)
 
-  return Math.round(saturation * 100) / 100
+  return saturation
 }
 
-const calcLuminace = (min, max) =>
-  Math.round(((max + min) / 2) * 100) / 100
+const calcLuminace = (min, max) => (max + min) / 2
 
 export function toHsl(rgb) {
   const values = rgb.map(value => value / 255)
@@ -45,7 +46,7 @@ export function toHsl(rgb) {
 }
 
 export const toHex = rgb =>
-  rgb.map(value => {
+  round(rgb).map(value => {
     const hex = value.toString(16)
     return hex.length === 1 ? `0${hex}` : hex
   }).join('')

@@ -1,4 +1,5 @@
 import { toHex as rgbToHex } from './rgb'
+import { round } from './helpers'
 
 function getHues(hue) {
   const h = hue / 360
@@ -23,13 +24,13 @@ const hueToRgb = (m1, m2) => h => {
     hue = m2
   }
 
-  return Math.round(hue * 255)
+  return hue * 255
 }
 
 export function toRgb(hsl) {
   const [h, s, l] = hsl
   if (s === 0) {
-    const gray = Math.round(l * 255)
+    const gray = l * 255
     return [gray, gray, gray]
   }
 
@@ -47,4 +48,4 @@ export function toRgb(hsl) {
   return [r, g, b]
 }
 
-export const toHex = hsl => rgbToHex(toRgb(hsl))
+export const toHex = hsl => rgbToHex(toRgb(round(hsl)))
