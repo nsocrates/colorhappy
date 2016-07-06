@@ -9,15 +9,18 @@ axios.defaults.headers.post['Content-Type'] = 'application/json'
 function callApi(method, endpoint, options) {
   return axios[method](endpoint, options)
     .then(response => response.data)
-    .catch(error => Promise.reject([{ message: error.message || 'Something went wrong...' }]))
+    .catch(error => Promise.reject([{ message: error.data.message || 'Something went wrong...' }]))
 }
 
 // API services
-export function signup({ email, password, passwordConfirm }) {
+export function signup({ email, username, password, passwordConfirm }) {
   // Run through Validator first
   const errors = []
   if (!validator.isEmail(email)) {
     errors.push({ type: 'email', message: "Doesn't look like a valid email..." })
+  }
+  if (!validator.isLength(username, { min: 3 })) {
+    errors.push({ type: 'username', message: 'Username must be at least 3 characters long' })
   }
   if (!validator.isLength(password, { min: 3 })) {
     errors.push({ type: 'password', message: 'Password must be at least 3 characters long' })
@@ -30,7 +33,7 @@ export function signup({ email, password, passwordConfirm }) {
   }
 
   // Call our API request function if validation passes
-  return callApi('post', '/api/users/', { email, password })
+  return callApi('post', '/api/users/', { email, username, password })
 }
 
 export const login = data => callApi('post', '/auth/local', data)

@@ -15,7 +15,7 @@ html {
 }
 
 body {
-  color: rgba($gray-dark, $primary);
+  color: $text-color;
   font-family: $base-font-family;
   font-feature-settings: "liga" 1,"kern" 1;
   font-kerning: normal;
