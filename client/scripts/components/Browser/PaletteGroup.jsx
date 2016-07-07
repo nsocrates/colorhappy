@@ -8,10 +8,14 @@ import { Love, Eye } from 'components/Svg'
 const propTypes = {
   children: PropTypes.node,
   colors: PropTypes.array,
-  user: PropTypes.string,
+  user: PropTypes.object,
   viewCount: PropTypes.string,
   loveCount: PropTypes.string,
   title: PropTypes.string,
+  id: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]),
 }
 
 class PaletteGroup extends Component {
@@ -41,6 +45,7 @@ class PaletteGroup extends Component {
       viewCount,
       loveCount,
       title,
+      id,
     } = this.props
 
     return (
@@ -48,7 +53,7 @@ class PaletteGroup extends Component {
         <heading className={s.articleHeading}>
           <section className={s.articleHeadingLeft}>
             <h5 className={s.title}>
-              <Link className={s.titleLink}to="/">
+              <Link className={s.titleLink} to={`/palette/${id}`}>
                 {title}
               </Link>
             </h5>
@@ -56,7 +61,7 @@ class PaletteGroup extends Component {
               {"by"}
             </small>
             <Link className={s.user} to="/">
-              {user}
+              {user.name}
             </Link>
           </section>
           <aside className={s.articleHeadingRight}>
@@ -86,7 +91,7 @@ class PaletteGroup extends Component {
             onMouseOut={this.handleMouseOut}
           >
             <Link className={s.overlayItem} to="/">Love</Link>
-            <Link className={s.overlayItem} to="/">View</Link>
+            <Link className={s.overlayItem} to={`/palette/${id}`}>View</Link>
             <Link className={s.overlayItem} to="/">Export</Link>
           </aside>
         </section>

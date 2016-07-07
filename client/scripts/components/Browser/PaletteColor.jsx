@@ -12,7 +12,7 @@ function PaletteColor({ color, ...rest }) {
       {...rest}
       className={s.paletteColor}
       style={{
-        backgroundColor: `${color}`,
+        backgroundColor: `#${color}`,
       }}
     />
   )
