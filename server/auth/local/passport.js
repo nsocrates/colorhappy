@@ -1,24 +1,22 @@
 import passport from 'passport'
 import { Strategy as LocalStrategy } from 'passport-local';
 
-function findUser(User, email, password, done) {
-  User.findOne({ email }, (err, user) => {
+function findUser(User, username, password, done) {
+  User.findCriteria(username, (err, user) => {
     if (err) return done(err)
     if (!user) return done(null, false, { message: 'User does not exist' })
-    return user.isMatch(password, (err2, authed) => {
-      if (err2) return done(err2)
-      if (!authed) return done(null, false, { message: 'Incorrect password' })
-      return done(null, user)
-    })
+    return user.isMatch(password)
+      .then(() => done(null, user))
+      .catch(err2 => done(null, false, err2))
   })
 }
 
 export default function configurePassport(User) {
   passport.use(new LocalStrategy({
-    usernameField: 'email',
+    usernameField: 'username',
     passwordField: 'password', // Virtual field
     session: false, // We don’t need them: RESTful APIs are stateless
-  }, (email, password, done) => findUser(User, email, password, done)))
+  }, (username, password, done) => findUser(User, username, password, done)))
 
   passport.serializeUser((user, next) => next(null, user.id))
   passport.deserializeUser((id, next) => (
