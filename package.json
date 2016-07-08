@@ -1,5 +1,5 @@
 {
-  "name": "colorme",
+  "name": "colorhappy",
   "version": "1.0.0",
   "engines": {
     "node": "6.2.0"
@@ -36,10 +36,13 @@
     "express-jwt": "^3.4.0",
     "history": "^3.0.0",
     "jsonwebtoken": "^7.0.1",
+    "lodash": "^4.13.1",
     "method-override": "^2.3.6",
     "mongodb": "^2.1.18",
     "mongoose": "^4.5.3",
+    "mongoose-paginate": "^5.0.0",
     "morgan": "^1.7.0",
+    "normalizr": "^2.1.0",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
     "pretty-error": "^2.0.0",
@@ -48,11 +51,12 @@
     "react-redux": "^4.4.5",
     "react-router": "^2.5.2",
     "redux": "^3.5.2",
-    "redux-saga": "^0.10.5",
+    "redux-saga": "^0.11.0",
+    "reselect": "^2.5.3",
     "validator": "^5.4.0"
   },
   "devDependencies": {
-    "autoprefixer": "^6.3.6",
+    "autoprefixer": "^6.3.7",
     "babel-cli": "^6.10.1",
     "babel-core": "^6.10.4",
     "babel-eslint": "^6.1.0",
@@ -66,12 +70,12 @@
     "chai": "^3.5.0",
     "css-loader": "^0.23.1",
     "enzyme": "^2.3.0",
-    "eslint": "^3.0.0",
+    "eslint": "^3.0.1",
     "eslint-config-airbnb": "^9.0.1",
-    "eslint-config-airbnb-base": "^3.0.1",
+    "eslint-config-airbnb-base": "^4.0.0",
     "eslint-import-resolver-webpack": "^0.3.2",
-    "eslint-plugin-import": "^1.10.0",
-    "eslint-plugin-jsx-a11y": "^1.5.3",
+    "eslint-plugin-import": "^1.10.2",
+    "eslint-plugin-jsx-a11y": "^1.5.5",
     "eslint-plugin-react": "^5.2.2",
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.9.0",
@@ -84,12 +88,15 @@
     "react-addons-test-utils": "^15.2.0",
     "react-hot-loader": "^3.0.0-beta.2",
     "redux-logger": "^2.6.1",
-    "resolve-url-loader": "^1.4.4",
+    "resolve-url-loader": "^1.6.0",
     "sass-loader": "^4.0.0",
     "susy": "^2.2.12",
     "url-loader": "^0.5.7",
     "webpack": "^1.13.1",
     "webpack-dev-middleware": "^1.6.1",
-    "webpack-hot-middleware": "^2.12.0"
+    "webpack-hot-middleware": "^2.12.1"
+  },
+  "directories": {
+    "test": "test"
   }
 }

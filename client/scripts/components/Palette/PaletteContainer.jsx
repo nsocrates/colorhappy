@@ -1,32 +1,32 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
+import { palette } from 'actions/palettes'
+import { paletteSelector } from 'reducers/selectors'
 import Palette from './Palette'
 
 const propTypes = {
-  children: PropTypes.node,
   dispatch: PropTypes.func.isRequired,
-  location: PropTypes.object.isRequired,
   params: PropTypes.object.isRequired,
+  palette: PropTypes.object,
 }
 
 class PaletteContainer extends Component {
   componentDidMount() {
-    const { params } = this.props
-    // TODO: Grab palette by params.id and dispatch a fetch request
+    const { params, dispatch } = this.props
+    dispatch(palette.request({ id: params.id }))
   }
 
   render() {
     return (
-      <Palette {...this.props} />
+      <Palette palette={this.props.palette} />
     )
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    state,
-  }
+function mapStateToProps(state, ownProps) {
+  return paletteSelector(state, ownProps)
 }
 
 PaletteContainer.propTypes = propTypes
+
 export default connect(mapStateToProps)(PaletteContainer)

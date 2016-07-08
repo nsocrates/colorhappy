@@ -1,9 +1,9 @@
 import React from 'react'
 // import Palette from 'components/Palette/Palette'
-import Browser from 'components/Browser/Browser'
+import BrowserContainer from 'components/Browser/BrowserContainer'
 
 function Home() {
-  return <Browser />
+  return <BrowserContainer />
 }
 
 export default Home

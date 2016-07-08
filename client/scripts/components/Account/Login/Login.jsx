@@ -19,7 +19,10 @@ class Login extends Component {
   handleLogin(e) {
     const { dispatch } = this.props
     e.preventDefault()
-    dispatch(login.request({ username: this._username.value, password: this._password.value }))
+    dispatch(login.request({
+      username: this._username.value,
+      password: this._password.value,
+    }))
   }
 
   render() {
@@ -47,7 +50,7 @@ class Login extends Component {
             <input
               className={s.input}
               type="text"
-              placeholder="Username"
+              placeholder="Email or Username"
               ref={c => (this._username = c)}
             />
             <input

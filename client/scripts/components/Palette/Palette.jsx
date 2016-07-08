@@ -2,10 +2,11 @@ import React, { Component, PropTypes } from 'react'
 import withStyles from 'isomorphic-style-loader/lib/withStyles'
 import s from './Palette.scss'
 import PaletteItem from './PaletteItem'
+import LoaderHOC from 'components/LoaderHOC/LoaderHOC'
 // import { generatePalette } from 'utils/color/index'
 
 const propTypes = {
-  children: PropTypes.node,
+  palette: PropTypes.object,
 }
 
 class Palette extends Component {
@@ -25,8 +26,8 @@ class Palette extends Component {
   }
 
   render() {
-    const colors = ['dde8b9', 'e8d2ae', 'd7b29d', 'cb8589', '796465']
-    const palette = colors.map((color, index) =>
+    const { palette } = this.props
+    const colors = palette.colors.map((color, index) =>
       <PaletteItem
         hex={`#${color}`}
         onChange={this.handleChange}
@@ -37,7 +38,7 @@ class Palette extends Component {
     return (
       <main className={s.main}>
         <ul className={s.paletteList}>
-          {palette}
+          {colors}
         </ul>
       </main>
     )
@@ -46,4 +47,5 @@ class Palette extends Component {
 
 Palette.propTypes = propTypes
 
-export default withStyles(s)(Palette)
+const WithLoader = LoaderHOC(Palette, 'palette')
+export default withStyles(s)(WithLoader)

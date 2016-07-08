@@ -13,7 +13,7 @@ function Header(props) {
       <section className={s.sectionLeft}>
         <h2 className={s.title}>
           <Link className={s.link} to="/">
-            <strong>ColorMe</strong>
+            <strong>ColorHappy</strong>
           </Link>
         </h2>
         <p className={s.description}>

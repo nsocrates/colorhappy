@@ -2,16 +2,16 @@ import { action } from 'utils/action'
 import { LOGIN, SIGNUP, LOGOUT, SET_TOKEN } from 'constants/actionTypes'
 
 export const login = {
-  request: data => action(LOGIN.REQUEST, { data }),
+  request: payload => action(LOGIN.REQUEST, { payload }),
   success: response => action(LOGIN.SUCCESS, { response }),
   failure: error => action(LOGIN.FAILURE, { error }),
 }
 
 export const signup = {
-  request: data => action(SIGNUP.REQUEST, { data }),
+  request: payload => action(SIGNUP.REQUEST, { payload }),
   success: response => action(SIGNUP.SUCCESS, { response }),
   failure: error => action(SIGNUP.FAILURE, { error }),
 }
 
 export const logout = () => action(LOGOUT)
-export const setToken = token => action(SET_TOKEN, { token })
+export const setToken = payload => action(SET_TOKEN, { payload })

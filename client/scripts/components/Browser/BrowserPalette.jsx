@@ -6,7 +6,7 @@ const propTypes = {
   color: PropTypes.string,
 }
 
-function PaletteColor({ color, ...rest }) {
+function BrowserPalette({ color, ...rest }) {
   return (
     <li
       {...rest}
@@ -18,6 +18,6 @@ function PaletteColor({ color, ...rest }) {
   )
 }
 
-PaletteColor.propTypes = propTypes
+BrowserPalette.propTypes = propTypes
 
-export default withStyles(s)(PaletteColor)
+export default withStyles(s)(BrowserPalette)

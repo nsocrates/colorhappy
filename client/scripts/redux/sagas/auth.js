@@ -14,20 +14,10 @@ function setToken(token) {
   localStorage.setItem('TOKEN', token)
 }
 
-export function* callApi(action, apiFn, data) {
-  try {
-    const response = yield call(apiFn, data)
-    return response
-  } catch (error) {
-    yield put(action.failure(error))
-    return false
-  }
-}
-
 function* watchSignup() {
   while (true) {
-    const { data } = yield take(SIGNUP.REQUEST)
-    const response = yield call(callApi, signup, api.signup, data)
+    const { payload } = yield take(SIGNUP.REQUEST)
+    const response = yield call(api.fetchEntity, signup, api.signup, payload)
     if (response.token) {
       yield put(signup.success(response))
       setToken(response.token)
@@ -38,8 +28,8 @@ function* watchSignup() {
 
 export function* watchLogin() {
   while (true) {
-    const { data } = yield take(LOGIN.REQUEST)
-    const response = yield call(callApi, login, api.login, data)
+    const { payload } = yield take(LOGIN.REQUEST)
+    const response = yield call(api.fetchEntity, login, api.login, payload)
     if (response.token) {
       yield put(login.success(response))
       setToken(response.token)

@@ -1,15 +1,38 @@
 import axios from 'axios'
 import validator from 'validator'
+import { put, call } from 'redux-saga/effects'
+import { normalize } from 'normalizr'
+import Schemas from 'constants/schemas'
 
 // Set defaults for axios
 axios.defaults.baseURL = 'http://localhost:8000'
 axios.defaults.headers.post['Content-Type'] = 'application/json'
 
 // API function to fetch a response
-function callApi(method, endpoint, options) {
-  return axios[method](endpoint, options)
-    .then(response => response.data)
-    .catch(error => Promise.reject([{ message: error.data.message || 'Something went wrong...' }]))
+const callApi = (method, endpoint, options) => schema => (
+  axios[method](endpoint, options)
+    .then(response => {
+      const { data } = response
+      const { total, limit, offset } = data
+      const docs = data.docs || data
+      return schema
+        ? Object.assign({}, normalize(docs, schema), { total, limit, offset })
+        : docs
+    })
+    .catch(error => Promise.reject([{
+      message: error.data.message || 'Something went wrong...',
+    }]))
+)
+
+// Fetch subroutine
+export function* fetchEntity(action, apiFn, payload) {
+  try {
+    const response = yield call(apiFn, payload)
+    return response
+  } catch (error) {
+    yield put(action.failure(error))
+    return false
+  }
 }
 
 // API services
@@ -36,6 +59,8 @@ export function signup({ email, username, password, passwordConfirm }) {
   return callApi('post', '/api/users/', { email, username, password })
 }
 
-export const login = data => callApi('post', '/auth/local', data)
-export const getMe = () => callApi('get', '/api/users/me')
-export const updateMe = body => callApi('put', '/api/users/me', body)
+export const login = payload => callApi('post', '/auth/local', payload)(Schemas.User)
+export const getMe = () => callApi('get', '/api/users/me')(Schemas.User)
+export const updatePassword = body => callApi('put', '/api/users/me/password', body)(null)
+export const fetchPaletteArray = () => callApi('get', '/api/palettes')(Schemas.PaletteArray)
+export const fetchPalette = ({ id }) => callApi('get', `/api/palettes/${id}`)(Schemas.Palette)
