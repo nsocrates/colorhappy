@@ -1,4 +1,20 @@
 import mongoose from 'mongoose'
+import mongoosePaginate from 'mongoose-paginate'
+
+const updateLoveCount = (req, inc) => model => {
+  const action = inc > 0 ? '$addToSet' : '$pull'
+  return model.findOneAndUpdate({
+    _id: req.params.id,
+    loves: { $ne: req.user._id },
+    userId: { $ne: req.user._id },
+  }, {
+    $inc: { loveCount: inc },
+    [action]: { loves: req.user._id },
+  }, {
+    upsert: false,
+    new: true,
+  })
+}
 
 const Schema = mongoose.Schema
 const PaletteSchema = new Schema({
@@ -11,6 +27,10 @@ const PaletteSchema = new Schema({
   userId: { type: Schema.Types.ObjectId, ref: 'User', index: true },
   user: { type: Schema.Types.ObjectId, ref: 'User' },
 }, { timestamps: true })
+
+PaletteSchema.set('toJSON', {
+  virtuals: true,
+})
 
 PaletteSchema.statics = {
   matchCriteria(req) {
@@ -27,32 +47,13 @@ PaletteSchema.statics = {
   },
 
   findAndLove(req) {
-    return this.findOneAndUpdate({
-      _id: req.params.id,
-      loves: { $ne: req.user._id },
-      userId: { $ne: req.user._id },
-    }, {
-      $inc: { loveCount: 1 },
-      $addToSet: { loves: req.user._id },
-    }, {
-      upsert: false,
-      new: true,
-    })
+    return updateLoveCount(req, 1)(this)
   },
 
   findAndUnlove(req) {
-    return this.findOneAndUpdate({
-      _id: req.params.id,
-      loves: { $eq: req.user._id },
-      userId: { $ne: req.user._id },
-    }, {
-      $inc: { loveCount: -1 },
-      $pull: { loves: req.user._id },
-    }, {
-      upsert: false,
-      new: true,
-    })
+    return updateLoveCount(req, -1)(this)
   },
 }
 
+PaletteSchema.plugin(mongoosePaginate)
 export default mongoose.model('Palette', PaletteSchema)

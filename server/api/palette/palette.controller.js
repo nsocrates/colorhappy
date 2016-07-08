@@ -1,11 +1,39 @@
 import Palette from './palette.model'
 import * as services from '../api.service'
+import User from '../user/user.model'
+
+// Helper function to increment / decrement counts
+const updateUserLoveCount = (req, inc) => palette => {
+  if (palette) {
+    User.findByIdAndUpdate(req.user._id, {
+      $inc: { loveCount: inc },
+    }, {
+      upsert: false,
+      new: true,
+    }).exec()
+  }
+  return palette
+}
+
+// Helper function to increment / decrement counts
+const updateUserPaletteCount = (req, inc) => palette => {
+  User.findByIdAndUpdate(req.user._id, {
+    $inc: { paletteCount: inc },
+  }, {
+    upsert: false,
+    new: true,
+  }).exec()
+  return palette
+}
 
 // GET to index all palettes
 export function index(req, res) {
-  return Palette.find()
-    .populate('user', '-palettes -email -role -__v -updatedAt -createdAt')
-    .exec()
+  return Palette.paginate({}, {
+    select: '-loves',
+    populate: ['user'],
+    offset: req.query.offset || 0,
+    limit: req.query.limit || 25,
+  })
     .then(services.respondWithResult(res))
     .catch(services.handleError(res))
 }
@@ -16,7 +44,17 @@ export function create(req, res) {
     user: req.user,
     userId: req.user._id,
   }, req.body))
+    .then(updateUserPaletteCount(req, 1))
     .then(services.respondWithResult(res))
+    .catch(services.handleError(res))
+}
+
+// DELETE to destroy a palette
+export function destroy(req, res) {
+  return Palette.matchCriteria(req).exec()
+    .then(services.handleNotFound(res))
+    .then(updateUserPaletteCount(req, -1))
+    .then(services.removeEntity(res))
     .catch(services.handleError(res))
 }
 
@@ -40,6 +78,7 @@ export function update(req, res) {
 // PUT to love a palette
 export function love(req, res) {
   return Palette.findAndLove(req).exec()
+    .then(updateUserLoveCount(req, 1))
     .then(services.handleNotFound(res))
     .then(services.respondWithResult(res))
     .catch(services.handleError(res))
@@ -48,15 +87,8 @@ export function love(req, res) {
 // DELETE to unlove a palette
 export function unlove(req, res) {
   return Palette.findAndUnlove(req).exec()
+    .then(updateUserLoveCount(req, -1))
     .then(services.handleNotFound(res))
     .then(services.respondWithResult(res))
-    .catch(services.handleError(res))
-}
-
-// DELETE to destroy a palette
-export function destroy(req, res) {
-  return Palette.matchCriteria(req).exec()
-    .then(services.handleNotFound(res))
-    .then(services.removeEntity(res))
     .catch(services.handleError(res))
 }

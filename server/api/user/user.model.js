@@ -10,6 +10,8 @@ const UserSchema = new Schema({
   username: { type: String, lowercase: true, unique: true, required: true },
   email: { type: String, lowercase: true, unique: true, required: true },
   password_hash: { type: String, required: true, select: false },
+  paletteCount: { type: Number, default: 0 },
+  loveCount: { type: Number, default: 0 },
 }, { timestamps: true })
 
 /**
@@ -25,6 +27,10 @@ UserSchema.virtual('password')
     this._password = value
     this.password_hash = bcrypt.hashSync(value, 12)
   })
+
+UserSchema.set('toJSON', {
+  virtuals: true,
+})
 
 /**
  * Validations
