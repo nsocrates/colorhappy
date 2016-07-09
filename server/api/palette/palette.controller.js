@@ -28,12 +28,15 @@ const updateUserPaletteCount = (req, inc) => palette => {
 
 // GET to index all palettes
 export function index(req, res) {
-  return Palette.paginate({}, {
-    select: '-loves',
-    populate: ['user'],
-    offset: req.query.offset || 0,
-    limit: req.query.limit || 25,
-  })
+  const {
+    limit = 25,
+    sort = '-createdAt',
+    startId = '',
+    startKey = '',
+} = req.query || {}
+
+  return Palette.partition({}, { limit, sort, startId, startKey })
+    .then(services.handleNotFound(res))
     .then(services.respondWithResult(res))
     .catch(services.handleError(res))
 }

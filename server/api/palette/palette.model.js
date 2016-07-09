@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import mongoosePaginate from 'mongoose-paginate'
+import partition from '../partition'
 
 const updateLoveCount = (req, inc) => model => {
   const action = inc > 0 ? '$addToSet' : '$pull'
@@ -55,5 +55,5 @@ PaletteSchema.statics = {
   },
 }
 
-PaletteSchema.plugin(mongoosePaginate)
+PaletteSchema.plugin(partition)
 export default mongoose.model('Palette', PaletteSchema)

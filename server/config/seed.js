@@ -20,6 +20,7 @@ Palette.find({}).remove()
       loves: [objectId('503cf4730e9f580200000003')],
       userId: objectId('503cf4730e9f580200000002'),
       user: objectId('503cf4730e9f580200000002'),
+      createdAt: '2016-07-08T23:16:24.639Z',
     }, {
       _id: objectId('6a3cf4730e9f5802ef500002'),
       title: 'Caroline Matilda',
@@ -30,6 +31,7 @@ Palette.find({}).remove()
       loves: [objectId('503cf4730e9f580200000003')],
       userId: objectId('503cf4730e9f580200000002'),
       user: objectId('503cf4730e9f580200000002'),
+      createdAt: '2016-07-08T23:16:23.639Z',
     }, {
       _id: objectId('6a3cf4730e9f5802ef500003'),
       title: 'i demand a pancake',
@@ -40,6 +42,7 @@ Palette.find({}).remove()
       loves: [objectId('503cf4730e9f580200000003')],
       userId: objectId('503cf4730e9f580200000002'),
       user: objectId('503cf4730e9f580200000002'),
+      createdAt: '2016-07-08T23:16:22.639Z',
     }, {
       _id: objectId('6a3cf4730e9f5802ef500004'),
       title: 'Giant Goldfish',
@@ -49,6 +52,7 @@ Palette.find({}).remove()
       loveCount: '0',
       userId: objectId('503cf4730e9f580200000002'),
       user: objectId('503cf4730e9f580200000002'),
+      createdAt: '2016-07-08T23:16:21.639Z',
     }, {
       _id: objectId('6a3cf4730e9f5802ef500005'),
       title: 'let them eat cake',
@@ -58,6 +62,7 @@ Palette.find({}).remove()
       loveCount: '0',
       userId: objectId('503cf4730e9f580200000002'),
       user: objectId('503cf4730e9f580200000002'),
+      createdAt: '2016-07-08T23:16:20.639Z',
     }, {
       _id: objectId('6a3cf4730e9f5802ef500006'),
       title: 'vintage card',
@@ -67,6 +72,7 @@ Palette.find({}).remove()
       loveCount: '0',
       userId: objectId('503cf4730e9f580200000003'),
       user: objectId('503cf4730e9f580200000003'),
+      createdAt: '2016-07-08T23:16:19.639Z',
     })
   })
 
