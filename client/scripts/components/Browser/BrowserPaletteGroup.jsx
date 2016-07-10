@@ -3,7 +3,6 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles'
 import { Link } from 'react-router'
 import s from './Browser.scss'
 import BrowserPalette from './BrowserPalette'
-import LoaderHOC from 'components/LoaderHOC/LoaderHOC'
 import { Love, Eye } from 'components/Svg'
 
 const propTypes = {
@@ -91,5 +90,4 @@ class BrowserPaletteGroup extends Component {
 
 BrowserPaletteGroup.propTypes = propTypes
 
-const WithLoader = LoaderHOC(BrowserPaletteGroup, 'palette')
-export default withStyles(s)(WithLoader)
+export default withStyles(s)(BrowserPaletteGroup)

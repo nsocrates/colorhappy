@@ -1,8 +1,8 @@
 @import "~styles/helpers";
 
 .main {
+  @include ease(font-size, 0.25s, "ease-in");
   padding: em(15px);
-  background-color: map-get($gray, 50);
 }
 
 .paletteGroup {

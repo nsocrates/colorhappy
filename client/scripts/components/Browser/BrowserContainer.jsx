@@ -3,14 +3,17 @@ import { connect } from 'react-redux'
 import withStyles from 'isomorphic-style-loader/lib/withStyles'
 import s from './Browser.scss'
 import BrowserPaletteGroup from './BrowserPaletteGroup'
+import Loader from 'components/Loader/Loader'
 import { paletteArray } from 'actions/palettes'
-import { browserSelector } from 'reducers/selectors'
+import { makeBrowserSelector } from 'reducers/selectors'
 
 const propTypes = {
   children: PropTypes.node,
   dispatch: PropTypes.func.isRequired,
   palettes: PropTypes.object.isRequired,
   users: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
+  sorted: PropTypes.object.isRequired,
 }
 
 class BrowserContainer extends Component {
@@ -20,8 +23,8 @@ class BrowserContainer extends Component {
   }
 
   componentDidMount() {
-    const { dispatch } = this.props
-    dispatch(paletteArray.request())
+    const { dispatch, location } = this.props
+    dispatch(paletteArray.request({ sort: location.query.sort || 'newest' }))
   }
 
   handleClick(e) {
@@ -29,20 +32,23 @@ class BrowserContainer extends Component {
   }
 
   render() {
-    const { palettes, users } = this.props
+    const { palettes, users, sorted } = this.props
+
     return (
       <main className={s.main}>
-      {Object.keys(palettes).map((palette, i) => {
-        const currPalette = palettes[palette]
-        const user = users[currPalette.userId]
-        return (
-          <BrowserPaletteGroup
-            palette={currPalette}
-            user={user}
-            key={i}
-          />
-        )
-      })}
+      {sorted.isFetching
+        ? <Loader containerStyle={{ paddingTop: '100px' }} />
+        : sorted.ids.map((id, i) => {
+          const currPalette = palettes[id]
+          const user = users[currPalette.userId]
+          return (
+            <BrowserPaletteGroup
+              palette={currPalette}
+              user={user}
+              key={i}
+            />
+          )
+        })}
       </main>
     )
   }
@@ -50,5 +56,11 @@ class BrowserContainer extends Component {
 
 BrowserContainer.propTypes = propTypes
 
+const makeMapStateToProps = () => {
+  const browserSelector = makeBrowserSelector()
+  const mapStateToProps = (state, props) => browserSelector(state, props)
+  return mapStateToProps
+}
+
 const WithStyles = withStyles(s)(BrowserContainer)
-export default connect(browserSelector)(WithStyles)
+export default connect(makeMapStateToProps)(WithStyles)

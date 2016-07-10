@@ -36,15 +36,16 @@ class Login extends Component {
         onClick={e => e.stopPropagation()}
       >
 
-        <button className={s.closeBtn} onClick={handleExit}>
-          <Close className={s.svgClose} />
-        </button>
+        <header className={s.header}>
+          <h4 className={s.formTitle}>
+            {"Login"}
+          </h4>
+          <button className={s.closeBtn} onClick={handleExit}>
+            <Close className={s.svgClose} />
+          </button>
+        </header>
 
-        <section className={s.content}>
-
-          <header className={s.header}>
-            <h4>Login</h4>
-          </header>
+        <article className={s.content}>
 
           <form className={s.form} onSubmit={this.handleLogin}>
             <input
@@ -60,15 +61,15 @@ class Login extends Component {
               ref={c => (this._password = c)}
             />
             <button className={s.primaryBtn} type="submit">
-              Login
+              {"Login"}
             </button>
           </form>
 
           <button className={s.secondaryBtn} onClick={handleToSignup}>
-            Signup
+            {"Signup"}
           </button>
 
-        </section>
+        </article>
       </div>
     )
   }

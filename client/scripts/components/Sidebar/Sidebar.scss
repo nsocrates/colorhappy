@@ -1,0 +1,54 @@
+@import "~styles/helpers";
+
+.sidebar {
+  @include ease(transform, 0.25s, "ease-in");
+  position: fixed;
+  top: map-get($header, height);
+  right: 0;
+  bottom: 0;
+  background-color: $white;
+  z-index: $z-sidebar;
+  transform: translate3d(100%, 0, 0);
+  overflow-y: scroll;
+  overflow-x: hidden;
+  direction: rtl;
+
+  @include media($medium) {
+    top: map-get($header, md-height);
+  }
+}
+
+.sidebarNav {
+  padding: em(15px) em(30px);
+}
+
+.sidebarLink {
+  color: $text-color;
+  padding: em(10px) 0;
+  display: block;
+
+  &:hover {
+    color: $accent2-color;
+  }
+}
+
+.sidebarHeading {
+  margin: 0;
+  line-height: 1;
+  font-weight: 700;
+  font-size: map-get($font-size, h1);
+
+  @include media($medium) {
+    font-size: map-get($font-size, jumbo);
+  }
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: $white;
+}

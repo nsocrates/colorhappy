@@ -1,7 +1,6 @@
 import React, { PropTypes } from 'react'
 import withStyles from 'isomorphic-style-loader/lib/withStyles'
 import s from './Footer.scss'
-// import { Link } from 'react-router'
 
 const propTypes = {
   children: PropTypes.node,
@@ -10,7 +9,14 @@ const propTypes = {
 function Footer() {
   return (
     <footer className={s.footer}>
-      <small>ColorMe.</small>
+      <div className={s.container}>
+        <span className={s.spanLeft}>
+          {"ColorHappy"}
+        </span>
+        <a className={s.spanRight} href="https://github.com/nsocrates/colorhappy">
+          {"View Source"}
+        </a>
+      </div>
     </footer>
   )
 }

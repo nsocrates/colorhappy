@@ -38,15 +38,14 @@ class Signup extends Component {
         onClick={e => e.stopPropagation()}
       >
 
-        <button className={s.closeBtn} onClick={handleExit}>
-          <Close className={s.svgClose} />
-        </button>
+        <header className={s.header}>
+          <h4 className={s.formTitle}>{"Signup"}</h4>
+          <button className={s.closeBtn} onClick={handleExit}>
+            <Close className={s.svgClose} />
+          </button>
+        </header>
 
-        <section className={s.content}>
-
-          <header className={s.header}>
-            <h4>Signup</h4>
-          </header>
+        <article className={s.content}>
 
           <form className={s.form}>
             <input
@@ -74,15 +73,15 @@ class Signup extends Component {
               ref={c => (this._passwordConfirm = c)}
             />
             <button className={s.primaryBtn} type="submit">
-              Signup
+              {"Signup"}
             </button>
           </form>
 
           <button className={s.secondaryBtn} onClick={handleToLogin}>
-            Login
+            {"Login"}
           </button>
 
-        </section>
+        </article>
       </div>
     )
   }

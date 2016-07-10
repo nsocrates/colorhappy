@@ -1,13 +1,14 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { palette } from 'actions/palettes'
-import { paletteSelector } from 'reducers/selectors'
+import { makePaletteSelector } from 'reducers/selectors'
 import Palette from './Palette'
+import Loader from 'components/Loader/Loader'
 
 const propTypes = {
   dispatch: PropTypes.func.isRequired,
   params: PropTypes.object.isRequired,
-  palette: PropTypes.object,
+  palette: PropTypes.object.isRequired,
 }
 
 class PaletteContainer extends Component {
@@ -18,15 +19,19 @@ class PaletteContainer extends Component {
 
   render() {
     return (
-      <Palette palette={this.props.palette} />
+      !Object.keys(this.props.palette).length
+        ? <Loader containerStyle={{ paddingTop: '100px' }} />
+        : <Palette palette={this.props.palette} />
     )
   }
 }
 
-function mapStateToProps(state, ownProps) {
-  return paletteSelector(state, ownProps)
+const makeMapStateToProps = () => {
+  const paletteSelector = makePaletteSelector()
+  const mapStateToProps = (state, props) => paletteSelector(state, props)
+  return mapStateToProps
 }
 
 PaletteContainer.propTypes = propTypes
 
-export default connect(mapStateToProps)(PaletteContainer)
+export default connect(makeMapStateToProps)(PaletteContainer)

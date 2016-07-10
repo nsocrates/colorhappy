@@ -2,11 +2,10 @@ import React, { Component, PropTypes } from 'react'
 import withStyles from 'isomorphic-style-loader/lib/withStyles'
 import s from './Palette.scss'
 import PaletteItem from './PaletteItem'
-import LoaderHOC from 'components/LoaderHOC/LoaderHOC'
 // import { generatePalette } from 'utils/color/index'
 
 const propTypes = {
-  palette: PropTypes.object,
+  palette: PropTypes.object.isRequired,
 }
 
 class Palette extends Component {
@@ -47,5 +46,4 @@ class Palette extends Component {
 
 Palette.propTypes = propTypes
 
-const WithLoader = LoaderHOC(Palette, 'palette')
-export default withStyles(s)(WithLoader)
+export default withStyles(s)(Palette)

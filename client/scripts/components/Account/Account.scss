@@ -1,7 +1,7 @@
 @import "~styles/helpers";
 
 .c__formBtn {
-  @include ease(0.2s, background-color, "ease-in");
+  @include ease(background-color, 0.2s, "ease-in");
   text-transform: uppercase;
   width: 100%;
   border-radius: em(2px);
@@ -18,24 +18,37 @@
   margin: auto;
   max-width: em(480px);
   min-width: em(400px);
-  max-height: em(500px);
+  padding: em(15px);
+  min-height: em(200px);
+  display: flex;
+  justify-content: center;
 }
 
 .component {
-  background-color: $white;
-  position: relative;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-content: center;
 }
 
 .content {
-  height: 100%;
   padding: map-get($spacing, base);
-  box-shadow: 0 1px 6px rgba($black, 0.12),
-              0 1px 4px rgba($black, 0.12);
+  overflow-y: auto;
+  background: $white;
 }
 
 .header {
+  position: relative;
+  background: $white;
   text-align: center;
-  margin-bottom: em(30px);
+  padding: em(20px) em(30px);
+  box-shadow: 0 -1px 6px rgba($black, 0.12),
+              0 -1px 4px rgba($black, 0.12);
+}
+
+.formTitle {
+  margin: 0;
+  line-height: 1;
 }
 
 .input {
@@ -78,5 +91,5 @@
   right: 0;
   top: 0;
   font-size: em(25px);
-  padding: em(5px) em(10px);
+  padding: em(8px) em(10px);
 }

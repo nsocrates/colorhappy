@@ -21,11 +21,11 @@
 }
 
 .main {
-  height: calc(100% - #{map-get($header, height)} - #{map-get($footer, height)});
-  min-height: rem(500px);
+  @include ease(font-size, 0.25s, "ease-in");
+  height: calc(100vh - #{map-get($header, height)} - #{map-get($footer, height)});
 
   @include media($medium) {
-    height: calc(100% - #{map-get($header, md-height)} - #{map-get($footer, height)});
+    height: calc(100vh - #{map-get($header, md-height)} - #{map-get($footer, height)});
   }
 }
 

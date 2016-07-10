@@ -3,14 +3,14 @@ import { connect } from 'react-redux'
 import Login from './Login/Login'
 import Signup from './Signup/Signup'
 import Modal from 'components/Modal/Modal'
-import { to, replace } from 'services'
+import { push, replace } from 'react-router-redux'
 import withStyles from 'isomorphic-style-loader/lib/withStyles'
 import s from './Account.scss'
 
 const propTypes = {
-  handleExit: PropTypes.func,
   children: PropTypes.node,
   location: PropTypes.object.isRequired,
+  dispatch: PropTypes.func.isRequired,
 }
 
 class AccountContainer extends Component {
@@ -27,26 +27,26 @@ class AccountContainer extends Component {
   }
 
   handleExit() {
-    const { location } = this.props
-    to({
+    const { location, dispatch } = this.props
+    dispatch(push({
       pathname: this.getValidReturnPath(location),
       state: {
         isReturnPath: true,
       },
-    })
+    }))
   }
 
   handleReplace(pathname) {
     return e => {
       e.preventDefault()
-      replace({
+      this.props.dispatch(replace({
         pathname,
         state: {
           returnPath: this.getValidReturnPath(this.props.location),
           retainChildren: true,
           isModal: true,
         },
-      })
+      }))
     }
   }
 

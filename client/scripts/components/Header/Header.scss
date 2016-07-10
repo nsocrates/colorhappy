@@ -8,17 +8,51 @@
   }
 }
 
-.header {
+.c__header {
   @include clearfix;
-  padding: map-get($header, padding);
-  height: map-get($header, height);
+  @include ease(all, 0.25s, "ease-in");
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: $white;
   box-shadow: inset 0 -1px 1px -1px map-get($gray, 300);
   border-bottom: 1px solid map-get($gray, 300);
+  padding: map-get($header, padding);
   overflow: hidden;
+  min-width: map-get($container, min);
+  z-index: $z-header;
+}
+
+.header {
+  composes: c__header;
+  height: map-get($header, height);
 
   @include media($medium) {
     padding: map-get($header, md-padding);
     height: map-get($header, md-height);
+  }
+}
+
+.header__condensed {
+  composes: c__header;
+  height: map-get($header, c-height);
+
+  .sectionLeft {
+    line-height: map-get($header, c-height) - (map-get($header, padding) * 2);
+  }
+
+  .sectionRight {
+    line-height: map-get($header, c-height) - (map-get($header, padding) * 2);
+  }
+
+  .title {
+    line-height: inherit;
+    font-size: map-get($font-size, h3);
+  }
+
+  .description {
+    display: none;
   }
 }
 
@@ -29,8 +63,9 @@
 // Left Section
 // ===================
 .sectionLeft {
-  line-height: map-get($header, height) / 2 - map-get($header, padding);
   float: left;
+  @include ease(line-height, 0.25s, "ease-in");
+  line-height: map-get($header, height) / 2 - map-get($header, padding);
 }
 
 .title {
@@ -46,11 +81,17 @@
 // ===================
 .sectionRight {
   float: right;
+  @include ease(line-height, 0.25s, "ease-in");
   line-height: map-get($header, height) - (map-get($header, padding) * 2);
 }
 
-.login {
+.navLink {
   composes: c__link;
+  vertical-align: middle;
+}
+
+.alignMiddle {
+  vertical-align: middle;
 }
 
 // Bottom Section
@@ -58,4 +99,21 @@
 .sectionBottom {
   float: left;
   width: 100%;
+}
+
+// Button
+// =====================
+.btn {
+  composes: c__link;
+  vertical-align: middle;
+}
+
+.hamburgerText {
+  vertical-align: middle;
+  padding-right: em(15px);
+}
+
+.hamburgerIcon {
+  font-size: map-get($font-size, h3);
+  vertical-align: middle;
 }
