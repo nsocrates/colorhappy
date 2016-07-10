@@ -1,6 +1,5 @@
 import axios from 'axios'
 import validator from 'validator'
-import { put, call } from 'redux-saga/effects'
 import { normalize } from 'normalizr'
 import Schemas from 'constants/schemas'
 
@@ -9,7 +8,7 @@ axios.defaults.baseURL = 'http://localhost:8000'
 axios.defaults.headers.post['Content-Type'] = 'application/json'
 
 // API function to fetch a response
-const callApi = (method, endpoint, options) => schema => (
+const fetchApi = schema => (method, endpoint, options) => (
   axios[method](endpoint, options)
     .then(response => {
       const { data } = response
@@ -25,17 +24,10 @@ const callApi = (method, endpoint, options) => schema => (
     }]))
 )
 
-// Fetch subroutine
-export function* fetchEntity(action, apiFn, payload) {
-  try {
-    const response = yield call(apiFn, payload)
-    yield put(action.success(payload, response))
-    return response
-  } catch (error) {
-    yield put(action.failure(payload, error))
-    return false
-  }
-}
+const fetch = fetchApi(null)
+const fetchUser = fetchApi(Schemas.User)
+const fetchPaletteArray = fetchApi(Schemas.PaletteArray)
+const fetchPalette = fetchApi(Schemas.Palette)
 
 // API services
 export function signup({ email, username, password, passwordConfirm }) {
@@ -58,11 +50,14 @@ export function signup({ email, username, password, passwordConfirm }) {
   }
 
   // Call our API request function if validation passes
-  return callApi('post', '/api/users/', { email, username, password })(null)
+  return fetch('post', '/api/users/', { email, username, password })
 }
 
-export const login = payload => callApi('post', '/auth/local', payload)(Schemas.User)
-export const getMe = () => callApi('get', '/api/users/me')(Schemas.User)
-export const updatePassword = body => callApi('put', '/api/users/me/password', body)(null)
-export const fetchPaletteArray = () => callApi('get', '/api/palettes')(Schemas.PaletteArray)
-export const fetchPalette = ({ id }) => callApi('get', `/api/palettes/${id}`)(Schemas.Palette)
+export const login = payload => fetchUser('post', '/auth/local', payload)
+export const getMe = () => fetchUser('get', '/api/users/me')
+export const updatePassword = body => fetch('put', '/api/users/me/password', body)
+export const getPalette = id => fetchPalette('get', `/api/palettes/${id}`)
+export const getPaletteArray = () => fetchPaletteArray('get', '/api/palettes')
+
+export const getPaletteLove = id => fetch('put', `/api/palettes/${id}/love`)
+

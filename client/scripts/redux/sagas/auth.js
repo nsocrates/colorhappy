@@ -7,12 +7,13 @@ import {
 
 import axios from 'axios'
 import { login, signup } from 'actions/auth'
+import { takeEvery } from 'redux-saga'
 import { take, put, call, fork } from 'redux-saga/effects'
-import { api } from 'services'
+import { api, callApi } from 'services'
 import { push } from 'react-router-redux'
 
-const fetchSignup = api.fetchEntity.bind(null, signup, api.signup)
-const fetchLogin = api.fetchEntity.bind(null, login, api.login)
+const callSignup = callApi.bind(null, signup, api.signup)
+const callLogin = callApi.bind(null, login, api.login)
 
 // Side effects
 function setToken(token) {
@@ -25,38 +26,37 @@ function removeToken() {
   localStorage.removeItem('TOKEN')
 }
 
-function* authorize(token) {
-  // First expect an authorization request
+function* authenticate(token) {
   setToken(token)
-  yield put(push('/'))
 
-  // Followed by a logout action
+  // Expect a logout action after authentication
   yield take(LOGOUT)
   yield call(removeToken)
 }
 
-function* watchSignup() {
-  while (true) {
-    const { payload } = yield take(SIGNUP.REQUEST)
-    const { token } = yield call(fetchSignup, payload)
-    if (!token) continue
-    yield call(authorize, token)
+// Subroutine for handling authentication requests
+function* authenticationRoutine(apiFn, action) {
+  const { payload } = action
+  const { token } = yield call(apiFn, payload)
+  if (token) {
+    yield fork(authenticate, token)
+    yield put(push('/'))
   }
 }
 
 function* watchAuth() {
   while (true) {
-    const { payload } = yield take(LOGIN.REQUEST)
-    const { token } = yield call(fetchLogin, payload)
-    if (!token) continue
-    yield call(authorize, token)
+    yield [
+      takeEvery(LOGIN.REQUEST, authenticationRoutine, callLogin),
+      takeEvery(SIGNUP.REQUEST, authenticationRoutine, callSignup),
+    ]
   }
 }
 
 function* watchToken() {
   while (true) {
     const { payload } = yield take(SET_TOKEN)
-    yield call(authorize, payload.token)
+    yield call(authenticate, payload.token)
   }
 }
 
@@ -64,6 +64,5 @@ export default function* authFlow() {
   yield [
     fork(watchToken),
     fork(watchAuth),
-    fork(watchSignup),
   ]
 }
