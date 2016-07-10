@@ -11,7 +11,7 @@ const resolveResult = sortKey => ([count, collection]) => {
 }
 
 export function partition(query = {}, opts = {}) {
-  const { limit = 10, sort = '', startId, startKey } = opts
+  const { limit = 10, sort = '', startId, startKey, populate } = opts
   const a = {}
   const b = {}
   const startPosition = startKey || startId
@@ -20,6 +20,7 @@ export function partition(query = {}, opts = {}) {
   const q = this.find(query)
     .sort(`${sort} -_id`)
     .limit(limit)
+    .populate(populate)
 
   // Make promises
   // Order is important!

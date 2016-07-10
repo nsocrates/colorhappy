@@ -11,7 +11,7 @@ import webpackConfig from '../webpack.config.babel'
 import environment from './config/environment'
 // We compile SSR middleware first otherwise we get path errors
 import SSR_MIDDLEWARE from '../dist/server'
-mongoose.Promise = require('bluebird');
+mongoose.Promise = require('bluebird')
 
 // Connect to MongoDB
 mongoose.connect(environment.mongo.uri, environment.mongo.opts, err => {

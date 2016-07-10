@@ -35,7 +35,13 @@ export function index(req, res) {
     startKey = '',
 } = req.query || {}
 
-  return Palette.partition({}, { limit, sort, startId, startKey })
+  return Palette.partition({}, {
+    limit,
+    sort,
+    startId,
+    startKey,
+    populate: 'user',
+  })
     .then(services.handleNotFound(res))
     .then(services.respondWithResult(res))
     .catch(services.handleError(res))
