@@ -26,8 +26,8 @@
 
 //## Link
 @mixin global-link() {
-  border-bottom: 1px dotted $base-color;
-  padding-bottom: 1px;
+  // border-bottom: 1px dotted $base-color;
+  // padding-bottom: 1px;
 
   &:hover {
     color: $accent2-color;
@@ -102,14 +102,14 @@
 }
 
 // Transition
-@mixin ease($duration, $property, $ease) {
+@mixin ease($property, $duration, $ease) {
   @if ($ease == "ease-in") {
-    transition-duration: $duration;
     transition-property: $property;
+    transition-duration: $duration;
     transition-timing-function: cubic-bezier(0.445, 0.05, 0.55, 0.95);
   } @else {
-    transition-duration: $duration;
     transition-property: $property;
+    transition-duration: $duration;
     transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
   }
 }

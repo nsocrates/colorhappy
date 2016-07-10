@@ -58,7 +58,7 @@ $gray-light:              #fcfcfc;
 $gray-dark:               #425558;
 
 $text-color:              #37373a;
-$background-color:        $white;
+$background-color:        #fafafa;
 $base-color:              #c6a49a;
 $accent-color:            #c6e5d9;
 $accent2-color:           #e94e77;
@@ -112,6 +112,7 @@ $header: (
   padding:                $gutter,
   md-height:              em(147px, 18px),
   md-padding:             $gutter * 2,
+  c-height:               em(75px),
 );
 
 $container: (
@@ -132,9 +133,11 @@ $toggler: (
 // Z-index
 // =========================================== //
 
-$z-header:                 9000;
-$z-slider:                 1500;
-$z-slider-overlay:         1000;
+$z-modal:                  9000;
+$z-header:                 8000;
+$z-sidebar:                7000;
+$z-sidebar-overlay:        6000;
+$z-footer:                 5000;
 
 
 //
