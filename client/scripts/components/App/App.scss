@@ -1,7 +1,7 @@
 @import "~styles/helpers";
 
 .app {
-  @include ease(padding, 0.25s, "ease-in");
+  @include ease(0.25s, "standard", padding);
   height: 100%;
   position: relative;
   padding-top: map-get($header, height);
@@ -12,7 +12,7 @@
 }
 
 .contentWrap {
-  @include ease(opacity, 0.2s, "ease-in");
+  @include ease(0.2s, "standard", opacity);
   min-height: 100%;
   margin-bottom: -(map-get($footer, height));
 

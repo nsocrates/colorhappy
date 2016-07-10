@@ -1,7 +1,7 @@
 @import "~styles/helpers";
 
 .main {
-  @include ease(font-size, 0.25s, "ease-in");
+  @include ease(0.25s, "standard", font-size);
   padding: em(15px);
 }
 
@@ -16,6 +16,7 @@
 
 .overlay {
   @include clearfix;
+  @include ease(0.2s, "in", "opacity");
   opacity: 0;
   display: table;
   background-color: rgba($black, 0.38);
@@ -36,6 +37,7 @@
   padding: em(25px) 0;
   color: rgba($white, 0.54);
   font-weight: 600;
+  cursor: pointer;
   text-transform: uppercase;
 
   &:hover {
@@ -95,7 +97,7 @@
   font-family: $heading-font-family;
 
   &:hover {
-    color: $accent2-color;
+    color: $accent-color;
   }
 }
 

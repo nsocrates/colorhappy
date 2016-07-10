@@ -1,8 +1,8 @@
 @import "~styles/helpers";
 
 .c__formBtn {
-  @include ease(background-color, 0.2s, "ease-in");
-  text-transform: uppercase;
+  @include ease(0.2s, "standard", background-color);
+  // text-transform: uppercase;
   width: 100%;
   border-radius: em(2px);
   padding: em(14px);
@@ -10,86 +10,112 @@
 }
 
 .container {
-  position: fixed;
-  right: 0;
-  left: 0;
-  top: 0;
-  bottom: 0;
+  display: table;
+  table-layout: fixed;
+  position: relative;
+  height: 100%;
+  width: 100%;
   margin: auto;
-  max-width: em(480px);
-  min-width: em(400px);
-  padding: em(15px);
-  min-height: em(200px);
-  display: flex;
-  justify-content: center;
+  background-color: $white;
+
+  @include media($medium) {
+    width: auto;
+    background: 0;
+  }
 }
 
 .component {
-  display: flex;
-  flex-flow: column nowrap;
-  justify-content: center;
-  align-content: center;
+  display: table-cell;
+  padding-bottom: em(30px);
+  min-width: em(350px);
+
+  @include media($medium) {
+    vertical-align: middle;
+    max-width: em(450px);
+    padding-right: em(15px);
+    padding-left: em(15px);
+  }
 }
 
 .content {
   padding: map-get($spacing, base);
-  overflow-y: auto;
   background: $white;
+  display: flex;
+  flex-flow: column nowrap;
+  height: 100%;
+
+  @include media($medium) {
+    display: block;
+    height: auto;
+  }
 }
 
 .header {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
   position: relative;
   background: $white;
-  text-align: center;
   padding: em(20px) em(30px);
-  box-shadow: 0 -1px 6px rgba($black, 0.12),
-              0 -1px 4px rgba($black, 0.12);
+  box-shadow: 0 5px 6px -6px rgba($black, 0.12),
+              0 3px 4px -4px rgba($black, 0.12);
 }
 
 .formTitle {
+  width: 100%;
+  display: table-cell;
+  vertical-align: middle;
   margin: 0;
   line-height: 1;
 }
 
+.btnWrap {
+  width: 100%;
+  text-align: right;
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.closeBtn {
+  font-size: em(25px);
+}
+
 .input {
+  @include ease(0.2s, "standard", background-color);
   width: 100%;
   margin-bottom: em(10px);
   padding: em(14px);
   border: 1px solid map-get($gray, 300);
-  transition: background-color .1s ease-in-out;
   border-radius: em(2px);
 
   &:focus {
-    background-color: #f2f2f2;
+    background-color: lighten($gray-dark, 70%);
   }
 }
 
 .primaryBtn {
   composes: c__formBtn;
-  background-color: $base-color;
-  box-shadow: inset 0 0 0 1px $base-color;
+  color: $white;
+  font-weight: 600;
+  background-color: $accent-color;
+  box-shadow: inset 0 0 0 1px $accent-color;
 
   &:hover {
-    background-color: lighten($base-color, 5%);
-    box-shadow: inset 0 0 0 1px lighten($base-color, 5%);
+    background-color: lighten($accent-color, 5%);
+    box-shadow: inset 0 0 0 1px lighten($accent-color, 5%);
   }
 }
 
 .secondaryBtn {
   composes: c__formBtn;
+  color: $accent-color;
+  font-weight: 600;
   margin-bottom: 0;
-  box-shadow: inset 0 0 0 1px #e8e8e8;
+  box-shadow: inset 0 0 0 1px $accent-color;
 
   &:hover {
     background-color: $accent-color;
     box-shadow: inset 0 0 0 1px $accent-color;
+    color: $white;
   }
-}
-
-.closeBtn {
-  position: absolute;
-  right: 0;
-  top: 0;
-  font-size: em(25px);
-  padding: em(8px) em(10px);
 }

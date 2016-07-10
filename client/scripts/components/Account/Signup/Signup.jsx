@@ -33,19 +33,20 @@ class Signup extends Component {
     const handleToLogin = handleReplace('/login')
 
     return (
-      <div
-        className={s.component}
-        onClick={e => e.stopPropagation()}
-      >
+      <div className={s.component}>
 
-        <header className={s.header}>
-          <h4 className={s.formTitle}>{"Signup"}</h4>
-          <button className={s.closeBtn} onClick={handleExit}>
-            <Close className={s.svgClose} />
-          </button>
+        <header className={s.header} onClick={e => e.stopPropagation()}>
+          <h4 className={s.formTitle}>
+            {"Signup"}
+          </h4>
+          <div className={s.btnWrap}>
+            <button className={s.closeBtn} onClick={handleExit}>
+              <Close className={s.svgClose} />
+            </button>
+          </div>
         </header>
 
-        <article className={s.content}>
+        <article className={s.content} onClick={e => e.stopPropagation()}>
 
           <form className={s.form}>
             <input

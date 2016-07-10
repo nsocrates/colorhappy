@@ -54,14 +54,13 @@ $gray: (
 $white:                   #fff;
 $black:                   #000;
 
-$gray-light:              #fcfcfc;
-$gray-dark:               #425558;
+$gray-light:              #fafafa;
+$gray-dark:               #42403f;
 
-$text-color:              #37373a;
-$background-color:        #fafafa;
-$base-color:              #c6a49a;
-$accent-color:            #c6e5d9;
-$accent2-color:           #e94e77;
+$text-color:              $gray-dark;
+$background-color:        $gray-light;
+$base-color:              #826e66;
+$accent-color:            #e85a63;
 
 //
 // Typography
@@ -144,8 +143,12 @@ $z-footer:                 5000;
 // Transitions
 // =========================================== //
 
-// ....
-
+$ease: (
+  standard:                 cubic-bezier(0.645, 0.045, 0.355, 1),
+  in:                       cubic-bezier(0.550, 0.085, 0.680, 0.530),
+  out:                      cubic-bezier(0.250, 0.460, 0.450, 0.940),
+  fun:                      cubic-bezier(0.680, -0.550, 0.265, 1.550),
+);
 
 //
 // Breakpoints

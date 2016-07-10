@@ -1,13 +1,12 @@
 import React, { Component, PropTypes } from 'react'
-import withStyles from 'isomorphic-style-loader/lib/withStyles'
-import s from './Modal.scss'
 
 const propTypes = {
   handleExit: PropTypes.func,
   children: PropTypes.node,
+  style: PropTypes.object,
 }
 
-class Modal extends Component {
+export default class Modal extends Component {
   constructor(props) {
     super(props)
     this.handleExit = this.handleExit.bind(this)
@@ -27,11 +26,23 @@ class Modal extends Component {
   }
 
   render() {
+    const { style, ...rest } = this.props
+    const styles = {
+      backgroundColor: 'rgba(0, 0, 0, 0.7)',
+      position: 'fixed',
+      top: '0',
+      right: '0',
+      bottom: '0',
+      left: '0',
+      zIndex: '9000',
+    }
+
     return (
       <aside
-        className={s.modal}
+        {...rest}
         onClick={this.handleExit}
         onKeyDown={this.listenForClose}
+        style={Object.assign({}, styles, style)}
       >
         {this.props.children}
       </aside>
@@ -40,5 +51,3 @@ class Modal extends Component {
 }
 
 Modal.propTypes = propTypes
-
-export default withStyles(s)(Modal)

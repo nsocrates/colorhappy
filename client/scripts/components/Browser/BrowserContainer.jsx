@@ -32,7 +32,7 @@ class BrowserContainer extends Component {
   }
 
   render() {
-    const { palettes, users, sorted } = this.props
+    const { palettes, users, sorted, dispatch } = this.props
 
     return (
       <main className={s.main}>
@@ -46,6 +46,7 @@ class BrowserContainer extends Component {
               palette={currPalette}
               user={user}
               key={i}
+              dispatch={dispatch}
             />
           )
         })}

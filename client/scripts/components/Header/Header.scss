@@ -4,13 +4,13 @@
   color: $text-color;
 
   &:hover {
-    color: $accent2-color;
+    color: $accent-color;
   }
 }
 
 .c__header {
   @include clearfix;
-  @include ease(all, 0.25s, "ease-in");
+  @include ease(0.25s, "fun", all);
   position: fixed;
   top: 0;
   left: 0;
@@ -64,7 +64,7 @@
 // ===================
 .sectionLeft {
   float: left;
-  @include ease(line-height, 0.25s, "ease-in");
+  @include ease(0.25s, "fun", line-height);
   line-height: map-get($header, height) / 2 - map-get($header, padding);
 }
 
@@ -81,7 +81,7 @@
 // ===================
 .sectionRight {
   float: right;
-  @include ease(line-height, 0.25s, "ease-in");
+  @include ease(0.25s, "fun", line-height);
   line-height: map-get($header, height) - (map-get($header, padding) * 2);
 }
 
@@ -108,12 +108,12 @@
   vertical-align: middle;
 }
 
-.hamburgerText {
+.menuText {
   vertical-align: middle;
   padding-right: em(15px);
 }
 
-.hamburgerIcon {
+.menuIcon {
   font-size: map-get($font-size, h3);
   vertical-align: middle;
 }

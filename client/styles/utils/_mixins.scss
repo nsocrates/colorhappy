@@ -30,8 +30,8 @@
   // padding-bottom: 1px;
 
   &:hover {
-    color: $accent2-color;
-    border-color: $accent2-color;
+    color: $accent-color;
+    border-color: $accent-color;
   }
 }
 
@@ -101,15 +101,19 @@
   }
 }
 
-// Transition
-@mixin ease($property, $duration, $ease) {
-  @if ($ease == "ease-in") {
-    transition-property: $property;
-    transition-duration: $duration;
-    transition-timing-function: cubic-bezier(0.445, 0.05, 0.55, 0.95);
-  } @else {
-    transition-property: $property;
-    transition-duration: $duration;
-    transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
+@mixin ease($duration, $curve, $property...) {
+  $cubic: map-get($ease, standard);
+  @if ($curve == "in") {
+    $cubic: map-get($ease, in);
   }
+  @if ($curve == "out") {
+    $cubic: map-get($ease, out);
+  }
+  @if ($curve == "sharp") {
+    $cubic: map-get($ease, sharp);
+  }
+
+  transition-property: $property;
+  transition-duration: $duration;
+  transition-timing-function: $cubic;
 }

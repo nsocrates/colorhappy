@@ -34,7 +34,12 @@ class App extends React.Component {
 
     return (
       <div className={s.app}>
-        <Header location={location} session={session} dispatch={dispatch} header={header} />
+        <Header
+          location={location}
+          session={session}
+          dispatch={dispatch}
+          ui={{ header, sidebar }}
+        />
         <Sidebar sidebar={sidebar} header={header} dispatch={dispatch} />
         <section className={s.contentWrap} style={{ opacity: sidebar && '0.75' }}>
           {prevOrCurrChildren}
@@ -55,14 +60,10 @@ App.propTypes = {
   dispatch: PropTypes.func.isRequired,
   location: PropTypes.object.isRequired,
   prevOrCurrChildren: PropTypes.node.isRequired,
-  modalChildren: PropTypes.node,
+  modalChildren: PropTypes.node.isRequired,
   session: PropTypes.object.isRequired,
   sidebar: PropTypes.bool.isRequired,
   header: PropTypes.bool.isRequired,
-}
-
-App.defaultProps = {
-  modalChildren: null,
 }
 
 const AppModal = ModalHOC(App)

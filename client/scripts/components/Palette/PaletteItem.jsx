@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react'
 import withStyles from 'isomorphic-style-loader/lib/withStyles'
 import s from './Palette.scss'
 import { round, hex as h } from 'utils/color/index'
+import ntc from 'vendor/ntc'
 
 const propTypes = {
   hex: PropTypes.string.isRequired,
@@ -19,7 +20,10 @@ function PaletteItem({ hex, ...rest }) {
         color: h.contrast(hex),
       }}
     >
-      <div className={s.colorCode}>
+      <div className={s.colorGroup}>
+        <small className={s.colorName}>
+          {ntc.name(hex)[1]}
+        </small>
         <input
           {...rest}
           type="text"

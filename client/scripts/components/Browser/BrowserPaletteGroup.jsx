@@ -4,10 +4,12 @@ import { Link } from 'react-router'
 import s from './Browser.scss'
 import BrowserPalette from './BrowserPalette'
 import { Love, Eye } from 'components/Svg'
+import { paletteLove } from 'actions/palettes'
 
 const propTypes = {
   palette: PropTypes.object,
   user: PropTypes.object,
+  dispatch: PropTypes.func,
 }
 
 class BrowserPaletteGroup extends Component {
@@ -34,6 +36,7 @@ class BrowserPaletteGroup extends Component {
     const {
       palette,
       user,
+      dispatch,
     } = this.props
 
     return (
@@ -78,9 +81,14 @@ class BrowserPaletteGroup extends Component {
             onMouseOver={this.handleMouseOver}
             onMouseOut={this.handleMouseOut}
           >
-            <Link className={s.overlayItem} to="/">Love</Link>
-            <Link className={s.overlayItem} to={`/palette/${palette.id}`}>View</Link>
-            <Link className={s.overlayItem} to="/">Export</Link>
+            <label
+              className={s.overlayItem}
+              onClick={() => dispatch(paletteLove.request({ id: palette.id }))}
+            >
+              {"Love"}
+            </label>
+            <Link className={s.overlayItem} to={`/palette/${palette.id}`}>{"View"}</Link>
+            <label className={s.overlayItem} to="/">{"Export"}</label>
           </aside>
         </section>
       </article>

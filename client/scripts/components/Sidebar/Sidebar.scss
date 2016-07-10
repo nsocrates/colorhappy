@@ -1,7 +1,7 @@
 @import "~styles/helpers";
 
 .sidebar {
-  @include ease(transform, 0.25s, "ease-in");
+  @include ease(0.25s, "standard", all);
   position: fixed;
   top: map-get($header, height);
   right: 0;
@@ -9,9 +9,14 @@
   background-color: $white;
   z-index: $z-sidebar;
   transform: translate3d(100%, 0, 0);
-  overflow-y: scroll;
-  overflow-x: hidden;
+  overflow-y: auto;
   direction: rtl;
+  box-shadow: 1px 0 1px rgba($black, 0.7);
+  max-width: 80%;
+
+  @include media($small) {
+    max-width: auto;
+  }
 
   @include media($medium) {
     top: map-get($header, md-height);
@@ -19,7 +24,15 @@
 }
 
 .sidebarNav {
-  padding: em(15px) em(30px);
+  padding: em(30px) em(15px) em(30px) em(30px);
+
+  @include media($small) {
+    padding-left: em(60px);
+  }
+
+  @include media($medium) {
+    padding-left: em(75px);
+  }
 }
 
 .sidebarLink {
@@ -28,7 +41,7 @@
   display: block;
 
   &:hover {
-    color: $accent2-color;
+    color: $accent-color;
   }
 }
 

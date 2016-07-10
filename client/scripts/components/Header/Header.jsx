@@ -4,14 +4,14 @@ import React, { PropTypes, Component } from 'react'
 import withStyles from 'isomorphic-style-loader/lib/withStyles'
 import s from './Header.scss'
 import { Link } from 'react-router'
-import { Hamburger } from 'components/Svg'
+import { Hamburger, Close } from 'components/Svg'
 import { toggleSidebar, condenseHeader } from 'actions/ui'
 
 const propTypes = {
   location: PropTypes.object.isRequired,
   session: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired,
-  header: PropTypes.bool.isRequired,
+  ui: PropTypes.object.isRequired,
 }
 
 class Header extends Component {
@@ -49,7 +49,8 @@ class Header extends Component {
   }
 
   render() {
-    const { header, location, session } = this.props
+    const { ui, location, session } = this.props
+    const { header, sidebar } = ui
     return (
       <header className={header ? s.header__condensed : s.header}>
         <section className={s.sectionLeft}>
@@ -71,10 +72,13 @@ class Header extends Component {
         {session.isAuthenticated
           ? <section className={s.sectionRight}>
               <button className={s.btn} onClick={this.handleSidebarToggle}>
-                <span className={s.hamburgerText}>
+                <small className={s.menuText}>
                   {"Menu"}
-                </span>
-                <Hamburger className={s.hamburgerIcon} />
+                </small>
+                {sidebar
+                  ? <Close className={s.menuIcon} />
+                  : <Hamburger className={s.menuIcon} />
+                }
               </button>
             </section>
           : <section className={s.sectionRight}>
@@ -85,9 +89,9 @@ class Header extends Component {
               >
                 {"Login"}
               </Link>
-
-              <span className={s.alignMiddle}>{" or "}</span>
-
+              <span className={s.alignMiddle}>
+                {" or "}
+              </span>
               <Link
                 className={s.navLink}
                 to="/signup"
