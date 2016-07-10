@@ -13,14 +13,15 @@ const callApi = (method, endpoint, options) => schema => (
   axios[method](endpoint, options)
     .then(response => {
       const { data } = response
-      const { total, limit, offset } = data
-      const docs = data.docs || data
+      const { count, token } = data
+      const collection = data.collection || data
+
       return schema
-        ? Object.assign({}, normalize(docs, schema), { total, limit, offset })
-        : docs
+        ? Object.assign({}, normalize(collection, schema), { count, token })
+        : collection
     })
     .catch(error => Promise.reject([{
-      message: error.data.message || 'Something went wrong...',
+      message: error.data && error.data.message || error || 'Something went wrong...',
     }]))
 )
 
@@ -28,9 +29,10 @@ const callApi = (method, endpoint, options) => schema => (
 export function* fetchEntity(action, apiFn, payload) {
   try {
     const response = yield call(apiFn, payload)
+    yield put(action.success(payload, response))
     return response
   } catch (error) {
-    yield put(action.failure(error))
+    yield put(action.failure(payload, error))
     return false
   }
 }
@@ -56,7 +58,7 @@ export function signup({ email, username, password, passwordConfirm }) {
   }
 
   // Call our API request function if validation passes
-  return callApi('post', '/api/users/', { email, username, password })
+  return callApi('post', '/api/users/', { email, username, password })(null)
 }
 
 export const login = payload => callApi('post', '/auth/local', payload)(Schemas.User)

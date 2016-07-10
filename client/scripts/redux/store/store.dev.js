@@ -4,16 +4,19 @@ import { applyMiddleware, compose, createStore } from 'redux'
 import createLogger from 'redux-logger'
 import createSagaMiddleware, { END } from 'redux-saga'
 import rootReducer from 'reducers'
+import { routerMiddleware } from 'react-router-redux'
 
-export default function configureStore(initialState) {
-  // create the saga middleware
+export default function configureStore(initialState, browserHistory) {
+  // create the middlewares
   const sagaMiddleware = createSagaMiddleware()
+  const routingMiddleware = routerMiddleware(browserHistory)
   const loggerMiddleware = createLogger()
   const createStoreWithMiddleware = applyMiddleware(
     sagaMiddleware,
+    routingMiddleware,
     loggerMiddleware
   )
-  // mount it on the Store
+  // mount them on the Store
   const store = createStore(
     rootReducer,
     initialState,

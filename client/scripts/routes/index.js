@@ -5,7 +5,7 @@ import App from 'components/App/App'
 import AccountContainer from 'components/Account/AccountContainer'
 import PaletteContainer from 'components/Palette/PaletteContainer'
 
-export default function constructRoutes(store) { // eslint-disable-line no-unused-vars
+export default function constructRoutes(store) {
   return (
     <Route path="/" component={App}>
       <IndexRoute component={Home} />

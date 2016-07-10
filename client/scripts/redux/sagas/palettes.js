@@ -1,25 +1,22 @@
 import { PALETTE_ARRAY, PALETTE } from 'constants/actionTypes'
 import { paletteArray, palette } from 'actions/palettes'
-import { take, put, call, fork } from 'redux-saga/effects'
+import { take, call, fork } from 'redux-saga/effects'
 import { api } from 'services'
+
+const fetchPalette = api.fetchEntity.bind(null, palette, api.fetchPalette)
+const fetchPaletteArray = api.fetchEntity.bind(null, paletteArray, api.fetchPaletteArray)
 
 export function* watchPaletteArray() {
   while (true) {
-    yield take(PALETTE_ARRAY.REQUEST)
-    const response = yield call(api.fetchEntity, paletteArray, api.fetchPaletteArray)
-    if (response) {
-      yield put(paletteArray.success(response))
-    }
+    const { options } = yield take(PALETTE_ARRAY.REQUEST)
+    yield call(fetchPaletteArray, options)
   }
 }
 
 export function* watchPalette() {
   while (true) {
     const { payload } = yield take(PALETTE.REQUEST)
-    const response = yield call(api.fetchEntity, palette, api.fetchPalette, payload)
-    if (response) {
-      yield put(palette.success(response))
-    }
+    yield call(fetchPalette, payload)
   }
 }
 
