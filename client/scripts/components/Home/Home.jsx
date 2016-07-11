@@ -1,9 +1,6 @@
 import React from 'react'
-// import Palette from 'components/Palette/Palette'
-import BrowserContainer from 'components/Browser/BrowserContainer'
+import Settings from 'components/Settings/Settings'
 
-function Home(props) {
-  return <BrowserContainer {...props} />
+export default function Home(props) {
+  return <Settings {...props} />
 }
-
-export default Home

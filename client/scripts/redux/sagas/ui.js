@@ -1,5 +1,5 @@
 import { toggleSidebar, closeAll } from 'actions/ui'
-import { selectSidebar, selectRouting } from 'reducers/selectors'
+import { selectSidebar } from 'reducers/selectors'
 import { take, call, fork, select } from 'redux-saga/effects'
 import { LOCATION_CHANGE } from 'react-router-redux'
 
@@ -10,29 +10,38 @@ function handleBodyOverflow(shouldHide) {
   else document.body.style.overflow = ''
 }
 
+export function* modalRoutine() {
+  // We need a delay so that LOCATION_CHANGE doesn't reset body overflow
+  yield call(delay, 0)
+  yield call(handleBodyOverflow, true)
+}
+
 export function* watchLocationChange() {
   while (true) {
-    yield take(LOCATION_CHANGE)
-    const routing = yield select(selectRouting)
-    if (routing.state && routing.state.isModal) {
-      yield call(delay, 0)
-      yield call(handleBodyOverflow, true)
-    } else if (routing.state && routing.state.isReturnPath) {
-      yield call(handleBodyOverflow, false)
+    const { payload } = yield take(LOCATION_CHANGE)
+    const { state } = payload
+    if (state && state.isModal) {
+      yield call(modalRoutine)
     }
   }
 }
 
 export function* watchCloseAll() {
-  yield take(closeAll)
-  yield call(handleBodyOverflow, false)
+  while (true) {
+    yield take(closeAll)
+    yield call(handleBodyOverflow, false)
+  }
 }
 
 export function* watchSidebar() {
   while (true) {
-    yield take(toggleSidebar)
-    const shouldHide = yield select(selectSidebar)
-    yield call(handleBodyOverflow, shouldHide)
+    const { shouldOpen } = yield take(toggleSidebar)
+
+    const shouldHideOverflow = typeof shouldOpen === 'undefined'
+      ? yield select(selectSidebar)
+      : shouldOpen
+
+    yield call(handleBodyOverflow, shouldHideOverflow)
   }
 }
 

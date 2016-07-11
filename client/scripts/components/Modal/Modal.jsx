@@ -9,11 +9,15 @@ const propTypes = {
 export default class Modal extends Component {
   constructor(props) {
     super(props)
-    this.handleExit = this.handleExit.bind(this)
+    this.handleClick = this.handleClick.bind(this)
     this.listenForClose = this.listenForClose.bind(this)
   }
 
-  handleExit() {
+  componentDidMount() {
+    this._modal.focus()
+  }
+
+  handleClick() {
     return this.props.handleExit()
   }
 
@@ -21,12 +25,13 @@ export default class Modal extends Component {
     const { key, keycode } = e
 
     if (key === 'Escape' || keycode === 27) {
+      e.preventDefault()
       this.props.handleExit()
     }
   }
 
   render() {
-    const { style, ...rest } = this.props
+    const { style } = this.props
     const styles = {
       backgroundColor: 'rgba(0, 0, 0, 0.7)',
       position: 'fixed',
@@ -35,14 +40,16 @@ export default class Modal extends Component {
       bottom: '0',
       left: '0',
       zIndex: '9000',
+      outline: '0',
     }
 
     return (
       <aside
-        {...rest}
-        onClick={this.handleExit}
+        onClick={this.handleClick}
         onKeyDown={this.listenForClose}
         style={Object.assign({}, styles, style)}
+        ref={c => (this._modal = c)}
+        tabIndex="-1"
       >
         {this.props.children}
       </aside>

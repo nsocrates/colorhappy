@@ -2,6 +2,7 @@
 
 .sidebar {
   @include ease(0.25s, "standard", all);
+  outline: 0;
   position: fixed;
   top: map-get($header, height);
   right: 0;
@@ -39,6 +40,7 @@
   color: $text-color;
   padding: em(10px) 0;
   display: block;
+  cursor: pointer;
 
   &:hover {
     color: $accent-color;

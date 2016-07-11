@@ -1,6 +1,7 @@
 import Palette from './palette.model'
 import * as services from '../api.service'
 import User from '../user/user.model'
+import { profile } from '../user/user.selectors'
 
 // Helper function to increment / decrement counts
 const updateUserLoveCount = (req, inc) => palette => {
@@ -40,7 +41,7 @@ export function index(req, res) {
     sort,
     startId,
     startKey,
-    populate: 'user',
+    populate: ['user', profile],
   })
     .then(services.handleNotFound(res))
     .then(services.respondWithResult(res))
@@ -77,9 +78,17 @@ export function show(req, res) {
 
 // PUT to update an existing palette
 export function update(req, res) {
+  const forbidden = [
+    '_id',
+    'loveCount',
+    'viewCount',
+    'loves',
+    'userId',
+    'user',
+  ]
   return Palette.matchCriteria(req).exec()
     .then(services.handleNotFound(res))
-    .then(services.saveUpdates(req.body))
+    .then(services.saveUpdates(req.body, forbidden))
     .then(services.respondWithResult(res))
     .catch(services.handleError(res))
 }

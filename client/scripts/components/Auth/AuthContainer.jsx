@@ -5,7 +5,7 @@ import Signup from './Signup/Signup'
 import Modal from 'components/Modal/Modal'
 import { push, replace } from 'react-router-redux'
 import withStyles from 'isomorphic-style-loader/lib/withStyles'
-import s from './Account.scss'
+import s from './Auth.scss'
 
 const propTypes = {
   children: PropTypes.node,
@@ -43,7 +43,6 @@ class AccountContainer extends Component {
         pathname,
         state: {
           returnPath: this.getValidReturnPath(this.props.location),
-          retainChildren: true,
           isModal: true,
         },
       }))
@@ -52,13 +51,15 @@ class AccountContainer extends Component {
 
   render() {
     const { location } = this.props
+    const AccountComponent = location.pathname === '/login' ? Login : Signup
     return (
       <Modal handleExit={this.handleExit} style={{ overflowY: 'auto', overflowX: 'hidden' }}>
         <div className={s.container}>
-          {location.pathname === '/login'
-            ? <Login {...this.props} handleReplace={this.handleReplace} handleExit={this.handleExit} />
-            : <Signup {...this.props} handleReplace={this.handleReplace} handleExit={this.handleExit} />
-          }
+          <AccountComponent
+            {...this.props}
+            handleReplace={this.handleReplace}
+            handleExit={this.handleExit}
+          />
         </div>
       </Modal>
     )

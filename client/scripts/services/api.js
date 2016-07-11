@@ -8,15 +8,15 @@ axios.defaults.baseURL = 'http://localhost:8000'
 axios.defaults.headers.post['Content-Type'] = 'application/json'
 
 // API function to fetch a response
-const fetchApi = schema => (method, endpoint, options) => (
+const callApi = schema => (method, endpoint, options) => (
   axios[method](endpoint, options)
     .then(response => {
       const { data } = response
-      const { count, token } = data
+      const { count } = data
       const collection = data.collection || data
 
       return schema
-        ? Object.assign({}, normalize(collection, schema), { count, token })
+        ? Object.assign({}, normalize(collection, schema), { count })
         : collection
     })
     .catch(error => Promise.reject([{
@@ -24,10 +24,10 @@ const fetchApi = schema => (method, endpoint, options) => (
     }]))
 )
 
-const fetch = fetchApi(null)
-const fetchUser = fetchApi(Schemas.User)
-const fetchPaletteArray = fetchApi(Schemas.PaletteArray)
-const fetchPalette = fetchApi(Schemas.Palette)
+const fetch = callApi()
+const fetchUser = callApi(Schemas.User)
+const fetchPaletteArray = callApi(Schemas.PaletteArray)
+const fetchPalette = callApi(Schemas.Palette)
 
 // API services
 export function signup({ email, username, password, passwordConfirm }) {
@@ -53,11 +53,9 @@ export function signup({ email, username, password, passwordConfirm }) {
   return fetch('post', '/api/users/', { email, username, password })
 }
 
-export const login = payload => fetchUser('post', '/auth/local', payload)
-export const getMe = () => fetchUser('get', '/api/users/me')
+export const login = payload => fetch('post', '/auth/local', payload)
+export const getUser = ({ id }) => fetchUser('get', `/api/users/${id}`)
 export const updatePassword = body => fetch('put', '/api/users/me/password', body)
-export const getPalette = id => fetchPalette('get', `/api/palettes/${id}`)
+export const getPalette = ({ id }) => fetchPalette('get', `/api/palettes/${id}`)
 export const getPaletteArray = () => fetchPaletteArray('get', '/api/palettes')
-
-export const getPaletteLove = id => fetch('put', `/api/palettes/${id}/love`)
-
+export const getPaletteLove = ({ id }) => fetchPalette('put', `/api/palettes/${id}/love`)

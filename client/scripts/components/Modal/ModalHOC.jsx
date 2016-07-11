@@ -20,7 +20,7 @@ const ModalHOC = WrappedComponent => class extends Component {
       && location.state
       && location.state.isModal
     ) {
-      if (location.state.retainChildren) {
+      if (this.props.location.state && this.props.location.state.isModal) {
         this.setState({
           savedChildren: this.state.savedChildren
             ? this.state.savedChildren

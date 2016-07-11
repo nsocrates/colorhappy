@@ -16,11 +16,10 @@ export function partition(query = {}, opts = {}) {
   const b = {}
   const startPosition = startKey || startId
   const sortKey = sort.replace('-', '')
-
   const q = this.find(query)
     .sort(`${sort} -_id`)
     .limit(limit)
-    .populate(populate)
+    .populate(...populate)
 
   // Make promises
   // Order is important!

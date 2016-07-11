@@ -1,3 +1,5 @@
+import omit from 'lodash/omit'
+
 export const handleValidationError = (res, statusCode = 422) => err => {
   console.log(err)
   res.status(statusCode).json(err)
@@ -28,8 +30,9 @@ export const respondWithResult = (res, statusCode = 200) => entity => {
   if (entity) res.status(statusCode).json(entity)
 }
 
-export const saveUpdates = updates => entity => {
-  Object.keys(entity).forEach(key => {
+export const saveUpdates = (updates, forbidden) => entity => {
+  const validUpdates = forbidden ? omit(updates, forbidden) : updates
+  Object.keys(validUpdates).forEach(key => {
     if (updates.hasOwnProperty(key)
       && updates[key]
       && updates.body[key].trim()) {

@@ -17,7 +17,6 @@ const propTypes = {
 class Header extends Component {
   constructor(props) {
     super(props)
-    this.state = { isActive: false }
     this.handleSidebarToggle = this.handleSidebarToggle.bind(this)
     this.handleScroll = this.handleScroll.bind(this)
   }
@@ -36,16 +35,16 @@ class Header extends Component {
   }
 
   handleScroll() {
-    if (!this.state.isActive && window.scrollY > 100) {
+    const { ui } = this.props
+    if (!ui.header && window.scrollY > 100) {
       this.shouldCondense(true)
-    } else if (this.state.isActive && window.scrollY <= 100) {
+    } else if (ui.header && window.scrollY <= 100) {
       this.shouldCondense(false)
     }
   }
 
   shouldCondense(shouldCondense) {
     this.props.dispatch(condenseHeader(shouldCondense))
-    this.setState({ isActive: shouldCondense })
   }
 
   render() {
@@ -85,7 +84,10 @@ class Header extends Component {
               <Link
                 className={s.navLink}
                 to="/login"
-                state={{ isModal: true, returnPath: location.pathname }}
+                state={{
+                  isModal: true,
+                  returnPath: location.pathname,
+                }}
               >
                 {"Login"}
               </Link>
@@ -95,7 +97,10 @@ class Header extends Component {
               <Link
                 className={s.navLink}
                 to="/signup"
-                state={{ isModal: true, returnPath: location.pathname }}
+                state={{
+                  isModal: true,
+                  returnPath: location.pathname,
+                }}
               >
                 {"Signup"}
               </Link>

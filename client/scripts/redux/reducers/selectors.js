@@ -6,11 +6,15 @@ import {
 export const selectState = state => state
 export const selectEntities = state => state.entities
 export const selectSession = state => state.session
+export const selectIsModal = state => state.modal.isModal
 export const selectPaletteEntity = state => state.entities.palettes
 export const selectUserEntity = state => state.entities.users
 export const selectSidebar = state => state.ui.sidebar
 export const selectHeader = state => state.ui.header
 export const selectRouting = state => state.routing.locationBeforeTransitions
+
+export const selectUser = (state, props) =>
+  state.entities.users[props.params.id] || {}
 
 export const selectPalette = (state, props) =>
   state.entities.palettes[props.params.id] || {}
@@ -42,4 +46,13 @@ export const makeBrowserSelector = () =>
 export const makeUiSelector = () =>
   createSelector(
     selectSidebar, sidebar => ({ sidebar })
+  )
+
+export const makeSettingsSelector = () =>
+  createSelector(
+    [selectSession, selectUserEntity],
+    (session, userEntity) => ({
+      session,
+      me: userEntity[session.id] || {},
+    })
   )

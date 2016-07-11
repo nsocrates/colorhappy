@@ -3,35 +3,50 @@ import {
   LOGIN,
   SIGNUP,
   SET_TOKEN,
+  ME,
 } from 'constants/actionTypes'
 
 import axios from 'axios'
-import { login, signup } from 'actions/auth'
 import { takeEvery } from 'redux-saga'
-import { take, put, call, fork } from 'redux-saga/effects'
-import { api, callApi } from 'services'
+import { take, put, call, fork, race } from 'redux-saga/effects'
 import { push } from 'react-router-redux'
+import { api, tryAuth } from 'services'
+import { login, signup, logout } from 'actions/auth'
+import { me } from 'actions/users'
 
-const callSignup = callApi.bind(null, signup, api.signup)
-const callLogin = callApi.bind(null, login, api.login)
+const trySignup = tryAuth.bind(null, signup, api.signup)
+const tryLogin = tryAuth.bind(null, login, api.login)
 
 // Side effects
 function setToken(token) {
   axios.defaults.headers.common.Authorization = `Bearer ${token}`
   localStorage.setItem('TOKEN', token)
+  return token
 }
 
 function removeToken() {
   axios.defaults.headers.common.Authorization = ''
   localStorage.removeItem('TOKEN')
+  return null
 }
 
 function* authenticate(token) {
-  setToken(token)
+  yield call(setToken, token)
+  yield put(me.request())
 
-  // Expect a logout action after authentication
-  yield take(LOGOUT)
-  yield call(removeToken)
+  const { success } = yield race({
+    success: take(ME.SUCCESS),
+    failure: take(ME.FAILURE),
+  })
+
+  if (success && success.response) {
+    // Expect a logout action after authentication
+    yield take(LOGOUT)
+    yield call(removeToken)
+  } else {
+    // Something went wrong...remove token
+    yield put(logout())
+  }
 }
 
 // Subroutine for handling authentication requests
@@ -44,11 +59,11 @@ function* authenticationRoutine(apiFn, action) {
   }
 }
 
-function* watchAuth() {
+export function* watchAuth() {
   while (true) {
     yield [
-      takeEvery(LOGIN.REQUEST, authenticationRoutine, callLogin),
-      takeEvery(SIGNUP.REQUEST, authenticationRoutine, callSignup),
+      takeEvery(LOGIN.REQUEST, authenticationRoutine, tryLogin),
+      takeEvery(SIGNUP.REQUEST, authenticationRoutine, trySignup),
     ]
   }
 }

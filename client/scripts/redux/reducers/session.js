@@ -1,4 +1,4 @@
-import { LOGIN, SIGNUP, LOGOUT, SET_TOKEN } from 'constants/actionTypes'
+import { LOGIN, SIGNUP, LOGOUT, SET_TOKEN, ME } from 'constants/actionTypes'
 
 const initialState = {
   isAuthenticated: false,
@@ -10,6 +10,10 @@ const initialState = {
 
 export default function session(state = initialState, action) {
   switch (action.type) {
+    case ME.SUCCESS:
+      return Object.assign({}, state, {
+        id: action.response.result,
+      })
     case SET_TOKEN:
       return {
         isAuthenticating: false,

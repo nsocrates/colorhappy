@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import s from '../Account.scss'
+import s from '../Auth.scss'
 import withStyles from 'isomorphic-style-loader/lib/withStyles'
 import { Close } from 'components/Svg'
 import { login } from 'actions/auth'
