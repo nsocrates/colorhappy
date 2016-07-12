@@ -4,7 +4,7 @@ import { Link } from 'react-router'
 import s from './Browser.scss'
 import BrowserPalette from './BrowserPalette'
 import { Love, Eye } from 'components/Svg'
-import { paletteLove } from 'actions/palettes'
+import { paletteLove, exportPalette } from 'actions/palettes'
 
 const propTypes = {
   palette: PropTypes.object,
@@ -18,6 +18,7 @@ class BrowserPaletteGroup extends Component {
     this.handleClick = this.handleClick.bind(this)
     this.handleMouseOver = this.handleMouseOver.bind(this)
     this.handleMouseOut = this.handleMouseOut.bind(this)
+    this.handleExport = this.handleExport.bind(this)
   }
 
   handleClick(e) {
@@ -32,12 +33,25 @@ class BrowserPaletteGroup extends Component {
     e.currentTarget.style.opacity = ''
   }
 
+  handleExport(e) {
+    const { palette, dispatch } = this.props
+    e.preventDefault()
+    const payload = palette.colors
+      .map(color => `${color}-`)
+      .join('')
+    dispatch(exportPalette.request(payload))
+  }
+
   render() {
     const {
       palette,
       user,
       dispatch,
     } = this.props
+
+    const colors = palette.colors
+      .map(color => `${color}-`)
+      .join('')
 
     return (
       <article className={s.BrowserPaletteGroup}>
@@ -88,7 +102,13 @@ class BrowserPaletteGroup extends Component {
               {"Love"}
             </label>
             <Link className={s.overlayItem} to={`/palette/${palette.id}`}>{"View"}</Link>
-            <label className={s.overlayItem} to="/">{"Export"}</label>
+            <a
+              download
+              className={s.overlayItem}
+              href={`//localhost:8000/api/palettes/download/${colors}`}
+            >
+              {"Export"}
+            </a>
           </aside>
         </section>
       </article>

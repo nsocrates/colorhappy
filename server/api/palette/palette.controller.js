@@ -110,3 +110,13 @@ export function unlove(req, res) {
     .then(services.respondWithResult(res))
     .catch(services.handleError(res))
 }
+
+// GET to save a palette as .scss
+export function download(req, res) {
+  const str = req.params.colors.match(/[^-]+/g)
+    .map((color, i) => `$color${i + 1}: #${color};\n`)
+    .join('')
+
+  res.set({ 'Content-Disposition': 'attachment; filename=palette.scss' })
+    .send(str)
+}
