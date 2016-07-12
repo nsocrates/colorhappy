@@ -1,8 +1,9 @@
 import React, { Component, PropTypes } from 'react'
 import s from '../Auth.scss'
 import withStyles from 'isomorphic-style-loader/lib/withStyles'
-import { Close } from 'components/Svg'
+import { Close, Person, Lock } from 'components/Svg'
 import { login } from 'actions/auth'
+import FieldInput from 'components/Form/FieldInput'
 
 const propTypes = {
   handleReplace: PropTypes.func,
@@ -19,6 +20,7 @@ class Login extends Component {
   handleLogin(e) {
     const { dispatch } = this.props
     e.preventDefault()
+
     dispatch(login.request({
       username: this._username.value,
       password: this._password.value,
@@ -47,17 +49,17 @@ class Login extends Component {
         <article className={s.content} onClick={e => e.stopPropagation()}>
 
           <form className={s.form} onSubmit={this.handleLogin}>
-            <input
-              className={s.input}
+            <FieldInput
+              label="Email or Username"
               type="text"
-              placeholder="Email or Username"
-              ref={c => (this._username = c)}
+              reference={c => (this._username = c)}
+              Icon={Person}
             />
-            <input
-              className={s.input}
+            <FieldInput
+              label="Password"
               type="password"
-              placeholder="Password"
-              ref={c => (this._password = c)}
+              reference={c => (this._password = c)}
+              Icon={Lock}
             />
             <button className={s.primaryBtn} type="submit">
               {"Login"}

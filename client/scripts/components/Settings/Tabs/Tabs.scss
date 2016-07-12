@@ -1,0 +1,48 @@
+@import "~styles/helpers";
+
+.tabList {
+  // max-width: $medium;
+  margin: 0 auto;
+}
+
+.tabItem {
+  background-color: $white;
+  display: inline-block;
+  text-align: center;
+  border-style: solid;
+  border-color: $accent2-color;
+  border-width: 1px;
+  border-right-width: 0;
+  border-bottom-width: 0;
+
+  &:first-child {
+    border-top-left-radius: em(4px);
+  }
+
+  &:last-child {
+    border-top-right-radius: em(4px);
+    border-right-width: 1px;
+  }
+
+  &__active {
+    composes: tabItem;
+    border-color: lighten($gray-dark, 50%);
+    border-width: 1px;
+    border-bottom-color: $white;
+  }
+
+  &__rmLeft {
+    composes: tabItem;
+    border-left-width: 0;
+  }
+
+  &__rmRight {
+    composes: tabItem;
+    border-right-width: 0;
+  }
+}
+
+.tabLink {
+  display: block;
+  padding: em(10px) em(20px);
+}

@@ -3,7 +3,7 @@
 .c__formBtn {
   @include ease(0.2s, "standard", background-color);
   width: 100%;
-  border-radius: em(2px);
+  border-radius: em(4px);
   padding: em(14px);
   margin-bottom: em(10px);
 }
@@ -84,8 +84,8 @@
   width: 100%;
   margin-bottom: em(10px);
   padding: em(14px);
-  border: 1px solid map-get($gray, 300);
-  border-radius: em(2px);
+  border: 1px solid lighten($gray-dark, 60%);
+  border-radius: em(4px);
 
   &:focus {
     background-color: lighten($gray-dark, 70%);

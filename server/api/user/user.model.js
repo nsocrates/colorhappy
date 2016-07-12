@@ -12,10 +12,10 @@ const UserSchema = new Schema({
   password_hash: { type: String, required: true, select: false },
   paletteCount: { type: Number, default: 0 },
   loveCount: { type: Number, default: 0 },
-  fullName: String,
-  website: String,
-  bio: String,
-  location: String,
+  fullName: { type: String, default: '' },
+  website: { type: String, default: '' },
+  bio: { type: String, default: '' },
+  location: { type: String, default: '' },
 }, { timestamps: true })
 
 /**

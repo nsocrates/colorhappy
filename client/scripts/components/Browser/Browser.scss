@@ -107,7 +107,7 @@
 
 .colorGroup {
   @include clearfix;
-  border-radius: em(3px);
+  border-radius: em(4px);
   box-shadow: 0 0 0 1px rgba($black, 0.12);
 }
 
@@ -117,12 +117,12 @@
   width: 20%;
 
   &:first-child {
-    border-top-left-radius: em(3px);
-    border-bottom-left-radius: em(3px);
+    border-top-left-radius: em(4px);
+    border-bottom-left-radius: em(4px);
   }
 
   &:last-child {
-    border-top-right-radius: em(3px);
-    border-bottom-right-radius: em(3px);
+    border-top-right-radius: em(4px);
+    border-bottom-right-radius: em(4px);
   }
 }

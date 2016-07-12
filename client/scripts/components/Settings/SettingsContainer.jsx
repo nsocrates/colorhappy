@@ -1,7 +1,6 @@
-import React, { Component, PropTypes } from 'react'
+import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { makeSettingsSelector } from 'reducers/selectors'
-// import { me as myProfile } from 'actions/users'
 import Loader from 'components/Loader/Loader'
 import Settings from './Settings'
 
@@ -13,23 +12,13 @@ const propTypes = {
   me: PropTypes.object.isRequired,
 }
 
-class SettingsContainer extends Component {
-  componentDidMount() {
-    // const { dispatch, session, me } = this.props
-    // if (session.isAuthenticated && !Object.keys(me).length) {
-    //   dispatch(myProfile.request({ id: 'me' }))
-    // }
-  }
-
-  render() {
-    const { me, session } = this.props
-
-    return (
-      !session.isAuthenticated || !Object.keys(me).length
-        ? <Loader containerStyle={{ paddingTop: '100px' }} />
-        : <Settings {...this.props} />
-    )
-  }
+function SettingsContainer(props) {
+  const { session, me } = props
+  return (
+    !session.isAuthenticated || !Object.keys(me).length
+      ? <Loader containerStyle={{ paddingTop: '100px' }} />
+      : <Settings {...props} />
+  )
 }
 
 SettingsContainer.propTypes = propTypes

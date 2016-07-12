@@ -2,52 +2,18 @@
 
 .container {
   padding: em(15px);
+  max-width: $medium;
+  margin: 0 auto;
 }
 
-.tabItem {
-  display: inline-block;
-  text-align: center;
-  border-style: solid;
-  border-color: $accent-color;
-  border-width: 1px;
-  border-right-width: 0;
-  border-bottom-width: 0;
-
-  &:first-child {
-    border-top-left-radius: em(5px);
-  }
-
-  &:last-child {
-    border-top-right-radius: em(5px);
-    border-right-width: 1px;
-  }
-
-  &__active {
-    composes: tabItem;
-    border-color: lighten($gray-dark, 50%);
-    border-width: 1px;
-    border-bottom-color: $background-color;
-  }
-
-  &__rmLeft {
-    composes: tabItem;
-    border-left-width: 0;
-  }
-
-  &__rmRight {
-    composes: tabItem;
-    border-right-width: 0;
-  }
-}
-
-.tabLink {
+.pageHeading {
+  padding-top: em(15px);
+  padding-bottom: em(30px);
   display: block;
-  padding: em(10px) em(20px);
 }
 
-.hr {
-  border-width: 1px 0 0;
-  margin: em(-1px);
-  border-color: lighten($gray-dark, 50%);
-  border-style: solid;
+.pageHeader {
+  margin: 0;
+  padding: 0;
+  // line-height: 1;
 }

@@ -1,8 +1,9 @@
 import React, { Component, PropTypes } from 'react'
 import s from '../Auth.scss'
 import withStyles from 'isomorphic-style-loader/lib/withStyles'
-import { Close } from 'components/Svg'
 import { signup } from 'actions/auth'
+import { Close, Person, Lock, Email, Eye } from 'components/Svg'
+import FieldInput from 'components/Form/FieldInput'
 
 const propTypes = {
   location: PropTypes.object.isRequired,
@@ -21,9 +22,9 @@ class Signup extends Component {
     const { dispatch } = this.props
     e.preventDefault()
     dispatch(signup.request({
-      email: this._email.value,
-      username: this._username.value,
-      password: this._password.value,
+      email: this._email.input.value,
+      username: this._username.input.value,
+      password: this._password.input.value,
     }))
   }
 
@@ -49,30 +50,26 @@ class Signup extends Component {
         <article className={s.content} onClick={e => e.stopPropagation()}>
 
           <form className={s.form}>
-            <input
-              className={s.input}
+            <FieldInput
+              label="Email"
               type="text"
-              placeholder="Email"
-              ref={c => (this._email = c)}
+              reference={c => (this._email = c)}
+              Icon={Email}
             />
-            <input
-              className={s.input}
+            <FieldInput
+              label="Username"
               type="text"
-              placeholder="Username"
-              ref={c => (this._username = c)}
+              reference={c => (this._username = c)}
+              Icon={Person}
             />
-            <input
-              className={s.input}
+            <FieldInput
+              label="Password"
               type="password"
-              placeholder="Password"
-              ref={c => (this._password = c)}
+              reference={c => (this._password = c)}
+              Icon={Lock}
+              RightIcon={Eye}
             />
-            <input
-              className={s.input}
-              type="password"
-              placeholder="Confirm Password"
-              ref={c => (this._passwordConfirm = c)}
-            />
+
             <button className={s.primaryBtn} type="submit">
               {"Signup"}
             </button>

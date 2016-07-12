@@ -27,6 +27,11 @@ form {
 input,
 textarea {
   border-radius: 0;
+  padding: 0;
+  border-width: 1px;
+  margin: 0;
+  outline: 0;
+  border-style: solid;
 
   &:focus {
     outline: none;
@@ -35,4 +40,10 @@ textarea {
 
 html [type="button"] {
   -webkit-appearance: none;
+}
+
+fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
 }

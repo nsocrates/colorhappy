@@ -10,18 +10,18 @@ import SettingsContainer from 'components/Settings/SettingsContainer'
 export default function constructRoutes(store) {
   function handleAuth(nextState, replace, cb) {
     const { session } = store.getState()
-    // if (!session.isAuthenticated) {
-    //   replace({
-    //     pathName: '/',
-    //     state: { nextPathname: nextState.location.pathname },
-    //   })
-    // }
+    if (!session.isAuthenticated) {
+      replace({
+        pathName: '/',
+        state: { nextPathname: nextState.location.pathname },
+      })
+    }
     cb()
   }
 
   return (
     <Route path="/" component={App}>
-      <IndexRoute component={Home} />
+      <IndexRoute component={SettingsContainer} />
       <Route path="/login" component={AuthContainer} />
       <Route path="/signup" component={AuthContainer} />
       <Route path="/settings" component={SettingsContainer} onEnter={handleAuth} />

@@ -1,4 +1,5 @@
 import omit from 'lodash/omit'
+import merge from 'lodash/merge'
 
 export const handleValidationError = (res, statusCode = 422) => err => {
   console.log(err)
@@ -31,13 +32,7 @@ export const respondWithResult = (res, statusCode = 200) => entity => {
 }
 
 export const saveUpdates = (updates, forbidden) => entity => {
-  const validUpdates = forbidden ? omit(updates, forbidden) : updates
-  Object.keys(validUpdates).forEach(key => {
-    if (updates.hasOwnProperty(key)
-      && updates[key]
-      && updates.body[key].trim()) {
-      entity[key] = updates[key].trim()
-    }
-  })
-  return entity.save().then(updatedModel => updatedModel)
+  const updated = merge(entity, omit(updates, forbidden))
+  return updated.save()
+    .then(updatedModel => updatedModel)
 }

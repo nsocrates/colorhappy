@@ -55,7 +55,8 @@ export function signup({ email, username, password, passwordConfirm }) {
 
 export const login = payload => fetch('post', '/auth/local', payload)
 export const getUser = ({ id }) => fetchUser('get', `/api/users/${id}`)
-export const updatePassword = body => fetch('put', '/api/users/me/password', body)
+export const updateProfile = payload => fetchUser('put', '/api/users/me', payload)
+export const changePassword = payload => fetch('put', '/api/users/me/password', payload)
 export const getPalette = ({ id }) => fetchPalette('get', `/api/palettes/${id}`)
 export const getPaletteArray = () => fetchPaletteArray('get', '/api/palettes')
 export const getPaletteLove = ({ id }) => fetchPalette('put', `/api/palettes/${id}/love`)
