@@ -46,6 +46,7 @@ function* authenticate(token) {
   } else {
     // Something went wrong...remove token
     yield put(logout())
+    yield call(removeToken)
   }
 }
 

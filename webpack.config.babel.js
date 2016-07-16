@@ -2,30 +2,21 @@ import development from './config/dev'
 import production from './config/dist'
 import server from './config/server'
 
-// List of allowed environments
-const allowedEnvs = ['development', 'production']
-
-// Set the correct environment
-const currEnv = process.env.NODE_ENV
-
-// Get available configurations
 const configs = {
   development,
   production,
   server,
 }
 
-// Get valid environment
-function getValidEnv(env) {
-  const isValid = !!env && allowedEnvs.indexOf(env) !== -1
-  if (process.env.WEBPACK_ENV === 'server') return 'server'
+function getValidEnv(allowed, env) {
+  const isValid = !!env && allowed.indexOf(env) !== -1
   return isValid ? env : 'development'
 }
 
-// Build the webpack configuration
-function buildConfig(env) {
-  const usedEnv = getValidEnv(env)
-  return configs[usedEnv]
+const buildConfig = cfg => node => {
+  const allowedEnvs = Object.keys(cfg)
+  const envToUse = getValidEnv(allowedEnvs, node)
+  return cfg[envToUse]
 }
 
-export default buildConfig(currEnv)
+export default buildConfig(configs)(process.env.NODE_ENV)

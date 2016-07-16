@@ -30,7 +30,7 @@ const fetchPaletteArray = callApi(Schemas.PaletteArray)
 const fetchPalette = callApi(Schemas.Palette)
 
 // API services
-export function signup({ email, username, password, passwordConfirm }) {
+export function signup({ email, username, password }) {
   // Run through Validator first
   const errors = []
   if (!validator.isEmail(email)) {
@@ -41,9 +41,6 @@ export function signup({ email, username, password, passwordConfirm }) {
   }
   if (!validator.isLength(password, { min: 3 })) {
     errors.push({ type: 'password', message: 'Password must be at least 3 characters long' })
-  }
-  if (!validator.equals(password, passwordConfirm)) {
-    errors.push({ type: 'passwordConfirm', message: 'Password does not match' })
   }
   if (errors.length) {
     return Promise.reject(errors)

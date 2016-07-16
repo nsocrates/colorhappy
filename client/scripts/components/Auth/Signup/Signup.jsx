@@ -22,9 +22,9 @@ class Signup extends Component {
     const { dispatch } = this.props
     e.preventDefault()
     dispatch(signup.request({
-      email: this._email.input.value,
-      username: this._username.input.value,
-      password: this._password.input.value,
+      email: this._email.value,
+      username: this._username.value,
+      password: this._password.value,
     }))
   }
 
@@ -49,7 +49,7 @@ class Signup extends Component {
 
         <article className={s.content} onClick={e => e.stopPropagation()}>
 
-          <form className={s.form}>
+          <form className={s.form} onSubmit={this.handleSignup}>
             <FieldInput
               label="Email"
               type="text"
