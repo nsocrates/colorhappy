@@ -1,55 +1,62 @@
 import React, { PropTypes } from 'react'
 import withStyles from 'isomorphic-style-loader/lib/withStyles'
 import s from './Sections'
-import { Lock, Eye } from 'components/Svg'
+import { Email, Person } from 'components/Svg'
 import FieldInput from 'components/Form/FieldInput'
-import { changePassword } from 'actions/users'
+import { disableAccount } from 'actions/users'
 
 const propTypes = {
   dispatch: PropTypes.func.isRequired,
+  me: PropTypes.object.isRequired,
 }
 
 class AccountSection extends React.Component {
   constructor(props) {
     super(props)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleDisable = this.handleDisable.bind(this)
   }
 
   handleSubmit(e) {
     e.preventDefault()
-    const payload = {
-      password: this._password.value,
-      newPassword: this._newPassword.value,
-    }
-
-    this.props.dispatch(changePassword.request(payload))
+    console.log('handleSubmit')
   }
+
+  handleDisable(e) {
+    e.preventDefault()
+    this.props.dispatch(disableAccount.request())
+  }
+
   render() {
+    const { me } = this.props
     return (
       <div className={s.container}>
         <form className={s.form} onSubmit={this.handleSubmit}>
 
           <FieldInput
-            type="password"
-            label="Current Password"
-            Icon={Lock}
-            RightIcon={Eye}
-            reference={c => (this._password = c)}
+            disabled
+            label="Username"
+            Icon={Person}
+            defaultValue={me.username}
           />
 
           <FieldInput
-            type="password"
-            label="New Password"
-            Icon={Lock}
-            RightIcon={Eye}
-            reference={c => (this._newPassword = c)}
+            label="Email"
+            Icon={Email}
+            defaultValue={me.email}
+            reference={c => (this._email = c)}
           />
 
-          <button type="submit" className={s.submitBtn}>
-            {"Change Password"}
+          <button type="submit" className={s.formBtn__primary}>
+            {"Save Changes"}
           </button>
 
         </form>
+        <div className={s.btnContainer}>
+          <button className={s.formBtn__secondary} onClick={this.handleDisable}>
+            {"Deactivate Account"}
+          </button>
+        </div>
       </div>
     )
   }

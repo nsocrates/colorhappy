@@ -3,21 +3,23 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles'
 import s from './Palette.scss'
 import { round, hex as h } from 'utils/color/index'
 import ntc from 'vendor/ntc'
+import PaletteOptions from './PaletteOptions'
 
 const propTypes = {
   hex: PropTypes.string.isRequired,
-  onChange: PropTypes.func,
+  allColors: PropTypes.array.isRequired,
 }
 
-function PaletteItem({ hex, ...rest }) {
+function PaletteColor({ hex, allColors, ...rest }) {
   const rgb = round(h.toRgb(hex)).join(', ')
+  const textColor = h.contrast(hex)
   return (
     <li
       className={s.paletteListItem}
       style={{
         backgroundColor: hex,
         boxShadow: `0 0 0 1px ${hex}`,
-        color: h.contrast(hex),
+        color: textColor,
       }}
     >
       <div className={s.colorGroup}>
@@ -37,9 +39,12 @@ function PaletteItem({ hex, ...rest }) {
           value={rgb}
         />
       </div>
+
+      {allColors && <PaletteOptions allColors={allColors} />}
+
     </li>
   )
 }
 
-PaletteItem.propTypes = propTypes
-export default withStyles(s)(PaletteItem)
+PaletteColor.propTypes = propTypes
+export default withStyles(s)(PaletteColor)

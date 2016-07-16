@@ -15,6 +15,11 @@ const propTypes = {
   label: PropTypes.string,
   reference: PropTypes.func,
   type: PropTypes.string,
+  style: PropTypes.object,
+}
+
+const defaultProps = {
+  type: 'text',
 }
 
 class FieldInput extends React.Component {
@@ -30,9 +35,17 @@ class FieldInput extends React.Component {
   }
 
   render() {
-    const { type, reference, Icon, RightIcon, label, ...rest } = this.props
+    const {
+      style,
+      type,
+      reference,
+      Icon,
+      RightIcon,
+      label,
+      ...rest,
+    } = this.props
     return (
-      <fieldset className={s.formGroup}>
+      <fieldset className={s.formGroup} style={style}>
         <legend className={s.formLegend}>
           {label}
         </legend>
@@ -60,5 +73,6 @@ class FieldInput extends React.Component {
 }
 
 FieldInput.propTypes = propTypes
+FieldInput.defaultProps = defaultProps
 
 export default withStyles(s)(FieldInput)

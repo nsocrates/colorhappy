@@ -3,7 +3,7 @@ import {
   ME,
   UPDATE_PROFILE,
   CHANGE_PASSWORD,
-  DELETE_ACCOUNT,
+  DISABLE_ACCOUNT,
 } from 'constants/actionTypes'
 import { action } from 'utils/action'
 
@@ -31,8 +31,8 @@ export const changePassword = {
   failure: (payload, error) => action(CHANGE_PASSWORD.FAILURE, { payload, error }),
 }
 
-export const deleteAccount = {
-  request: payload => action(DELETE_ACCOUNT.REQUEST, { payload }),
-  success: (payload, response) => action(DELETE_ACCOUNT.SUCCESS, { payload, response }),
-  failure: (payload, error) => action(DELETE_ACCOUNT.FAILURE, { payload, error }),
+export const disableAccount = {
+  request: payload => action(DISABLE_ACCOUNT.REQUEST, { payload }),
+  success: (payload, response) => action(DISABLE_ACCOUNT.SUCCESS, { payload, response }),
+  failure: (payload, error) => action(DISABLE_ACCOUNT.FAILURE, { payload, error }),
 }

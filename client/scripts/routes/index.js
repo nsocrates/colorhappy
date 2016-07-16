@@ -21,12 +21,13 @@ export default function constructRoutes(store) {
 
   return (
     <Route path="/" component={App}>
-      <IndexRoute component={SettingsContainer} />
+      <IndexRoute component={Home} />
       <Route path="/login" component={AuthContainer} />
       <Route path="/signup" component={AuthContainer} />
       <Route path="/settings" component={SettingsContainer} onEnter={handleAuth} />
       <Route path="/palettes" component={BrowserContainer} />
       <Route path="/palette(/:id)" component={PaletteContainer} />
+      <Route path="/editor(/:hex)" component={Home} />
     </Route>
   )
 }

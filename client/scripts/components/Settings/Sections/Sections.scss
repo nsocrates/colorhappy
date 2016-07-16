@@ -80,18 +80,39 @@
   padding-left: em(35px);
 }
 
-.submitBtn {
-  @include ease(0.2s, "standard", background-color);
-  float: right;
+.btnContainer {
+  @include clearfix;
+  width: 100%;
+  padding-top: em(6px);
+}
+
+.formBtn {
+  vertical-align: middle;
   border-radius: em(4px);
-  color: $white;
   font-weight: 600;
-  background-color: $accent-color;
-  box-shadow: inset 0 0 0 1px $accent-color;
   padding: em(12px) em(24px);
 
-  &:hover {
-    background-color: lighten($accent-color, 5%);
-    box-shadow: inset 0 0 0 1px lighten($accent-color, 5%);
+  &__primary {
+    @include ease(0.2s, "standard", background-color);
+    composes: formBtn;
+    float: right;
+    color: $white;
+    background-color: $accent-color;
+    box-shadow: inset 0 0 0 1px $accent-color;
+
+    &:hover {
+      background-color: lighten($accent-color, 5%);
+      box-shadow: inset 0 0 0 1px lighten($accent-color, 5%);
+    }
+  }
+
+
+  &__secondary {
+    @include ease(0.1s, "in", background-color, box-shadow);
+    composes: formBtn;
+    float: left;
+    font-size: $small-font-size;
+    color: $accent2-color;
+    background-color: transparent;
   }
 }

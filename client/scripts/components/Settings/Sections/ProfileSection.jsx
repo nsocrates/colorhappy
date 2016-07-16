@@ -20,7 +20,7 @@ class ProfileSection extends Component {
   handleSubmit(e) {
     e.preventDefault()
     const payload = {
-      fullName: this._fullName.value.trim(),
+      name: this._name.value.trim(),
       location: this._location.value.trim(),
       website: this._website.value.trim(),
       bio: this._bio.value.trim(),
@@ -37,9 +37,9 @@ class ProfileSection extends Component {
           <FieldInput
             label="Name"
             type="text"
-            defaultValue={me.fullName}
+            defaultValue={me.name}
             Icon={Person}
-            reference={c => (this._fullName = c)}
+            reference={c => (this._name = c)}
           />
 
           <FieldInput
@@ -65,7 +65,7 @@ class ProfileSection extends Component {
             reference={c => (this._bio = c)}
           />
 
-          <button type="submit" className={s.submitBtn}>
+          <button type="submit" className={s.formBtn__primary}>
             {"Save Changes"}
           </button>
 

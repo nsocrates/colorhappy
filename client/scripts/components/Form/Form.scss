@@ -60,6 +60,12 @@
       color: $accent2-color;
     }
   }
+
+  &:disabled {
+    cursor: not-allowed;
+    color: rgba($text-color, 0.54);
+    background-color: darken($gray-light, 0.5%);
+  }
 }
 
 .formTextArea {

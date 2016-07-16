@@ -21,6 +21,8 @@
 
   @include media($medium) {
     top: map-get($header, md-height);
+    width: 45%;
+    max-width: em(500px);
   }
 }
 

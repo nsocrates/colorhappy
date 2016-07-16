@@ -4,11 +4,12 @@ import s from './Settings.scss'
 import Tabs from './Tabs/Tabs'
 import ProfileSection from './Sections/ProfileSection'
 import AccountSection from './Sections/AccountSection'
+import PasswordSection from './Sections/PasswordSection'
 
 const CONTENT_BODY = {
   '#profile': ProfileSection,
   '#account': AccountSection,
-  '#password': AccountSection,
+  '#password': PasswordSection,
 }
 
 const propTypes = {

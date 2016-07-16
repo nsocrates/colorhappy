@@ -1,7 +1,7 @@
 @import "~styles/helpers";
 
 .container {
-  padding: em(15px);
+  padding: em(15px) em(15px) em(45px);
   max-width: $medium;
   margin: 0 auto;
 }
@@ -15,5 +15,4 @@
 .pageHeader {
   margin: 0;
   padding: 0;
-  // line-height: 1;
 }

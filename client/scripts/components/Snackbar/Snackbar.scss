@@ -1,0 +1,51 @@
+@import "~styles/helpers";
+
+.container {
+  @include ease(0.2s, "standard", all);
+  @include clearfix;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  background-color: rgba($black, 0.9);
+  margin: 0 auto;
+  padding: em(10px) em(15px);
+  z-index: $z-snackbar;
+  min-height: em(42px);
+
+  @include media($medium) {
+    width: em(300px);
+  }
+
+  &__off {
+    composes: container;
+    transform: translate3d(0, 100%, 0);
+  }
+
+  &__on {
+    composes: container;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.message {
+  float: left;
+  color: rgba($white, 0.95);
+  font-weight: 400;
+  vertical-align: middle;
+  display: inline-block;
+  font-size: $small-font-size;
+}
+
+.action {
+  float: right;
+  vertical-align: middle;
+  display: inline-block;
+  color: rgba($accent-color, 0.95);
+  font-weight: 400;
+  text-transform: uppercase;
+  font-size: $small-font-size;
+  font-family: $heading-font-family;
+  cursor: pointer;
+}

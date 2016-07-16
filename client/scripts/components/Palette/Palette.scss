@@ -37,15 +37,20 @@
 
 .paletteListItem {
   height: 20%;
+  min-height: em(100px);
   width: 100%;
+  display: flex;
+  align-items: center;
   padding: $gutter;
+  overflow: hidden;
 
   @include media($medium) {
-    padding: $gutter;
+    align-items: flex-start;
     position: absolute;
     text-align: center;
     height: 100%;
     width: 20%;
+    min-height: em(350px);
 
     &:first-child {
       left: 0;
@@ -101,4 +106,67 @@
   font-family: $base-font-family;
   font-size: map-get($font-size, h6);
   font-weight: 700;
+}
+
+.optionList {
+  margin-left: auto;
+  display: inline-block;
+
+  @include media($medium) {
+    position: absolute;
+    bottom: em(15px);
+    left: 0;
+    right: 0;
+  }
+}
+
+.optionItem {
+  display: inline-block;
+  margin-right: em(30px);
+
+  &:last-child {
+    margin-right: 0;
+  }
+
+  @include media($medium) {
+    display: list-item;
+    margin-right: 0;
+    margin-bottom: em(15px);
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.optionAction {
+  font-size: map-get($font-size, h4);
+  opacity: 0.38;
+  cursor: pointer;
+  color: inherit;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  @include media($medium) {
+    font-size: map-get($font-size, h5);
+  }
+}
+
+.optionIcon {
+  vertical-align: middle;
+
+  @include media($medium) {
+    margin-right: em(15px);
+  }
+}
+
+.optionText {
+  display: none;
+
+  @include media($medium) {
+    display: inline-block;
+    vertical-align: middle;
+  }
 }

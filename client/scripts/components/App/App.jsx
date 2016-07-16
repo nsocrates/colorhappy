@@ -6,6 +6,7 @@ import Header from 'components/Header/Header'
 import Sidebar from 'components/Sidebar/Sidebar'
 import Footer from 'components/Footer/Footer'
 import ModalHOC from 'components/Modal/ModalHOC'
+import Snackbar from 'components/Snackbar/Snackbar'
 import { appSelector } from 'reducers/selectors'
 import { toggleSidebar } from 'actions/ui'
 import { setToken } from 'actions/auth'
@@ -30,6 +31,7 @@ class App extends React.Component {
       dispatch,
       sidebar,
       header,
+      notifications,
     } = this.props
 
     return (
@@ -41,11 +43,12 @@ class App extends React.Component {
           ui={{ header, sidebar }}
         />
         <Sidebar sidebar={sidebar} header={header} dispatch={dispatch} />
-        <section className={s.contentWrap} style={{ opacity: sidebar && '0.75' }}>
+        <section className={s.contentWrap} style={{ opacity: sidebar && '0.65' }}>
           {prevOrCurrChildren}
           {modalChildren}
         </section>
         <Footer />
+        <Snackbar dispatch={dispatch} notifications={notifications} />
         <div
           className={s.sidebarOverlay}
           style={{ display: sidebar && 'block' }}
@@ -64,6 +67,7 @@ App.propTypes = {
   session: PropTypes.object.isRequired,
   sidebar: PropTypes.bool.isRequired,
   header: PropTypes.bool.isRequired,
+  notifications: PropTypes.array.isRequired,
 }
 
 const AppModal = ModalHOC(App)

@@ -26,11 +26,8 @@ class PaletteContainer extends Component {
   }
 }
 
-const makeMapStateToProps = () => {
-  const paletteSelector = makePaletteSelector()
-  const mapStateToProps = (state, props) => paletteSelector(state, props)
-  return mapStateToProps
-}
+const makeMapStateToProps = () => (state, props) =>
+  makePaletteSelector()(state, props.params.id)
 
 PaletteContainer.propTypes = propTypes
 

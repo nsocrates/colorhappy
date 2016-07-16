@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import withStyles from 'isomorphic-style-loader/lib/withStyles'
 import s from './Palette.scss'
-import PaletteItem from './PaletteItem'
+import PaletteColor from './PaletteColor'
 
 // import { generatePalette } from 'utils/color/index'
 
@@ -28,11 +28,12 @@ class Palette extends Component {
   render() {
     const { palette } = this.props
     const colors = palette.colors.map((color, index) =>
-      <PaletteItem
+      <PaletteColor
         hex={`#${color}`}
         onChange={this.handleChange}
         onClick={this.handleClick}
         key={`${color}_${index}`}
+        allColors={index === 2 && palette.colors}
       />)
 
     return (

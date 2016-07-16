@@ -57,11 +57,8 @@ class BrowserContainer extends Component {
 
 BrowserContainer.propTypes = propTypes
 
-const makeMapStateToProps = () => {
-  const browserSelector = makeBrowserSelector()
-  const mapStateToProps = (state, props) => browserSelector(state, props)
-  return mapStateToProps
-}
+const makeMapStateToProps = () => (state, props) =>
+  makeBrowserSelector()(state, props.location.query.sort)
 
 const WithStyles = withStyles(s)(BrowserContainer)
 export default connect(makeMapStateToProps)(WithStyles)

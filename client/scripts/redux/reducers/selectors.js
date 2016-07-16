@@ -11,21 +11,23 @@ export const selectPaletteEntity = state => state.entities.palettes
 export const selectUserEntity = state => state.entities.users
 export const selectSidebar = state => state.ui.sidebar
 export const selectHeader = state => state.ui.header
+export const selectNotifications = state => state.notifications
 export const selectRouting = state => state.routing.locationBeforeTransitions
 
-export const selectUser = (state, props) =>
-  state.entities.users[props.params.id] || {}
+export const selectUser = (state, id) =>
+  state.entities.users[id] || {}
 
-export const selectPalette = (state, props) =>
-  state.entities.palettes[props.params.id] || {}
+export const selectPalette = (state, id) =>
+  state.entities.palettes[id] || {}
 
-export const selectSortedPalettes = (state, props) =>
-  state.palettes[props.location.query.sort || 'newest'] || {}
+export const selectSortedPalettes = (state, sort = 'newest') =>
+  state.palettes[sort] || {}
 
 export const appSelector = createStructuredSelector({
   session: selectSession,
   sidebar: selectSidebar,
   header: selectHeader,
+  notifications: selectNotifications,
 })
 
 export const makePaletteSelector = () =>

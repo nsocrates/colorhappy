@@ -35,19 +35,19 @@ function Tabs(props) {
     <ul className={s.tabList}>
 
       <li className={manageActiveClassNames('#profile')}>
-        <Link className={s.tabLink} to="#profile">
+        <Link className={s.tabLink} to="/settings#profile">
           {"Profile"}
         </Link>
       </li>
 
       <li className={manageActiveClassNames('#account')}>
-        <Link className={s.tabLink} to="#account">
+        <Link className={s.tabLink} to="/settings#account">
           {"Account"}
         </Link>
       </li>
 
       <li className={manageActiveClassNames('#password')}>
-        <Link className={s.tabLink} to="#password">
+        <Link className={s.tabLink} to="/settings#password">
           {"Password"}
         </Link>
       </li>

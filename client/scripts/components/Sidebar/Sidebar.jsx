@@ -56,6 +56,9 @@ class Sidebar extends Component {
           <Link className={s.sidebarLink} to="/palettes">
             <h1 className={s.sidebarHeading}>{"Palettes"}</h1>
           </Link>
+          <Link className={s.sidebarLink} to="/editor">
+            <h1 className={s.sidebarHeading}>{"Editor"}</h1>
+          </Link>
           <Link className={s.sidebarLink} to="/settings">
             <h1 className={s.sidebarHeading}>{"Settings"}</h1>
           </Link>

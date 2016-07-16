@@ -30,7 +30,7 @@
 
   @include media($medium) {
     vertical-align: middle;
-    max-width: em(450px);
+    max-width: em(500px);
     padding-right: em(15px);
     padding-left: em(15px);
   }
@@ -112,9 +112,9 @@
   margin-bottom: 0;
   box-shadow: inset 0 0 0 1px $accent-color;
 
-  &:hover {
-    background-color: $accent-color;
-    box-shadow: inset 0 0 0 1px $accent-color;
-    color: $white;
-  }
+  // &:hover {
+  //   background-color: $accent-color;
+  //   box-shadow: inset 0 0 0 1px $accent-color;
+  //   color: $white;
+  // }
 }
