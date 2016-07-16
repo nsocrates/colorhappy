@@ -1,8 +1,19 @@
 import mongoose from 'mongoose'
 import partition from '../partition'
+import merge from 'lodash/merge'
+
+const handlePaletteError = error =>
+  Promise.reject(error)
+
+const handleViewCount = palette => {
+  const updated = merge(palette, { viewCount: palette.viewCount + 1 })
+  return updated.save()
+    .then(updatedPalette => updatedPalette)
+}
 
 const updateLoveCount = (req, inc) => model => {
   const action = inc > 0 ? '$addToSet' : '$pull'
+
   return model.findOneAndUpdate({
     _id: req.params.id,
     loves: { $ne: req.user._id },
@@ -38,12 +49,9 @@ PaletteSchema.statics = {
   },
 
   findAndView(req) {
-    return this.findByIdAndUpdate(req.params.id, {
-      $inc: { viewCount: 1 },
-    }, {
-      upsert: false,
-      new: true,
-    })
+    return this.findById(req.params.id).exec()
+      .then(handleViewCount)
+      .catch(handlePaletteError)
   },
 
   findAndLove(req) {

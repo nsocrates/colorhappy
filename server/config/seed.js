@@ -84,6 +84,10 @@ User.find({}).remove()
       username: 'seed',
       email: 'me@me.com',
       password_hash: bcrypt.hashSync('123', 12),
+      name: 'Aurora Gunmeister',
+      location: 'Space',
+      website: 'auroragunmeister.com',
+      bio: 'Currently working as a Hyperspace Engineer',
     }, {
       _id: objectId('503cf4730e9f580200000003'),
       role: 'user',

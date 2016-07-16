@@ -70,7 +70,7 @@ export function destroy(req, res) {
 
 // GET to show a palette
 export function show(req, res) {
-  return Palette.findAndView(req).exec()
+  return Palette.findAndView(req)
     .then(services.handleNotFound(res))
     .then(services.respondWithResult(res))
     .catch(services.handleError(res))
