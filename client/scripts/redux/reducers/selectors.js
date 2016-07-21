@@ -12,6 +12,7 @@ export const selectUserEntity = state => state.entities.users
 export const selectSidebar = state => state.ui.sidebar
 export const selectHeader = state => state.ui.header
 export const selectNotifications = state => state.notifications
+export const selectEditor = state => state.editor
 export const selectRouting = state => state.routing.locationBeforeTransitions
 
 export const selectUser = (state, id) =>
@@ -44,6 +45,11 @@ export const makeBrowserSelector = () =>
       sorted: sortedPalettes,
     })
   )
+
+export const makeEditorSelector = () =>
+  createStructuredSelector({
+    editor: selectEditor,
+  })
 
 export const makeUiSelector = () =>
   createSelector(

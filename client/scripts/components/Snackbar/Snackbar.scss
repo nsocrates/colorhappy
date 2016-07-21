@@ -14,7 +14,7 @@
   z-index: $z-snackbar;
   min-height: em(42px);
 
-  @include media($medium) {
+  @include media-breakpoint-up(md) {
     width: em(300px);
   }
 

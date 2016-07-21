@@ -10,10 +10,11 @@ function Footer() {
   return (
     <footer className={s.footer}>
       <div className={s.container}>
-        <span className={s.spanLeft}>
+        <span>
           {"ColorHappy"}
         </span>
-        <a className={s.spanRight} href="https://github.com/nsocrates/colorhappy">
+        <span>{" | "}</span>
+        <a className={s.link} href="https://github.com/nsocrates/colorhappy">
           {"View Source"}
         </a>
       </div>

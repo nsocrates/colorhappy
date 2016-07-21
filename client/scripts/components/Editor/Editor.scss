@@ -1,0 +1,16 @@
+@import "~styles/helpers";
+
+.main {
+  @include ease(0.25s, "standard", font-size);
+  height: calc(100vh - #{map-get($header, height)} - #{map-get($footer, height)});
+
+  @include media-breakpoint-up(md) {
+    height: calc(100vh - #{map-get($header, md-height)} - #{map-get($footer, height)});
+  }
+}
+
+.paletteList {
+  @include clearfix;
+  height: 100%;
+  position: relative;
+}

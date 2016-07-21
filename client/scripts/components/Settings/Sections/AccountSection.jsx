@@ -19,7 +19,6 @@ class AccountSection extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault()
-    console.log('handleSubmit')
   }
 
   handleDisable(e) {
@@ -47,16 +46,18 @@ class AccountSection extends React.Component {
             reference={c => (this._email = c)}
           />
 
-          <button type="submit" className={s.formBtn__primary}>
-            {"Save Changes"}
-          </button>
+          <div className={s.btnGroup}>
 
+            <label className={s.deactivateBtn} onClick={this.handleDisable}>
+              {"Deactivate Account"}
+            </label>
+
+            <button type="submit" className={s.formBtn}>
+              {"Save Changes"}
+            </button>
+
+          </div>
         </form>
-        <div className={s.btnContainer}>
-          <button className={s.formBtn__secondary} onClick={this.handleDisable}>
-            {"Deactivate Account"}
-          </button>
-        </div>
       </div>
     )
   }

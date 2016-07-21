@@ -1,16 +1,29 @@
 @import "~styles/helpers";
 
-.main {
+.container {
   @include ease(0.25s, "standard", font-size);
-  padding: em(15px);
+  @include make-container;
+  max-width: get($container-max-widths, xl);
+  padding-top: em(15px);
+  padding-bottom: em(15px);
 }
 
-.paletteGroup {
-  position: relative;
-  margin-bottom: em(15px);
+.row {
+  @include make-row;
+}
 
-  &:last-child {
-    margin-bottom: 0;
+.column {
+  @include make-col(12);
+  @include ease(0.15s, "fun", width);
+  padding-top: rem(15px);
+  padding-bottom: rem(15px);
+
+  @include media-breakpoint-up(lg) {
+    @include make-col-span(6);
+  }
+
+  @include media-breakpoint-up(xl) {
+    @include make-col-span(4);
   }
 }
 
@@ -27,6 +40,7 @@
   right: 0;
   bottom: 0;
   margin: auto;
+  border-radius: em(4px);
 }
 
 .overlayItem {
@@ -102,19 +116,26 @@
 }
 
 .articleBody {
-  position: relative;
-}
-
-.colorGroup {
   @include clearfix;
+  position: relative;
   border-radius: em(4px);
   box-shadow: 0 0 0 1px rgba($black, 0.12);
+  height: em(75px);
+  overflow: hidden;
+
+  @include media-breakpoint-up(xl) {
+    height: em(70px);
+  }
 }
 
 .paletteColor {
+  position: relative;
+  min-height: 1px;
+  padding-left: em(15px);
+  padding-right: em(15px);
   float: left;
-  height: em(75px);
   width: 20%;
+  height: 100%;
 
   &:first-child {
     border-top-left-radius: em(4px);
@@ -125,4 +146,18 @@
     border-top-right-radius: em(4px);
     border-bottom-right-radius: em(4px);
   }
+}
+
+.loadMoreWrap {
+  padding-top: em(30px);
+  padding-bottom: em(15px);
+  margin: 0 auto;
+  text-align: center;
+}
+
+.loadMoreBtn {
+  @include btn;
+  @include btn-ease($accent-color);
+  font-weight: 400;
+  color: $white;
 }

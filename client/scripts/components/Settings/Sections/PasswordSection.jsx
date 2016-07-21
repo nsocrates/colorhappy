@@ -45,9 +45,11 @@ class PasswordSection extends React.Component {
             reference={c => (this._newPassword = c)}
           />
 
-          <button type="submit" className={s.formBtn__primary}>
-            {"Change Password"}
-          </button>
+          <div className={s.btnGroup}>
+            <button type="submit" className={s.formBtn}>
+              {"Change Password"}
+            </button>
+          </div>
 
         </form>
       </div>

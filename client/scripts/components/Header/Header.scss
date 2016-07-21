@@ -10,13 +10,13 @@
 
 .c__header {
   @include clearfix;
-  @include ease(0.25s, "fun", all);
+  @include fun;
+  @include add-shadow-0;
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   background-color: $white;
-  border-bottom: 1px solid map-get($gray, 300);
   padding: map-get($header, padding);
   overflow: hidden;
   min-width: map-get($container, min);
@@ -27,7 +27,7 @@
   composes: c__header;
   height: map-get($header, height);
 
-  @include media($medium) {
+  @include media-breakpoint-up(md) {
     padding: map-get($header, md-padding);
     height: map-get($header, md-height);
   }
@@ -36,18 +36,8 @@
 .header__condensed {
   composes: c__header;
   height: map-get($header, c-height);
-  box-shadow: inset 0 -1px 1px -1px map-get($gray, 300);
-
-  .sectionLeft {
-    line-height: map-get($header, c-height) - (map-get($header, padding) * 2);
-  }
-
-  .sectionRight {
-    line-height: map-get($header, c-height) - (map-get($header, padding) * 2);
-  }
 
   .title {
-    line-height: inherit;
     font-size: map-get($font-size, h3);
   }
 
@@ -60,17 +50,28 @@
   composes: c__link;
 }
 
+// Sections
+// ==================
+.c__section {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
 // Left Section
 // ===================
 .sectionLeft {
+  composes: c__section;
   float: left;
-  @include ease(0.25s, "fun", line-height);
-  line-height: map-get($header, height) / 2 - map-get($header, padding);
 }
 
 .title {
   margin: 0;
   line-height: 1;
+
+  @include media-breakpoint-up(sm) {
+    font-size: map-get($font-size, h1);
+  }
 }
 
 .description {
@@ -80,9 +81,8 @@
 // Right Section
 // ===================
 .sectionRight {
+  composes: c__section;
   float: right;
-  @include ease(0.25s, "fun", line-height);
-  line-height: map-get($header, height) - (map-get($header, padding) * 2);
 }
 
 .navLink {

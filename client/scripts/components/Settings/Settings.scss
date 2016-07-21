@@ -1,8 +1,10 @@
 @import "~styles/helpers";
 
 .container {
-  padding: em(15px) em(15px) em(45px);
-  max-width: $medium;
+  @include make-container;
+  padding-top: em(15px);
+  padding-bottom: em(30px);
+  max-width: get($container-max-widths, md);
   margin: 0 auto;
 }
 

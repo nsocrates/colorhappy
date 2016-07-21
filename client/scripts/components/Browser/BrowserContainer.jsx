@@ -35,21 +35,30 @@ class BrowserContainer extends Component {
     const { palettes, users, sorted, dispatch } = this.props
 
     return (
-      <main className={s.main}>
-      {sorted.isFetching
-        ? <Loader containerStyle={{ paddingTop: '100px' }} />
-        : sorted.ids.map((id, i) => {
-          const currPalette = palettes[id]
-          const user = users[currPalette.userId]
-          return (
-            <BrowserPaletteGroup
-              palette={currPalette}
-              user={user}
-              key={i}
-              dispatch={dispatch}
-            />
-          )
-        })}
+      <main className={s.container}>
+        {sorted.isFetching
+          ? <Loader containerStyle={{ paddingTop: '100px' }} />
+          : <div className={s.row}>
+            {sorted.ids.map((id, i) => {
+              const currPalette = palettes[id]
+              const user = users[currPalette.userId]
+              return (
+                <BrowserPaletteGroup
+                  palette={currPalette}
+                  user={user}
+                  key={i}
+                  dispatch={dispatch}
+                />
+              )
+            })
+          }
+          </div>
+        }
+        <div className={s.loadMoreWrap}>
+          <button className={s.loadMoreBtn} onClick={this.handleClick}>
+            {"Load More"}
+          </button>
+        </div>
       </main>
     )
   }

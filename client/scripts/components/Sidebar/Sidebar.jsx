@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import s from './Sidebar.scss'
 import withStyles from 'isomorphic-style-loader/lib/withStyles'
-import { Link } from 'react-router'
+import SidebarItem from './SidebarItem'
 import { logout } from 'actions/auth'
 import { toggleSidebar } from 'actions/ui'
 
@@ -49,23 +49,13 @@ class Sidebar extends Component {
           top: header && '4.6875em',
         }}
       >
-        <nav className={s.sidebarNav}>
-          <Link className={s.sidebarLink} to="/">
-            <h1 className={s.sidebarHeading}>{"Home"}</h1>
-          </Link>
-          <Link className={s.sidebarLink} to="/palettes">
-            <h1 className={s.sidebarHeading}>{"Palettes"}</h1>
-          </Link>
-          <Link className={s.sidebarLink} to="/editor">
-            <h1 className={s.sidebarHeading}>{"Editor"}</h1>
-          </Link>
-          <Link className={s.sidebarLink} to="/settings">
-            <h1 className={s.sidebarHeading}>{"Settings"}</h1>
-          </Link>
-          <label className={s.sidebarLink} onClick={() => dispatch(logout())}>
-            <h1 className={s.sidebarHeading}>{"Logout"}</h1>
-          </label>
-        </nav>
+        <ul className={s.navList}>
+          <SidebarItem to={"/"} label={"Home"} />
+          <SidebarItem to={"/palettes"} label={"Palettes"} />
+          <SidebarItem to={"/editor"} label={"Editor"} />
+          <SidebarItem to={"/settings"} label={"Settings"} />
+          <SidebarItem to={"/logout"} label={"Logout"} onClick={() => dispatch(logout())} />
+        </ul>
       </aside>
     )
   }

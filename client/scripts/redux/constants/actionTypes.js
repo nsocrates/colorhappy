@@ -16,6 +16,7 @@ export const SET_TOKEN = 'SET_TOKEN'
 
 export const TOGGLE_SIDEBAR = 'TOGGLE_SIDEBAR'
 export const CONDENSE_HEADER = 'CONDENSE_HEADER'
+export const TOGGLE_TOOLBAR = 'TOGGLE_TOOLBAR'
 export const CLOSE_ALL = 'CLOSE_ALL'
 
 export const TOGGLE_SNACKBAR = 'TOGGLE_SNACKBAR'
@@ -24,7 +25,10 @@ export const NOTIF_PUBLISH = 'NOTIF_PUBLISH'
 export const NOTIF_DESTROY = 'NOTIF_DESTROY'
 
 export const CHANGE_HEX = 'CHANGE_HEX'
-export const CHANGE_RGBA = 'CHANGE_RGBA'
+export const CHANGE_RGB = 'CHANGE_RGB'
 export const CHANGE_HSL = 'CHANGE_HSL'
+export const UPDATE_COLOR = 'UPDATE_COLOR'
+export const LOAD_COLORS = 'LOAD_COLORS'
+export const NEW_PALETTE = 'NEW_PALETTE'
 
 export const ROUTE_TRANSITION = 'ROUTE_TRANSITION'

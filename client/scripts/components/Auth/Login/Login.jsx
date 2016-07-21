@@ -54,12 +54,14 @@ class Login extends Component {
               type="text"
               reference={c => (this._username = c)}
               Icon={Person}
+              defaultValue="seed"
             />
             <FieldInput
               label="Password"
               type="password"
               reference={c => (this._password = c)}
               Icon={Lock}
+              defaultValue="123"
             />
             <button className={s.primaryBtn} type="submit">
               {"Login"}

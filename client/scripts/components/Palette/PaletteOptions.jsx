@@ -3,12 +3,18 @@ import s from './Palette.scss'
 import withStyles from 'isomorphic-style-loader/lib/withStyles'
 import { Link } from 'react-router'
 import { Love, ModeEdit, Download } from 'components/Svg'
+import { paletteLove } from 'actions/palettes'
 
 const propTypes = {
-  allColors: PropTypes.array.isRequired,
+  allColors: PropTypes.oneOfType([
+    PropTypes.array.isRequired,
+    PropTypes.bool.isRequired,
+  ]),
+  dispatch: PropTypes.func.isRequired,
+  params: PropTypes.object.isRequired,
 }
 
-function PaletteOptions({ allColors }) {
+function PaletteOptions({ allColors, dispatch, params }) {
   const colors = allColors
     .map(color => `${color}-`)
     .join('')
@@ -30,7 +36,10 @@ function PaletteOptions({ allColors }) {
       </li>
 
       <li className={s.optionItem}>
-        <Link className={s.optionAction} to={`/editor/${colors}`}>
+        <Link
+          className={s.optionAction}
+          to={`/editor/${colors}`}
+        >
           <ModeEdit className={s.optionIcon} />
           <span className={s.optionText}>
             {"Edit"}
@@ -39,7 +48,10 @@ function PaletteOptions({ allColors }) {
       </li>
 
       <li className={s.optionItem}>
-        <label className={s.optionAction}>
+        <label
+          className={s.optionAction}
+          onClick={() => dispatch(paletteLove.request({ id: params.id }))}
+        >
           <Love className={s.optionIcon} />
           <span className={s.optionText}>
             {"Love"}

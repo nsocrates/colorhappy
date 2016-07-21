@@ -54,7 +54,7 @@ class BrowserPaletteGroup extends Component {
       .join('')
 
     return (
-      <article className={s.BrowserPaletteGroup}>
+      <article className={s.column}>
         <heading className={s.articleHeading}>
           <section className={s.articleHeadingLeft}>
             <h5 className={s.title}>
@@ -85,11 +85,9 @@ class BrowserPaletteGroup extends Component {
           </aside>
         </heading>
         <section className={s.articleBody}>
-          <ul className={s.colorGroup}>
-            {palette.colors.map((color, i) =>
-              <BrowserPalette color={color} key={`${color}_${i}`} />
-            )}
-          </ul>
+          {palette.colors.map((color, i) =>
+            <BrowserPalette color={color} key={`${color}_${i}`} />
+          )}
           <aside
             className={s.overlay}
             onMouseOver={this.handleMouseOver}

@@ -2,11 +2,12 @@ import React, { Component, PropTypes } from 'react'
 import withStyles from 'isomorphic-style-loader/lib/withStyles'
 import s from './Palette.scss'
 import PaletteColor from './PaletteColor'
-
-// import { generatePalette } from 'utils/color/index'
+import PaletteOptions from './PaletteOptions'
 
 const propTypes = {
   palette: PropTypes.object.isRequired,
+  dispatch: PropTypes.func.isRequired,
+  params: PropTypes.object.isRequired,
 }
 
 class Palette extends Component {
@@ -26,15 +27,20 @@ class Palette extends Component {
   }
 
   render() {
-    const { palette } = this.props
+    const { palette, dispatch, params } = this.props
     const colors = palette.colors.map((color, index) =>
       <PaletteColor
         hex={`#${color}`}
         onChange={this.handleChange}
         onClick={this.handleClick}
         key={`${color}_${index}`}
-        allColors={index === 2 && palette.colors}
-      />)
+      >
+
+        {index === 2 &&
+          <PaletteOptions dispatch={dispatch} allColors={palette.colors} params={params} />
+        }
+
+      </PaletteColor>)
 
     return (
       <main className={s.main}>

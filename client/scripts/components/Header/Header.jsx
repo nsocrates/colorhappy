@@ -53,11 +53,11 @@ class Header extends Component {
     return (
       <header className={header ? s.header__condensed : s.header}>
         <section className={s.sectionLeft}>
-          <h1 className={s.title}>
+          <h2 className={s.title}>
             <Link className={s.link} to="/">
               <strong>{"ColorHappy"}</strong>
             </Link>
-          </h1>
+          </h2>
           <p className={s.description}>
             <small>
               <strong>{"Explore"}</strong>,

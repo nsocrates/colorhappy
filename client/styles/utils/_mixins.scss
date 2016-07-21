@@ -1,29 +1,3 @@
-// ## For Susy
-@mixin sContainer() {
-  @include container();
-  width: 100%;
-  padding-left: map-get($spacing, half);
-  padding-right: map-get($spacing, half);
-}
-
-// ## Container
-@mixin container() {
-  margin-left: auto;
-  margin-right: auto;
-  width: 100%;
-  max-width: map-get($container, max);
-  padding-left: map-get($spacing, half);
-  padding-right: map-get($spacing, half);
-}
-
-@mixin read-container() {
-  @include media(">=large") {
-    margin-left: auto;
-    margin-right: auto;
-    width: map-get($container, read);
-  }
-}
-
 //## Link
 @mixin global-link() {
   // border-bottom: 1px dotted $base-color;
@@ -64,43 +38,45 @@
   }
 }
 
+//## Pop shadow
+@mixin add-shadow-0() {
+  box-shadow: 0 1px 1px rgba($black, 0.117647);
+}
+
+@mixin add-shadow() {
+  box-shadow: 0 1px 6px rgba($black, 0.117647),
+              0 1px 4px rgba($black, 0.117647);
+}
+
 //## Buttons
 @mixin btn() {
-  border-radius: em(3px);
-  padding: em(8px) em(24px);
-  text-align: center;
+  @include add-shadow;
+  border-radius: em(4px);
+  vertical-align: middle;
+  white-space: nowrap;
+  padding: em(6px) em(16px);
 }
 
-@mixin btn-cta() {
+@mixin btn-sm() {
   @include btn;
-  font-size: $lead-font-size;
-  transition: map-get($transition, cta);
-  transition-property: background-color, box-shadow;
+  padding: em(4px) em(12px);
 }
 
-@mixin btn-bg($bg, $txt: $white, $perc: 6%) {
+@mixin btn-lg() {
+  @include btn;
+  padding: em(12px) em(20px);
+}
+
+@mixin btn-ease($bg) {
+  @include ease(0.2s, "standard", background-color);
   background-color: $bg;
-  box-shadow: 0 0 0 1px $bg;
-  color: $txt;
 
   &:hover {
-    background-color: darken($bg, $perc);
-    box-shadow: 0 0 0 1px darken($bg, $perc);
-  }
-
-  &:active {
-    background-color: darken($bg, $perc * 2);
-    box-shadow: 0 0 0 1px darken($bg, $perc * 2);
+    background-color: lighten($bg, 5%);
   }
 }
 
-// Media Query
-@mixin media($bp) {
-  @media (min-width: $bp) {
-    @content;
-  }
-}
-
+//## Ease transitions
 @mixin ease($duration, $curve, $property...) {
   $cubic: map-get($ease, standard);
   @if ($curve == "in") {
@@ -116,4 +92,8 @@
   transition-property: $property;
   transition-duration: $duration;
   transition-timing-function: $cubic;
+}
+
+@mixin fun($duration: 0.25s) {
+  @include ease($duration, "fun", all);
 }

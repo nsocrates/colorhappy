@@ -65,9 +65,11 @@ class ProfileSection extends Component {
             reference={c => (this._bio = c)}
           />
 
-          <button type="submit" className={s.formBtn__primary}>
-            {"Save Changes"}
-          </button>
+          <div className={s.btnGroup}>
+            <button type="submit" className={s.formBtn}>
+              {"Save Changes"}
+            </button>
+          </div>
 
         </form>
       </div>

@@ -1,28 +1,19 @@
 @import "~styles/helpers";
 
 .footer {
-  @include clearfix;
   @include ease(0.25s, "standard", font-size);
   background-color: $white;
   height: map-get($footer, height);
-  padding-left: map-get($footer, padding);
-  padding-right: map-get($footer, padding);
   line-height: map-get($footer, height);
   box-shadow: inset 0 1px 1px -1px map-get($gray, 300);
   z-index: $z-footer;
 }
 
 .container {
-  @include clearfix;
-  display: block;
-  font-size: $small-font-size;
+  @include make-container;
+  text-align: right;
 }
 
-.spanLeft {
-  float: left;
-}
-
-.spanRight {
-  float: right;
+.link {
   color: $accent-color;
 }

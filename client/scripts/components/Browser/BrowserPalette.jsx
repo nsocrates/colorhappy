@@ -8,7 +8,7 @@ const propTypes = {
 
 function BrowserPalette({ color, ...rest }) {
   return (
-    <li
+    <article
       {...rest}
       className={s.paletteColor}
       style={{

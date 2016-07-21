@@ -1,4 +1,5 @@
 import { round } from './helpers'
+import { validateHex } from './hex'
 
 function calcHue([r, g, b]) {
   const max = Math.max(r, g, b)
@@ -45,8 +46,11 @@ export function toHsl(rgb) {
   return [h, s, l]
 }
 
-export const toHex = rgb =>
-  round(rgb).map(value => {
-    const hex = value.toString(16)
-    return hex.length === 1 ? `0${hex}` : hex
-  }).join('')
+export const toHex = rgb => (
+  validateHex(
+    round(rgb).map(value => {
+      const hex = value.toString(16)
+      return hex.length === 1 ? `0${hex}` : hex
+    }).join('')
+  )
+)

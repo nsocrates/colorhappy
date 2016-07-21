@@ -1,16 +1,15 @@
 import React, { PropTypes } from 'react'
 import withStyles from 'isomorphic-style-loader/lib/withStyles'
 import s from './Palette.scss'
-import { round, hex as h } from 'utils/color/index'
+import { round, hex as h } from 'utils/color'
 import ntc from 'vendor/ntc'
-import PaletteOptions from './PaletteOptions'
 
 const propTypes = {
   hex: PropTypes.string.isRequired,
-  allColors: PropTypes.array.isRequired,
+  children: PropTypes.node,
 }
 
-function PaletteColor({ hex, allColors, ...rest }) {
+function PaletteColor({ children, hex, ...rest }) {
   const rgb = round(h.toRgb(hex)).join(', ')
   const textColor = h.contrast(hex)
   return (
@@ -18,7 +17,7 @@ function PaletteColor({ hex, allColors, ...rest }) {
       className={s.paletteListItem}
       style={{
         backgroundColor: hex,
-        boxShadow: `0 0 0 1px ${hex}`,
+        // boxShadow: `0 0 0 1px ${hex}`,
         color: textColor,
       }}
     >
@@ -39,9 +38,7 @@ function PaletteColor({ hex, allColors, ...rest }) {
           value={rgb}
         />
       </div>
-
-      {allColors && <PaletteOptions allColors={allColors} />}
-
+      {children}
     </li>
   )
 }

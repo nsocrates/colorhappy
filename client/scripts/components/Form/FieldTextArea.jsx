@@ -25,7 +25,7 @@ function FieldTextArea(props) {
           type="text"
           ref={reference}
         />
-        <Icon className={s.svgIcon} />
+        <Icon className={s.svgIcon__textarea} />
       </div>
     </fieldset>
   )

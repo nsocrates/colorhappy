@@ -84,8 +84,8 @@ $heading-font-weight:          300;
 
 $bold-font-weight:             600;
 
-$small-font-size:              $global-font-size * 0.875;   // ~14px
-$lead-font-size:               $global-font-size * 1.25;    // ~20px
+$small-font-size:              0.875rem;   // ~14px
+$lead-font-size:               1.25rem;    // ~20px
 
 $font-size: (
   jumbo:                       em(round($base-font-size * 4.236)),    // ~68px
@@ -104,20 +104,20 @@ $font-size: (
 
 $footer: (
   height:                 em(30px),
-  padding:                $gutter,
+  padding:                em(15px),
 );
 
 $header: (
   height:                 em(100px),
-  padding:                $gutter,
-  md-height:              em(147px, 18px),
-  md-padding:             $gutter * 2,
+  padding:                em(15px),
+  md-height:              em(125px, 18px),
+  md-padding:             em(30px),
   c-height:               em(75px),
 );
 
 $container: (
-  min:                    rem(320px),
-  max:                    rem(960px + $spacing-unit),
+  min:                    320px,
+  max:                    1200px,
   read:                   80%,
 );
 
@@ -139,6 +139,7 @@ $z-header:                 7000;
 $z-sidebar:                6000;
 $z-sidebar-overlay:        5000;
 $z-footer:                 4000;
+$z-toolbar:                3000;
 
 
 //
@@ -167,34 +168,3 @@ $small:                  em(480px);    // >= Phone
 $medium:                 em(768px);    // >= Tablet
 $large:                  em(992px);    // >= Desktop
 $xlarge:                 em(1440px);   // >= Wide Screen
-
-//
-// Susy
-// =========================================== //
-
-$susy: (
-  flow: ltr,
-  math: fluid,
-  output: float,
-  gutter-position: after,
-  container: map-get($container, max),
-  container-position: center,
-  columns: 12,
-  gutters: em(15px),
-  column-width: false,
-  global-box-sizing: border-box,
-  last-flow: to,
-  debug: (
-    image: hide,
-    color: rgba(#66f, .25),
-    output: background,
-    toggle: top right,
-  ),
-  use-custom: (
-    background-image: true,
-    background-options: false,
-    box-sizing: true,
-    clearfix: false,
-    rem: true,
-  )
-);

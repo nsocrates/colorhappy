@@ -21,7 +21,7 @@ class PaletteContainer extends Component {
     return (
       !Object.keys(this.props.palette).length
         ? <Loader containerStyle={{ paddingTop: '100px' }} />
-        : <Palette palette={this.props.palette} />
+        : <Palette {...this.props} />
     )
   }
 }

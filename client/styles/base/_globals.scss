@@ -27,11 +27,11 @@ body {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
 
-  @include media($small) {
+  @include media-breakpoint-up(sm) {
     font-size: rem($base-font-size);
   }
 
-  @include media($medium) {
+  @include media-breakpoint-up(md) {
     font-size: rem($base-font-size-lg);
   }
 }

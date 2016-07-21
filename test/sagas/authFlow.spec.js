@@ -2,7 +2,7 @@ import { expect } from 'chai'
 import { watchAuth } from '../../client/scripts/redux/sagas/auth'
 import { api, tryAuth } from '../../client/scripts/services'
 import { login } from '../../client/scripts/redux/actions/auth'
-import { put, call, take } from 'redux-saga/effects'
+import { put, call } from 'redux-saga/effects'
 import { takeEvery } from 'redux-saga'
 
 describe('Auth Flow', () => {

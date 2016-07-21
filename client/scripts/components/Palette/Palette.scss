@@ -10,7 +10,7 @@
   border: 0;
   width: rem(125px);
 
-  @include media($medium) {
+  @include media-breakpoint-up(md) {
     width: 100%;
     text-align: center;
   }
@@ -24,7 +24,7 @@
   @include ease(0.25s, "standard", font-size);
   height: calc(100vh - #{map-get($header, height)} - #{map-get($footer, height)});
 
-  @include media($medium) {
+  @include media-breakpoint-up(md) {
     height: calc(100vh - #{map-get($header, md-height)} - #{map-get($footer, height)});
   }
 }
@@ -36,15 +36,16 @@
 }
 
 .paletteListItem {
+  position: relative;
   height: 20%;
-  min-height: em(100px);
+  min-height: em(100px, 14px);
   width: 100%;
   display: flex;
   align-items: center;
   padding: $gutter;
   overflow: hidden;
 
-  @include media($medium) {
+  @include media-breakpoint-up(md) {
     align-items: flex-start;
     position: absolute;
     text-align: center;
@@ -78,7 +79,8 @@
   margin: 0;
   line-height: 1;
 
-  @include media($medium) {
+  @include media-breakpoint-up(md) {
+    width: 100%;
     vertical-align: baseline;
   }
 }
@@ -112,7 +114,7 @@
   margin-left: auto;
   display: inline-block;
 
-  @include media($medium) {
+  @include media-breakpoint-up(md) {
     position: absolute;
     bottom: em(15px);
     left: 0;
@@ -128,7 +130,7 @@
     margin-right: 0;
   }
 
-  @include media($medium) {
+  @include media-breakpoint-up(md) {
     display: list-item;
     margin-right: 0;
     margin-bottom: em(15px);
@@ -149,7 +151,7 @@
     opacity: 1;
   }
 
-  @include media($medium) {
+  @include media-breakpoint-up(md) {
     font-size: map-get($font-size, h5);
   }
 }
@@ -157,7 +159,7 @@
 .optionIcon {
   vertical-align: middle;
 
-  @include media($medium) {
+  @include media-breakpoint-up(md) {
     margin-right: em(15px);
   }
 }
@@ -165,7 +167,7 @@
 .optionText {
   display: none;
 
-  @include media($medium) {
+  @include media-breakpoint-up(md) {
     display: inline-block;
     vertical-align: middle;
   }

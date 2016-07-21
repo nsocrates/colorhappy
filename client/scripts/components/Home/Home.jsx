@@ -1,6 +1,6 @@
 import React from 'react'
-import Settings from 'components/Settings/Settings'
+import BrowserContainer from 'components/Browser/BrowserContainer'
 
 export default function Home(props) {
-  return <span />
+  return <BrowserContainer {...props} />
 }
