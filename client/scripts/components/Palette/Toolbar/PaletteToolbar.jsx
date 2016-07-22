@@ -4,8 +4,10 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles'
 import ToolbarControl from './ToolbarControl'
 import ToolbarToggler from './ToolbarToggler'
 import { toggleToolbar, changeColor } from 'actions/editor'
+import debounce from 'utils/debounce'
+import { validateHex } from 'utils/color'
 
-// TODO: Improve UX on change/submit
+// TODO: Improve UX on change/submit for instant feedback & persist focus
 
 const propTypes = {
   color: PropTypes.object.isRequired,
@@ -27,6 +29,7 @@ class PaletteToolbar extends Component {
     this.handleChangeHex = this.handleChangeHex.bind(this)
     this.handleChangeRgb = this.handleChangeRgb.bind(this)
     this.updateRgb = this.updateRgb.bind(this)
+    this.dispatchChanges = debounce(this.dispatchChanges, 500)
   }
 
   handleToggle(e) {
@@ -36,29 +39,39 @@ class PaletteToolbar extends Component {
   }
 
   handleChangeHex(e) {
-    const { dispatch, namespace } = this.props
-    dispatch(changeColor.hex({ namespace, value: e.target.value }))
+    this.setState({ hex: e.target.value })
+    this.dispatchChanges('hex', e.target.value)
   }
 
   handleChangeRgb(e) {
     const ns = {
-      [e.target.getAttribute('data-controller')]: e.target.value,
+      [e.target.getAttribute('data-controller')]: parseInt(e.target.value, 10),
     }
-
     this.updateRgb(ns)
   }
 
   updateRgb(ns) {
-    const { dispatch, namespace } = this.props
     const { r, g, b } = this.state
     const rgb = Object.assign({}, { r, g, b }, ns)
-    dispatch(changeColor.rgb({ namespace, value: Object.values(rgb) }))
+    this.setState(rgb)
+    this.dispatchChanges('rgb', Object.values(rgb))
+  }
+
+  dispatchChanges(method, value) {
+    const { dispatch, namespace } = this.props
+    if (method === 'hex') {
+      const validHex = validateHex(value)
+      return validHex
+        ? dispatch((changeColor[method]({ namespace, value: validHex })))
+        : null
+    }
+
+    return dispatch((changeColor[method]({ namespace, value })))
   }
 
   render() {
-    const { color, isVisible } = this.props
-    const { hex, rgb } = color
-    const [r, g, b] = rgb
+    const { isVisible } = this.props
+    const { hex, r, g, b } = this.state
 
     return (
       <aside className={isVisible ? s.toolbar__visible : s.toolbar}>
@@ -69,7 +82,7 @@ class PaletteToolbar extends Component {
               name="hex"
               label="Hex"
               type="text"
-              defaultValue={hex}
+              value={hex}
               data-controller={'hex'}
             />
           </form>
@@ -79,30 +92,30 @@ class PaletteToolbar extends Component {
             <ToolbarControl
               name="rgb"
               label="R"
-              defaultValue={r}
+              value={r}
               type="number"
               min="0"
-              max="250"
+              max="255"
               data-controller={'r'}
             />
 
             <ToolbarControl
               name="rgb"
               label="G"
-              defaultValue={g}
+              value={g}
               type="number"
               min="0"
-              max="250"
+              max="255"
               data-controller={'g'}
             />
 
             <ToolbarControl
               name="rgb"
               label="B"
-              defaultValue={b}
+              value={b}
               type="number"
               min="0"
-              max="250"
+              max="255"
               data-controller={'b'}
             />
 

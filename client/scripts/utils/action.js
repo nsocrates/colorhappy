@@ -1,3 +1,5 @@
+// Helper functions to automate the creation of actions and action types.
+
 export function createRequestTypes(base) {
   const REQUEST = 'REQUEST'
   const SUCCESS = 'SUCCESS'

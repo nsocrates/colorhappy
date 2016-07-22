@@ -1,8 +1,13 @@
 import React, { Component, PropTypes } from 'react'
 import withStyles from 'isomorphic-style-loader/lib/withStyles'
 import s from './Palette.scss'
+import PaletteWrapper from './PaletteWrapper'
 import PaletteColor from './PaletteColor'
-import PaletteOptions from './PaletteOptions'
+import PaletteBar from './Bar/PaletteBar'
+import BarItem from './Bar/BarItem'
+import { paletteLove } from 'actions/palettes'
+import { Love, ModeEdit, Download } from 'components/Svg'
+import { stringifier } from 'utils/transformations'
 
 const propTypes = {
   palette: PropTypes.object.isRequired,
@@ -15,6 +20,7 @@ class Palette extends Component {
     super(props)
     this.handleChange = this.handleChange.bind(this)
     this.handleClick = this.handleClick.bind(this)
+    this.handleLove = this.handleLove.bind(this)
   }
 
   handleClick(e) {
@@ -26,28 +32,32 @@ class Palette extends Component {
     e.preventDefault()
   }
 
+  handleLove(e) {
+    const { dispatch, params } = this.props
+    e.preventDefault()
+    dispatch(paletteLove.request({ id: params.id }))
+  }
+
   render() {
-    const { palette, dispatch, params } = this.props
+    const { palette } = this.props
+    const stringified = stringifier(palette.colors)
     const colors = palette.colors.map((color, index) =>
       <PaletteColor
         hex={`#${color}`}
         onChange={this.handleChange}
         onClick={this.handleClick}
         key={`${color}_${index}`}
-      >
-
-        {index === 2 &&
-          <PaletteOptions dispatch={dispatch} allColors={palette.colors} params={params} />
-        }
-
-      </PaletteColor>)
+      />)
 
     return (
-      <main className={s.main}>
-        <ul className={s.paletteList}>
-          {colors}
-        </ul>
-      </main>
+      <PaletteWrapper>
+        {colors}
+        <PaletteBar>
+          <BarItem href={`//localhost:8000/api/palettes/download/${stringified}`} Icon={Download} label={"Export"} anchor download />
+          <BarItem to={`/editor/${stringified}`} Icon={ModeEdit} label={"Edit"} />
+          <BarItem to={"#"} Icon={Love} label={"Love"} onClick={this.handleLove} />
+        </PaletteBar>
+      </PaletteWrapper>
     )
   }
 }

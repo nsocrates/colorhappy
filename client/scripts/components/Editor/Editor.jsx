@@ -1,21 +1,25 @@
 import React, { PropTypes, Component } from 'react'
-import withStyles from 'isomorphic-style-loader/lib/withStyles'
-import s from './Editor.scss'
+import PaletteWrapper from 'components/Palette/PaletteWrapper'
 import PaletteColor from 'components/Palette/PaletteColor'
 import PaletteToolbar from 'components/Palette/Toolbar/PaletteToolbar'
+import PaletteBar from 'components/Palette/Bar/PaletteBar'
+import BarItem from 'components/Palette/Bar/BarItem'
+import { Download, Backup, Shuffle } from 'components/Svg'
+import { stringifier } from 'utils/transformations'
 
 const propTypes = {
-  children: PropTypes.node,
   editor: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired,
+  generateColors: PropTypes.func.isRequired,
 }
 
-class Editor extends Component {
+export default class Editor extends Component {
   constructor(props) {
     super(props)
     this.handleClick = this.handleClick.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.handleToggle = this.handleToggle.bind(this)
+    this.handleRandomize = this.handleRandomize.bind(this)
   }
 
   handleClick(e) {
@@ -30,40 +34,55 @@ class Editor extends Component {
     e.preventDefault()
   }
 
+  handleRandomize(e) {
+    e.preventDefault()
+    this.props.generateColors()
+  }
+
   render() {
     const { editor, dispatch } = this.props
-    const colors = Object.keys(editor)
-      .filter(n => n !== 'hasLoaded' && n !== 'isVisible')
-      .map((color, index) => {
-        const { hex, isVisible } = editor[color]
+    const payload = Object.keys(editor).filter(n => n !== 'hasLoaded')
+    const stringified = stringifier(
+      payload.map(color => editor[color].hex)
+    )
 
-        return (
-          <PaletteColor
-            hex={`#${hex}`}
-            onChange={this.handleChange}
-            onClick={this.handleClick}
-            key={`${hex}_${index}`}
-          >
-            <PaletteToolbar
-              namespace={color}
-              color={editor[color]}
-              isVisible={isVisible}
-              dispatch={dispatch}
-            />
-          </PaletteColor>
-        )
-      })
+    const colors = payload.map((color, index) => {
+      const { hex, isVisible } = editor[color]
+
+      return (
+        <PaletteColor
+          hex={`#${hex}`}
+          onChange={this.handleChange}
+          onClick={this.handleClick}
+          key={`${hex}_${index}`}
+        >
+          <PaletteToolbar
+            namespace={color}
+            color={editor[color]}
+            isVisible={isVisible}
+            dispatch={dispatch}
+          />
+        </PaletteColor>
+      )
+    })
 
     return (
-      <main className={s.main}>
-        <ul className={s.paletteList}>
-          {colors}
-        </ul>
-      </main>
+      <PaletteWrapper>
+        {colors}
+        <PaletteBar>
+          <BarItem to={"#"} Icon={Shuffle} label={"Randomize"} onClick={this.handleRandomize} />
+          <BarItem to={"#"} Icon={Backup} label={"Save"} onClick={e => e.preventDefault()} />
+          <BarItem
+            anchor
+            download
+            href={`//localhost:8000/api/palettes/download/${stringified}`}
+            Icon={Download}
+            label={"Export"}
+          />
+        </PaletteBar>
+      </PaletteWrapper>
     )
   }
 }
 
 Editor.propTypes = propTypes
-
-export default withStyles(s)(Editor)

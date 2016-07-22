@@ -1,5 +1,4 @@
-import { round } from './helpers'
-import { validateHex } from './hex'
+import { round, validateHex } from './helpers'
 
 function calcHue([r, g, b]) {
   const max = Math.max(r, g, b)

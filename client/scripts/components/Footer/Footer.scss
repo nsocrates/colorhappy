@@ -2,10 +2,10 @@
 
 .footer {
   @include ease(0.25s, "standard", font-size);
+  @include add-shadow-0(inset);
   background-color: $white;
   height: map-get($footer, height);
   line-height: map-get($footer, height);
-  box-shadow: inset 0 1px 1px -1px map-get($gray, 300);
   z-index: $z-footer;
 }
 

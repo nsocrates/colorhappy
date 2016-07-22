@@ -1,17 +1,5 @@
 import { toHsl as rgbToHsl } from './rgb'
-
-export function validateHex(hex) {
-  const ret = String(hex).replace(/[^0-9a-f]/gi, '')
-
-  if (ret.length !== 3 && ret.length !== 6) {
-    console.warn(`Invalid hex: ${hex}`)
-    return '000000'
-  }
-
-  return ret.length === 3
-    ? `${ret[0]}${ret[0]}${ret[1]}${ret[1]}${ret[2]}${ret[2]}`
-    : ret
-}
+import { validateHex } from './helpers'
 
 export function random() {
   // http://stackoverflow.com/questions/5092808/how-do-i-randomly-generate-html-hex-color-codes-using-javascript

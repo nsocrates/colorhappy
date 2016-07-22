@@ -32,12 +32,6 @@
   &__visible {
     composes: toolbar;
     transform: translate3d(0, 0, 0);
-    box-shadow: -1px 0 6px rgba($black, 0.117647),
-                -1px 0 4px rgba($black, 0.117647);
-
-    .toolbarContainer {
-      box-shadow: 0 0 0 1px $white;
-    }
   }
 }
 
@@ -59,24 +53,43 @@
 }
 
 .inputControl {
-  padding: 0 rem(10px) rem(10px);
   position: relative;
   min-height: 1px;
   float: left;
 
-  @include media-breakpoint-up(md) {
-    padding: 0 rem(15px) rem(15px);
-  }
-
   &__hex {
     @include make-col-span(12);
+    padding: 0 rem(10px) rem(10px);
     composes: inputControl;
+
+    @include media-breakpoint-up(md) {
+      padding: 0 rem(15px) rem(15px);
+    }
   }
 
   &__rgb {
     @include make-col-span(4);
     composes: inputControl;
-    padding-bottom: 0;
+    padding: 0 em(10px);
+
+    &:first-child {
+      padding-right: 0;
+    }
+
+    &:last-child {
+      padding-left: 0;
+    }
+
+    // Align with hex input
+    @include media-breakpoint-up(md) {
+      &:first-child {
+        padding-left: em(15px);
+      }
+
+      &:last-child {
+        padding-right: em(15px);
+      }
+    }
   }
 }
 
@@ -111,11 +124,15 @@
   top: 0;
   bottom: 0;
   transform: translateX(-100%);
+  box-shadow: -1px 0 1px rgba($black, 0.07),
+              1px 0 1px rgba($black, 0.07);
 
   @include media-breakpoint-up(md) {
     transform: translateY(-100%);
     bottom: unset;
     width: 100%;
+    box-shadow: 0 -1px 1px rgba($black, 0.07),
+                0 1px 1px rgba($black, 0.07);
   }
 }
 

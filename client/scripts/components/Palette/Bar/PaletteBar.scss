@@ -1,0 +1,35 @@
+@import "~styles/helpers";
+
+.barList {
+  @include add-shadow-0(inset);
+  background-color: $white;
+  text-align: center;
+  width: 100%;
+
+  @include media-breakpoint-up(md) {
+    position: absolute;
+    bottom: 0;
+    transform: translateY(100%);
+  }
+}
+
+.barItem {
+  display: inline-block;
+  vertical-align: middle;
+  padding: 0 em(15px);
+}
+
+.barIcon,
+.barText {
+  vertical-align: middle;
+}
+
+.barAction {
+  color: $text-color;
+  display: block;
+  padding: em(8px) em(10px);
+}
+
+.barIcon {
+  margin-right: em(5px);
+}

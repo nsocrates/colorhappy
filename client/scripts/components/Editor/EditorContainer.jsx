@@ -1,6 +1,6 @@
 import React, { PropTypes, Component } from 'react'
 import { connect } from 'react-redux'
-import { changeColor, loadColors } from 'actions/editor'
+import { loadColors } from 'actions/editor'
 import { generatePalette } from 'utils/color'
 import { makeEditorSelector } from 'reducers/selectors'
 import Loader from 'components/Loader/Loader'
@@ -15,18 +15,17 @@ const propTypes = {
 class EditorContainer extends Component {
   constructor(props) {
     super(props)
-    this.handleClick = this.handleClick.bind(this)
+    this.generateColors = this.generateColors.bind(this)
   }
 
   componentDidMount() {
-    const { params, dispatch } = this.props
-    const colors = params.hex || generatePalette()
-    dispatch(loadColors({ colors }))
+    const { params } = this.props
+    this.generateColors(params.hex)
   }
 
-  handleClick(e) {
-    e.preventDefault()
-    this.props.dispatch(changeColor.hex({ namespace: 'color1', value: '#fff' }))
+  generateColors(colors = generatePalette()) {
+    const { dispatch } = this.props
+    dispatch(loadColors({ colors }))
   }
 
   render() {
@@ -34,7 +33,7 @@ class EditorContainer extends Component {
 
     return (
       editor && editor.hasLoaded
-       ? <Editor {...this.props} />
+       ? <Editor {...this.props} generateColors={this.generateColors} />
        : <Loader containerStyle={{ paddingTop: '100px' }} />
     )
   }

@@ -1,5 +1,5 @@
 export * as rgb from './rgb'
 export * as hsl from './hsl'
 export * as hex from './hex'
-export { round } from './helpers'
+export { round, validateHex } from './helpers'
 export { generatePalette } from './palette'

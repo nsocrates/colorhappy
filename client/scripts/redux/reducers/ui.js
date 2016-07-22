@@ -13,21 +13,27 @@ const initialState = {
 
 export default function ui(state = initialState, action) {
   switch (action.type) {
+
     case TOGGLE_SIDEBAR:
       return Object.assign({}, state, {
         sidebar: typeof action.shouldOpen === 'boolean'
           ? action.shouldOpen
           : !state.sidebar,
       })
+
     case CONDENSE_HEADER:
       return Object.assign({}, state, {
         header: typeof action.shouldCondense === 'boolean'
           ? action.shouldCondense
           : !state.header,
       })
-    case CLOSE_ALL:
+
     case LOCATION_CHANGE:
+      return action.payload.action === 'PUSH' ? initialState : state
+
+    case CLOSE_ALL:
       return initialState
+
     default:
       return state
   }

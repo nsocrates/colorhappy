@@ -1,7 +1,10 @@
 import { updateColor, newPalette } from 'actions/editor'
 import { takeEvery } from 'redux-saga'
-import { take, call, fork, put } from 'redux-saga/effects'
-import { round, hex, rgb, hsl } from 'utils/color/index'
+import { take, call, fork, put, select } from 'redux-saga/effects'
+import { round, validateHex, hex, rgb, hsl } from 'utils/color'
+import { replace } from 'react-router-redux'
+import { arrayifier, stringifier } from 'utils/transformations'
+import { selectEditor } from 'reducers/selectors'
 import {
   CHANGE_HEX,
   CHANGE_RGB,
@@ -27,7 +30,7 @@ export const roundHslToRgb = hl => round(hsl.toRgb(hl))
 const mapInitialValues = colors => (
   Object.assign({}, ...colors.map((color, index) => ({
     [`color${index + 1}`]: {
-      hex: hex.validateHex(color),
+      hex: validateHex(color),
       rgb: roundHexToRgb(color),
       hsl: roundHexToHsl(color),
     },
@@ -45,7 +48,7 @@ function assignValues(colorType, colorValue) {
   switch (colorType) {
     case 'hex':
       return {
-        hex: hex.validateHex(colorValue),
+        hex: validateHex(colorValue),
         rgb: roundHexToRgb(colorValue),
         hsl: roundHexToHsl(colorValue),
       }
@@ -67,12 +70,27 @@ function assignValues(colorType, colorValue) {
 }
 
 /**
+ * Subroutine invoked by changeRoutine;
+ * Replaces current location with updated hex values obtained from State
+ */
+export function* replaceLocation() {
+  const editor = yield select(selectEditor)
+  const hexValues = stringifier(
+    Object.keys(editor)
+        .filter(n => n !== 'hasLoaded')
+        .map(color => editor[color].hex)
+  )
+  yield put(replace(`/editor/${hexValues}`))
+}
+
+/**
  * Subroutine for handling color change
  */
 export function* changeRoutine(colorType, action) {
   const { value, namespace } = action.payload
   const values = yield call(assignValues, colorType, value)
   yield put(updateColor({ namespace, values }))
+  yield fork(replaceLocation)
 }
 
 /**
@@ -92,26 +110,27 @@ export function* watchColorChange() {
  * Watches for LOAD_COLORS action and runs the necessary
  * routines before dispatching the pallet to the Store.
  */
-export function* watchInitialLoad() {
+export function* watchPaletteChange() {
   while (true) {
     const { payload } = yield take(LOAD_COLORS)
 
-    // Prepare initial palette for editor
-    // const colors = payload.colors.match(/[^-]+/g)
+    // Prepare initial palette for editor by turning color string into
+    // color array
     const colors = Array.isArray(payload.colors)
       ? payload.colors
-      : payload.colors.match(/[^-]+/g)
+      : arrayifier(payload.colors)
 
     const palette = yield call(mapInitialValues, colors)
 
     // Set the palette
     yield put(newPalette({ palette }))
+    yield fork(replaceLocation)
   }
 }
 
 export default function* editorFlow() {
   yield [
-    fork(watchInitialLoad),
+    fork(watchPaletteChange),
     fork(watchColorChange),
   ]
 }
