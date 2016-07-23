@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { makeSettingsSelector } from 'reducers/selectors'
-import Loader from 'components/Loader/Loader'
+import { Loader } from 'components/Loader/Loader'
 import Settings from './Settings'
 
 // Won't be able to access on refresh
@@ -16,7 +16,7 @@ function SettingsContainer(props) {
   const { session, me } = props
   return (
     !session.isAuthenticated || !Object.keys(me).length
-      ? <Loader containerStyle={{ paddingTop: '100px' }} />
+      ? <Loader />
       : <Settings {...props} />
   )
 }

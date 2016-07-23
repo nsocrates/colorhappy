@@ -147,17 +147,3 @@
     border-bottom-right-radius: em(4px);
   }
 }
-
-.loadMoreWrap {
-  padding-top: em(30px);
-  padding-bottom: em(15px);
-  margin: 0 auto;
-  text-align: center;
-}
-
-.loadMoreBtn {
-  @include btn;
-  @include btn-ease($accent-color);
-  font-weight: 400;
-  color: $white;
-}

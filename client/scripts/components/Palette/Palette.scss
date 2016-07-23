@@ -1,31 +1,18 @@
 @import "~styles/helpers";
 
-.c__input {
-  display: block;
-  cursor: pointer;
-  opacity: 0.4;
-  text-transform: uppercase;
-  background: 0;
-  outline: 0;
-  border: 0;
-  width: rem(125px);
-
-  @include media-breakpoint-up(md) {
-    width: 100%;
-    text-align: center;
-  }
-
-  &:hover {
-    opacity: 0.87;
-  }
-}
-
 .main {
   @include ease(0.25s, "standard", font-size);
-  height: calc(100vh - #{map-get($palette-container, c-height)});
+  position: absolute;
+  top: map-get($header, height);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: calc(100% - #{map-get($palette-container, c-height)});
 
   @include media-breakpoint-up(md) {
-    height: calc(100vh - #{map-get($palette-container, c-height-md)});
+    top: map-get($header, md-height);
+    height: calc(100% - #{map-get($palette-container, c-height-md)});
   }
 }
 
@@ -33,17 +20,15 @@
   @include clearfix;
   height: 100%;
   position: relative;
-  min-height: em(350px);
 }
 
 .paletteListItem {
   position: relative;
   height: 20%;
-  min-height: em(100px, 14px);
+  min-height: rem(110px);
   width: 100%;
   display: flex;
   align-items: center;
-  padding: $gutter;
   overflow: hidden;
 
   @include media-breakpoint-up(md) {
@@ -78,6 +63,7 @@
 .colorGroup {
   margin: 0;
   line-height: 1;
+  padding: em(15px);
 
   @include media-breakpoint-up(md) {
     width: 100%;
@@ -94,12 +80,32 @@
   white-space: nowrap;
 }
 
+.c__input {
+  display: block;
+  cursor: pointer;
+  opacity: 0.4;
+  text-transform: uppercase;
+  background: 0;
+  outline: 0;
+  border: 0;
+  width: rem(125px);
+  font-weight: 700;
+
+  @include media-breakpoint-up(md) {
+    width: 100%;
+    text-align: center;
+  }
+
+  &:hover {
+    opacity: 0.87;
+  }
+}
+
 .hexInput {
   composes: c__input;
   font-family: $heading-font-family;
   letter-spacing: em(0.25px);
   font-size: map-get($font-size, h4);
-  font-weight: 700;
   margin-bottom: em(5px);
 }
 
@@ -107,5 +113,4 @@
   composes: c__input;
   font-family: $base-font-family;
   font-size: map-get($font-size, h6);
-  font-weight: 700;
 }

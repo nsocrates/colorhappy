@@ -19,7 +19,7 @@ body {
   font-family: $base-font-family;
   font-feature-settings: "liga" 1,"kern" 1;
   font-kerning: normal;
-  font-size: $small-font-size;
+  font-size: rem($base-font-size-sm);
   font-weight: $base-font-weight;
   line-height: $base-line-height;
   background-color: $background-color;

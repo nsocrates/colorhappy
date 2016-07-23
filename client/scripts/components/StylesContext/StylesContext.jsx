@@ -1,6 +1,6 @@
 // https://github.com/kriasoft/isomorphic-style-loader/issues/15
 import React, { PropTypes } from 'react'
-import s from 'styles/_main.scss'
+import s from './StylesContext.scss'
 
 export default class StylesContext extends React.Component {
   getChildContext() {

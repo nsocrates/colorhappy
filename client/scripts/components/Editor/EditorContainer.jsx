@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { loadColors } from 'actions/editor'
 import { generatePalette } from 'utils/color'
 import { makeEditorSelector } from 'reducers/selectors'
-import Loader from 'components/Loader/Loader'
+import { Loader } from 'components/Loader/Loader'
 import Editor from './Editor'
 
 const propTypes = {
@@ -34,7 +34,7 @@ class EditorContainer extends Component {
     return (
       editor && editor.hasLoaded
        ? <Editor {...this.props} generateColors={this.generateColors} />
-       : <Loader containerStyle={{ paddingTop: '100px' }} />
+       : <Loader />
     )
   }
 }

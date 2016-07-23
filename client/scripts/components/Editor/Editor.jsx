@@ -1,7 +1,7 @@
 import React, { PropTypes, Component } from 'react'
 import { Download, Backup, Shuffle } from 'components/Svg'
-import { paletteSave } from 'actions/palettes'
 import { modal } from 'actions/modal'
+import { notif } from 'actions/notifications'
 import { stringifier } from 'utils/transformations'
 import {
   PaletteWrapper,
@@ -11,23 +11,18 @@ import {
   BarItem,
 } from 'components/Palette'
 
-
 const propTypes = {
   editor: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired,
   generateColors: PropTypes.func.isRequired,
+  session: PropTypes.object.isRequired,
 }
 
 export default class Editor extends Component {
   constructor(props) {
     super(props)
-    this.handleToggle = this.handleToggle.bind(this)
     this.handleRandomize = this.handleRandomize.bind(this)
     this.handleSave = this.handleSave.bind(this)
-  }
-
-  handleToggle(e) {
-    e.preventDefault()
   }
 
   handleRandomize(e) {
@@ -36,18 +31,19 @@ export default class Editor extends Component {
   }
 
   handleSave(e) {
-    const { editor, dispatch } = this.props
+    const { editor, dispatch, session } = this.props
     e.preventDefault()
-    dispatch(modal.show({
-      modalComponent: 'SAVE_PALETTE',
-      modalProps: {
-        colors: this.mapHex(editor),
-        dispatch,
-      },
-    }))
-    // dispatch(paletteSave.request({
-    //   colors: this.mapHex(editor),
-    // }))
+
+    if (!session.isAuthenticated) {
+      dispatch(notif.create({ message: 'Login or signup to save your palette.' }))
+    } else {
+      dispatch(modal.show({
+        modalComponent: 'SAVE_PALETTE',
+        modalProps: {
+          colors: this.mapHex(editor),
+        },
+      }))
+    }
   }
 
   // Helper method that returns an array of color namespaces
@@ -88,8 +84,8 @@ export default class Editor extends Component {
       <PaletteWrapper>
         {colors}
         <PaletteBar>
-          <BarItem to={"#"} Icon={Shuffle} label={"Randomize"} onClick={this.handleRandomize} />
           <BarItem to={"#"} Icon={Backup} label={"Save"} onClick={this.handleSave} />
+          <BarItem to={"#"} Icon={Shuffle} label={"Randomize"} onClick={this.handleRandomize} />
           <BarItem
             anchor
             download

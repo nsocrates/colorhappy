@@ -53,7 +53,7 @@ class AccountContainer extends Component {
     const { location } = this.props
     const AccountComponent = location.pathname === '/login' ? Login : Signup
     return (
-      <Modal onExit={this.handleExit} style={{ overflowY: 'auto', overflowX: 'hidden' }}>
+      <Modal handleExit={this.handleExit} style={{ overflowY: 'auto', overflowX: 'hidden' }}>
         <div className={s.container}>
           <AccountComponent
             {...this.props}

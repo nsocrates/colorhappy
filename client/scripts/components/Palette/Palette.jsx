@@ -40,9 +40,9 @@ class Palette extends Component {
       <PaletteWrapper>
         {colors}
         <PaletteBar>
-          <BarItem href={`//localhost:8000/api/palettes/download/${stringified}`} Icon={Download} label={"Export"} anchor download />
-          <BarItem to={`/editor/${stringified}`} Icon={ModeEdit} label={"Edit"} />
           <BarItem to={"#"} Icon={Love} label={"Love"} onClick={this.handleLove} />
+          <BarItem to={`/editor/${stringified}`} Icon={ModeEdit} label={"Edit"} />
+          <BarItem href={`//localhost:8000/api/palettes/download/${stringified}`} Icon={Download} label={"Export"} anchor download />
         </PaletteBar>
       </PaletteWrapper>
     )

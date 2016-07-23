@@ -54,7 +54,7 @@ class Sidebar extends Component {
           <SidebarItem to={"/palettes"} label={"Palettes"} />
           <SidebarItem to={"/editor"} label={"Editor"} />
           <SidebarItem to={"/settings"} label={"Settings"} />
-          <SidebarItem to={"/logout"} label={"Logout"} onClick={() => dispatch(logout())} />
+          <SidebarItem to={"/"} label={"Logout"} onClick={() => dispatch(logout())} />
         </ul>
       </aside>
     )

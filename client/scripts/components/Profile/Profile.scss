@@ -1,0 +1,64 @@
+@import "~styles/helpers";
+
+.container {
+  @include make-container;
+  @include ease(0.25s, "standard", font-size);
+  max-width: get($container-max-widths, xl);
+  padding-top: em(15px);
+  padding-bottom: em(15px);
+}
+
+.row {
+  @include make-row;
+
+  &__banner {
+    composes: row;
+    padding: em(15px) 0;
+  }
+}
+
+// Banner container
+.banner {
+  @include add-shadow-0;
+  position: relative;
+  display: table;
+  width: 100%;
+  border-spacing: em(15px);
+  border-radius: em(4px);
+  background-color: rgba($text-color, 0.117647);
+}
+
+// Banner Content.
+.cell {
+  display: table-cell;
+  vertical-align: middle;
+
+  &__avatar {
+    composes: cell;
+    width: em(100px);
+    overflow: hidden;
+    border-radius: em(4px);
+  }
+}
+
+.avatarWrap {
+  position: relative;
+  padding-bottom: 100%;
+}
+
+.avatar {
+  border-radius: em(4px);
+  position: absolute;
+}
+
+.info {
+  line-height: $heading-line-height;
+  color: rgba($text-color, 0.87);
+  font-weight: 400;
+}
+
+.infoHeading {
+  margin: 0;
+  padding: 0;
+  color: $text-color;
+}

@@ -6,10 +6,10 @@ export const PALETTE = createRequestTypes('PALETTE')
 export const PALETTE_ARRAY = createRequestTypes('PALETTE_ARRAY')
 export const PALETTE_LOVE = createRequestTypes('PALETTE_LOVE')
 export const PALETTE_CREATE = createRequestTypes('PALETTE_CREATE')
-export const USER = createRequestTypes('USER')
 export const UPDATE_PROFILE = createRequestTypes('UPDATE_PROFILE')
 export const CHANGE_PASSWORD = createRequestTypes('CHANGE_PASSWORD')
 export const DISABLE_ACCOUNT = createRequestTypes('DISABLE_ACCOUNT')
+export const USER = createRequestTypes('USER')
 export const ME = createRequestTypes('ME')
 
 export const LOGOUT = 'LOGOUT'

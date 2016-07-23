@@ -51,7 +51,7 @@ class SavePaletteModal extends Component {
 
   render() {
     return (
-      <Modal onExit={this.handleExit}>
+      <Modal handleExit={this.handleExit}>
         <div className={s.container}>
           <ModalForm
             onExit={this.handleExit}

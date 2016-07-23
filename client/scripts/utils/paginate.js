@@ -8,10 +8,10 @@ const initialState = {
   pageCount: 0,
 }
 
-export default function paginate({ types, hasSelection }) {
+export default function paginate({ types, hasSortOption }) {
   const [requestType, successType, failureType] = types
   return function updatePagination(state = initialState, action) {
-    if (hasSelection(action)) {
+    if (!hasSortOption || hasSortOption(action)) {
       switch (action.type) {
         case requestType:
           return merge({}, state, {

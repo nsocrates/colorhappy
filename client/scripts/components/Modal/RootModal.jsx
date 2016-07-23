@@ -15,12 +15,12 @@ const MODAL_COMPONENTS = {
 const propTypes = {
   modalProps: PropTypes.object,
   modalComponent: PropTypes.string,
+  dispatch: PropTypes.func.isRequired,
 }
 
-function RootModal(props) {
-  const { modalComponent, modalProps } = props
+function RootModal({ modalProps, modalComponent, dispatch }) {
   const Component = MODAL_COMPONENTS[modalComponent]
-  return modalComponent ? <Component {...modalProps} /> : null
+  return modalComponent ? <Component {...modalProps} dispatch={dispatch} /> : null
 }
 
 RootModal.propTypes = propTypes

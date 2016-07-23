@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import withStyles from 'isomorphic-style-loader/lib/withStyles'
 import s from './Browser.scss'
 import BrowserPaletteGroup from './BrowserPaletteGroup'
-import Loader from 'components/Loader/Loader'
+import { Loader, BrowserLoader } from 'components/Loader'
 import { paletteArray } from 'actions/palettes'
 import { makeBrowserSelector } from 'reducers/selectors'
 
@@ -52,31 +52,25 @@ class BrowserContainer extends Component {
   render() {
     const { palettes, users, sorted, dispatch } = this.props
 
+    if (!sorted.ids.length) return <Loader />
+
     return (
       <main className={s.container}>
-        {sorted.isFetching
-          ? <Loader containerStyle={{ paddingTop: '100px' }} />
-          : <div className={s.row}>
-            {sorted.ids.map((id, i) => {
-              const currPalette = palettes[id]
-              const user = users[currPalette.userId]
-              return (
-                <BrowserPaletteGroup
-                  palette={currPalette}
-                  user={user}
-                  key={i}
-                  dispatch={dispatch}
-                />
-              )
-            })
-          }
-          </div>
-        }
-        <div className={s.loadMoreWrap}>
-          <button className={s.loadMoreBtn} onClick={this.handleLoadMorePalettes}>
-            {"Load More"}
-          </button>
+        <div className={s.row}>
+          {sorted.ids.map((id, i) => {
+            const currPalette = palettes[id]
+            const user = users[currPalette.userId]
+            return (
+              <BrowserPaletteGroup
+                palette={currPalette}
+                user={user}
+                key={i}
+                dispatch={dispatch}
+              />
+            )
+          })}
         </div>
+        <BrowserLoader sorted={sorted} onClick={this.handleLoadMorePalettes} />
       </main>
     )
   }

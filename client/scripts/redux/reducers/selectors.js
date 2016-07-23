@@ -32,6 +32,12 @@ export const appSelector = createStructuredSelector({
   notifications: selectNotifications,
 })
 
+export const makeProfileSelector = () =>
+  createStructuredSelector({
+    user: selectUser,
+    palette: selectSortedPalettes[selectUser.id],
+  })
+
 export const makePaletteSelector = () =>
   createSelector(
     selectPalette, palette => ({ palette })
@@ -49,6 +55,7 @@ export const makeBrowserSelector = () =>
 
 export const makeEditorSelector = () =>
   createStructuredSelector({
+    session: selectSession,
     editor: selectEditor,
   })
 

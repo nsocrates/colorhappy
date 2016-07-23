@@ -71,6 +71,7 @@ $ratio:                        1.618;
 $global-font-size:             100%;
 
 $base-font-family:             "Open Sans", "sans-serif";
+$base-font-size-sm:            14px;
 $base-font-size:               16px;
 $base-font-size-lg:            18px;
 $base-font-weight:             300;
@@ -110,7 +111,7 @@ $footer: (
 $header: (
   height:                 em(100px),
   padding:                em(15px),
-  md-height:              em(125px, 18px),
+  md-height:              em(110px),
   md-padding:             em(30px),
   c-height:               em(75px),
 );
@@ -134,7 +135,7 @@ $palette-bar: (
 );
 
 $palette-container: (
-  c-height:               map-get($header, height) + map-get($footer, height) + map-get($palette-bar, height),
+  c-height:               map-get($header, height) + map-get($palette-bar, height) + em(5px),
   c-height-md:            map-get($header, md-height) + map-get($footer, height) + map-get($palette-bar, height),
 );
 

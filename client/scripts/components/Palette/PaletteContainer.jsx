@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { palette } from 'actions/palettes'
 import { makePaletteSelector } from 'reducers/selectors'
 import Palette from './Palette'
-import Loader from 'components/Loader/Loader'
+import { Loader } from 'components/Loader/Loader'
 
 const propTypes = {
   dispatch: PropTypes.func.isRequired,
@@ -20,7 +20,7 @@ class PaletteContainer extends Component {
   render() {
     return (
       !Object.keys(this.props.palette).length
-        ? <Loader containerStyle={{ paddingTop: '100px' }} />
+        ? <Loader />
         : <Palette {...this.props} />
     )
   }

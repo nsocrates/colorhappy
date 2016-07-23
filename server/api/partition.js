@@ -15,11 +15,19 @@
 const resolveResult = sortKey => ([count, collection]) => {
   // Attach metadata to our results;
   // startId and startKey can be used to query the next set of documents.
+  let startId = null
+  let startKey = null
+  const lastDocument = collection.length && collection[collection.length - 1]
+  if (lastDocument) {
+    startId = lastDocument._id
+    startKey = lastDocument[sortKey]
+  }
+
   const result = {
     collection,
     count,
-    startId: collection[collection.length - 1]._id,
-    startKey: collection[collection.length - 1][sortKey],
+    startId,
+    startKey,
   }
 
   // Create a Promise that is resolved, and return it as a fulfillment.

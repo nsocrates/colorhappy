@@ -21,8 +21,6 @@
 
   @include media-breakpoint-up(md) {
     top: map-get($header, md-height);
-    width: 45%;
-    max-width: em(500px);
   }
 }
 
@@ -36,10 +34,14 @@
   @include media-breakpoint-up(md) {
     padding-left: em(75px);
   }
+
+  @include media-breakpoint-up(lg) {
+    padding-left: em(90px);
+  }
 }
 
 .navItem {
-  padding: em(15px) 0;
+  padding: em(10px) 0;
 }
 
 .navLink {

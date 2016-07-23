@@ -30,7 +30,7 @@ const updateUserPaletteCount = (req, inc) => palette => {
 // GET to index all palettes
 export function index(req, res) {
   const {
-    limit = 3,
+    limit = 15,
     sort = '-createdAt',
     startId = '',
     startKey = '',

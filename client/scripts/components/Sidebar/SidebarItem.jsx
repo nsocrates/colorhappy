@@ -6,18 +6,18 @@ import { Link } from 'react-router'
 const propTypes = {
   to: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
+  Tag: PropTypes.string,
 }
 
-function SidebarItem({ to, label, ...rest }) {
+function SidebarItem({ Tag = Link, label, ...rest }) {
   return (
     <li className={s.navItem}>
-      <Link
+      <Tag
         {...rest}
         className={s.navLink}
-        to={to}
       >
         {label}
-      </Link>
+      </Tag>
     </li>
   )
 }
