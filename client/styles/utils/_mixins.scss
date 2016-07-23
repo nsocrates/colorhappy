@@ -1,7 +1,5 @@
 //## Link
 @mixin global-link() {
-  // border-bottom: 1px dotted $base-color;
-  // padding-bottom: 1px;
 
   &:hover {
     color: $accent-color;

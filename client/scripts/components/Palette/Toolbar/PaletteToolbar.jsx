@@ -7,8 +7,6 @@ import { toggleToolbar, changeColor } from 'actions/editor'
 import debounce from 'utils/debounce'
 import { validateHex } from 'utils/color'
 
-// TODO: Improve UX on change/submit for instant feedback & persist focus
-
 const propTypes = {
   color: PropTypes.object.isRequired,
   isVisible: PropTypes.bool.isRequired,
@@ -29,7 +27,25 @@ class PaletteToolbar extends Component {
     this.handleChangeHex = this.handleChangeHex.bind(this)
     this.handleChangeRgb = this.handleChangeRgb.bind(this)
     this.updateRgb = this.updateRgb.bind(this)
-    this.dispatchChanges = debounce(this.dispatchChanges, 500)
+    this.dispatchChanges = this.dispatchChanges.bind(this)
+    this.doDebounce = debounce(this.doDebounce, 500)
+  }
+
+  componentWillReceiveProps({ color, isVisible }) {
+    if (!isVisible && !this.props.isVisible) return null
+
+    const { hex, rgb } = color
+    return this.setState({
+      hex,
+      r: rgb[0],
+      g: rgb[1],
+      b: rgb[2],
+    })
+  }
+
+  shouldComponentUpdate({ isVisible }) {
+    if (!isVisible && !this.props.isVisible) return false
+    return true
   }
 
   handleToggle(e) {
@@ -40,7 +56,7 @@ class PaletteToolbar extends Component {
 
   handleChangeHex(e) {
     this.setState({ hex: e.target.value })
-    this.dispatchChanges('hex', e.target.value)
+    this.doDebounce(this.dispatchChanges, 'hex', e.target.value)
   }
 
   handleChangeRgb(e) {
@@ -69,6 +85,10 @@ class PaletteToolbar extends Component {
     return dispatch((changeColor[method]({ namespace, value })))
   }
 
+  doDebounce(fn, ...args) {
+    fn.apply(this, args)
+  }
+
   render() {
     const { isVisible } = this.props
     const { hex, r, g, b } = this.state
@@ -77,17 +97,18 @@ class PaletteToolbar extends Component {
       <aside className={isVisible ? s.toolbar__visible : s.toolbar}>
         <div className={s.toolbarContainer}>
 
-          <form className={s.formGroup} onChange={this.handleChangeHex}>
+          <form className={s.formGroup} onSubmit={e => e.preventDefault()}>
             <ToolbarControl
               name="hex"
               label="Hex"
               type="text"
               value={hex}
               data-controller={'hex'}
+              onChange={this.handleChangeHex}
             />
           </form>
 
-          <form className={s.formGroup} onChange={this.handleChangeRgb}>
+          <form className={s.formGroup} onSubmit={e => e.preventDefault()}>
 
             <ToolbarControl
               name="rgb"
@@ -97,6 +118,7 @@ class PaletteToolbar extends Component {
               min="0"
               max="255"
               data-controller={'r'}
+              onChange={this.handleChangeRgb}
             />
 
             <ToolbarControl
@@ -107,6 +129,7 @@ class PaletteToolbar extends Component {
               min="0"
               max="255"
               data-controller={'g'}
+              onChange={this.handleChangeRgb}
             />
 
             <ToolbarControl
@@ -117,6 +140,7 @@ class PaletteToolbar extends Component {
               min="0"
               max="255"
               data-controller={'b'}
+              onChange={this.handleChangeRgb}
             />
 
           </form>

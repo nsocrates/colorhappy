@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 
 const propTypes = {
-  handleExit: PropTypes.func,
+  onExit: PropTypes.func,
   children: PropTypes.node,
   style: PropTypes.object,
 }
@@ -18,7 +18,7 @@ export default class Modal extends Component {
   }
 
   handleClick() {
-    return this.props.handleExit()
+    return this.props.onExit()
   }
 
   listenForClose(e) {
@@ -26,7 +26,7 @@ export default class Modal extends Component {
 
     if (key === 'Escape' || keycode === 27) {
       e.preventDefault()
-      this.props.handleExit()
+      this.props.onExit()
     }
   }
 

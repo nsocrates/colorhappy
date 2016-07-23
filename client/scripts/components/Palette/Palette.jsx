@@ -18,18 +18,7 @@ const propTypes = {
 class Palette extends Component {
   constructor(props) {
     super(props)
-    this.handleChange = this.handleChange.bind(this)
-    this.handleClick = this.handleClick.bind(this)
     this.handleLove = this.handleLove.bind(this)
-  }
-
-  handleClick(e) {
-    e.currentTarget.focus()
-    e.currentTarget.select()
-  }
-
-  handleChange(e) {
-    e.preventDefault()
   }
 
   handleLove(e) {
@@ -44,8 +33,6 @@ class Palette extends Component {
     const colors = palette.colors.map((color, index) =>
       <PaletteColor
         hex={`#${color}`}
-        onChange={this.handleChange}
-        onClick={this.handleClick}
         key={`${color}_${index}`}
       />)
 

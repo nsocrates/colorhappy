@@ -1,11 +1,16 @@
 import React, { PropTypes, Component } from 'react'
-import PaletteWrapper from 'components/Palette/PaletteWrapper'
-import PaletteColor from 'components/Palette/PaletteColor'
-import PaletteToolbar from 'components/Palette/Toolbar/PaletteToolbar'
-import PaletteBar from 'components/Palette/Bar/PaletteBar'
-import BarItem from 'components/Palette/Bar/BarItem'
 import { Download, Backup, Shuffle } from 'components/Svg'
+import { paletteSave } from 'actions/palettes'
+import { modal } from 'actions/modal'
 import { stringifier } from 'utils/transformations'
+import {
+  PaletteWrapper,
+  PaletteColor,
+  PaletteToolbar,
+  PaletteBar,
+  BarItem,
+} from 'components/Palette'
+
 
 const propTypes = {
   editor: PropTypes.object.isRequired,
@@ -16,18 +21,9 @@ const propTypes = {
 export default class Editor extends Component {
   constructor(props) {
     super(props)
-    this.handleClick = this.handleClick.bind(this)
-    this.handleChange = this.handleChange.bind(this)
     this.handleToggle = this.handleToggle.bind(this)
     this.handleRandomize = this.handleRandomize.bind(this)
-  }
-
-  handleClick(e) {
-    e.preventDefault()
-  }
-
-  handleChange(e) {
-    e.preventDefault()
+    this.handleSave = this.handleSave.bind(this)
   }
 
   handleToggle(e) {
@@ -39,22 +35,44 @@ export default class Editor extends Component {
     this.props.generateColors()
   }
 
+  handleSave(e) {
+    const { editor, dispatch } = this.props
+    e.preventDefault()
+    dispatch(modal.show({
+      modalComponent: 'SAVE_PALETTE',
+      modalProps: {
+        colors: this.mapHex(editor),
+        dispatch,
+      },
+    }))
+    // dispatch(paletteSave.request({
+    //   colors: this.mapHex(editor),
+    // }))
+  }
+
+  // Helper method that returns an array of color namespaces
+  mapNamespace(editor) {
+    return Object.keys(editor).filter(n => n !== 'hasLoaded')
+  }
+
+  // Helper method composed of mapNamespace
+  // Returns an array of hexidecimal colors
+  mapHex(editor) {
+    return this.mapNamespace(editor).map(color => editor[color].hex)
+  }
+
   render() {
     const { editor, dispatch } = this.props
-    const payload = Object.keys(editor).filter(n => n !== 'hasLoaded')
-    const stringified = stringifier(
-      payload.map(color => editor[color].hex)
-    )
+    const namespace = this.mapNamespace(editor)
+    const stringified = stringifier(this.mapHex(editor))
 
-    const colors = payload.map((color, index) => {
+    const colors = namespace.map((color, index) => {
       const { hex, isVisible } = editor[color]
 
       return (
         <PaletteColor
           hex={`#${hex}`}
-          onChange={this.handleChange}
-          onClick={this.handleClick}
-          key={`${hex}_${index}`}
+          key={index}
         >
           <PaletteToolbar
             namespace={color}
@@ -71,7 +89,7 @@ export default class Editor extends Component {
         {colors}
         <PaletteBar>
           <BarItem to={"#"} Icon={Shuffle} label={"Randomize"} onClick={this.handleRandomize} />
-          <BarItem to={"#"} Icon={Backup} label={"Save"} onClick={e => e.preventDefault()} />
+          <BarItem to={"#"} Icon={Backup} label={"Save"} onClick={this.handleSave} />
           <BarItem
             anchor
             download

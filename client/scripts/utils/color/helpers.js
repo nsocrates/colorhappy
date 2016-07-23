@@ -5,7 +5,7 @@ export const round = numbers =>
   })
 
 export function validateHex(hex) {
-  const ret = String(hex).replace(/[^0-9a-f]/gi, '')
+  const ret = String(hex).replace(/[^0-9a-f]/gi, '').toUpperCase()
 
   if (ret.length !== 3 && ret.length !== 6) {
     console.warn(`Invalid hex: ${hex}`)
@@ -13,6 +13,6 @@ export function validateHex(hex) {
   }
 
   return ret.length === 3
-    ? `${ret[0]}${ret[0]}${ret[1]}${ret[1]}${ret[2]}${ret[2]}`
+    ? (`${ret[0]}${ret[0]}${ret[1]}${ret[1]}${ret[2]}${ret[2]}`)
     : ret
 }

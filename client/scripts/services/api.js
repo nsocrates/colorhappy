@@ -2,6 +2,7 @@ import axios from 'axios'
 import validator from 'validator'
 import { normalize } from 'normalizr'
 import Schemas from 'constants/schemas'
+import { q } from 'utils/transformations'
 
 // Set defaults for axios
 axios.defaults.baseURL = 'http://localhost:8000'
@@ -12,11 +13,11 @@ const callApi = schema => (method, endpoint, options) => (
   axios[method](endpoint, options)
     .then(response => {
       const { data } = response
-      const { count } = data
+      const { count, startId, startKey } = data
       const collection = data.collection || data
 
       return schema
-        ? Object.assign({}, normalize(collection, schema), { count })
+        ? Object.assign({}, normalize(collection, schema), { count, startId, startKey })
         : collection
     })
     .catch(error => Promise.reject([{
@@ -24,6 +25,7 @@ const callApi = schema => (method, endpoint, options) => (
     }]))
 )
 
+// API helper functions
 const fetch = callApi()
 const fetchUser = callApi(Schemas.User)
 const fetchPaletteArray = callApi(Schemas.PaletteArray)
@@ -55,5 +57,10 @@ export const getUser = ({ id }) => fetchUser('get', `/api/users/${id}`)
 export const updateProfile = payload => fetchUser('put', '/api/users/me', payload)
 export const changePassword = payload => fetch('put', '/api/users/me/password', payload)
 export const getPalette = ({ id }) => fetchPalette('get', `/api/palettes/${id}`)
-export const getPaletteArray = () => fetchPaletteArray('get', '/api/palettes')
 export const getPaletteLove = ({ id }) => fetchPalette('put', `/api/palettes/${id}/love`)
+export const getPaletteArray = opts => {
+  const qs = q.stringify(opts)
+  return fetchPaletteArray('get', `/api/palettes?${qs}`)
+}
+
+export const createPalette = payload => fetchPalette('post', '/api/palettes', payload)

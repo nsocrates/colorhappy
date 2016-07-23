@@ -30,7 +30,7 @@ const updateUserPaletteCount = (req, inc) => palette => {
 // GET to index all palettes
 export function index(req, res) {
   const {
-    limit = 25,
+    limit = 3,
     sort = '-createdAt',
     startId = '',
     startKey = '',
@@ -113,10 +113,12 @@ export function unlove(req, res) {
 
 // GET to save a palette as .scss
 export function download(req, res) {
-  const str = req.params.colors.match(/[^-]+/g)
-    .map((color, i) => `$color${i + 1}: #${color};\n`)
+  // Label each hex as '$color[index]' and separate it with a newline.
+  const str = req.params.hex.match(/[^-]+/g)
+    .map((color, i) => `$color${i + 1}:     #${color.toLowerCase()};\n`)
     .join('')
 
+  // Force file download by setting 'Content-Disposition' in the response header.
   res.set({ 'Content-Disposition': 'attachment; filename=palette.scss' })
     .send(str)
 }

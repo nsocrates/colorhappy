@@ -129,6 +129,15 @@ $toggler: (
   bar-spacing:            em(5px),
 );
 
+$palette-bar: (
+  height:                 em(35px),
+);
+
+$palette-container: (
+  c-height:               map-get($header, height) + map-get($footer, height) + map-get($palette-bar, height),
+  c-height-md:            map-get($header, md-height) + map-get($footer, height) + map-get($palette-bar, height),
+);
+
 //
 // Z-index
 // =========================================== //

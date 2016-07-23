@@ -10,25 +10,43 @@ import { makeBrowserSelector } from 'reducers/selectors'
 const propTypes = {
   children: PropTypes.node,
   dispatch: PropTypes.func.isRequired,
+  // Palette Entity
   palettes: PropTypes.object.isRequired,
   users: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired,
+  // Partitioned palettes
   sorted: PropTypes.object.isRequired,
 }
 
 class BrowserContainer extends Component {
   constructor(props) {
     super(props)
-    this.handleClick = this.handleClick.bind(this)
+    this.handleLoadMorePalettes = this.handleLoadMorePalettes.bind(this)
   }
 
   componentDidMount() {
     const { dispatch, location } = this.props
-    dispatch(paletteArray.request({ sort: location.query.sort || 'newest' }))
+    const sort = this.switchSort(location.query.sort)
+
+    dispatch(paletteArray.request({ sort }))
   }
 
-  handleClick(e) {
+  handleLoadMorePalettes(e) {
     e.preventDefault()
+    const { dispatch, sorted } = this.props
+    dispatch(paletteArray.request({
+      sort: '-createdAt',
+      startId: sorted.startId,
+      startKey: sorted.startKey,
+    }))
+  }
+
+  switchSort(sort) {
+    switch (sort) {
+      case 'newest':
+      default:
+        return '-createdAt'
+    }
   }
 
   render() {
@@ -55,7 +73,7 @@ class BrowserContainer extends Component {
           </div>
         }
         <div className={s.loadMoreWrap}>
-          <button className={s.loadMoreBtn} onClick={this.handleClick}>
+          <button className={s.loadMoreBtn} onClick={this.handleLoadMorePalettes}>
             {"Load More"}
           </button>
         </div>

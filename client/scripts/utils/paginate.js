@@ -2,7 +2,8 @@ import merge from 'lodash/merge'
 import union from 'lodash/union'
 const initialState = {
   ids: [],
-  nextHref: undefined,
+  startId: null,
+  startKey: null,
   isFetching: false,
   pageCount: 0,
 }
@@ -20,7 +21,8 @@ export default function paginate({ types, hasSelection }) {
           return merge({}, state, {
             isFetching: false,
             ids: union(state.ids, action.response.result),
-            nextHref: action.response.nextHref,
+            startId: action.response.startId,
+            startKey: action.response.startKey,
             pageCount: state.pageCount + 1,
           })
         case failureType:

@@ -2,6 +2,8 @@
 
 .barList {
   @include add-shadow-0(inset);
+  height: map-get($palette-bar, height);
+  line-height: map-get($palette-bar, height);
   background-color: $white;
   text-align: center;
   width: 100%;
@@ -27,7 +29,11 @@
 .barAction {
   color: $text-color;
   display: block;
-  padding: em(8px) em(10px);
+  padding: 0 em(10px);
+
+  &:hover {
+    color: $accent-color;
+  }
 }
 
 .barIcon {

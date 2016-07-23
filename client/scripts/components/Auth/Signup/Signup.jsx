@@ -2,8 +2,9 @@ import React, { Component, PropTypes } from 'react'
 import s from '../Auth.scss'
 import withStyles from 'isomorphic-style-loader/lib/withStyles'
 import { signup } from 'actions/auth'
-import { Close, Person, Lock, Email, Eye } from 'components/Svg'
+import { Person, Lock, Email, Eye } from 'components/Svg'
 import FieldInput from 'components/Form/FieldInput'
+import { ModalForm } from 'components/Modal'
 
 const propTypes = {
   location: PropTypes.object.isRequired,
@@ -34,53 +35,34 @@ class Signup extends Component {
     const handleToLogin = handleReplace('/login')
 
     return (
-      <div className={s.component}>
+      <ModalForm onSubmit={this.handleSignup} onExit={handleExit} heading="Signup">
+        <FieldInput
+          label="Email"
+          type="text"
+          reference={c => (this._email = c)}
+          Icon={Email}
+        />
+        <FieldInput
+          label="Username"
+          type="text"
+          reference={c => (this._username = c)}
+          Icon={Person}
+        />
+        <FieldInput
+          label="Password"
+          type="password"
+          reference={c => (this._password = c)}
+          Icon={Lock}
+          RightIcon={Eye}
+        />
 
-        <header className={s.header} onClick={e => e.stopPropagation()}>
-          <h4 className={s.formTitle}>
-            {"Signup"}
-          </h4>
-          <div className={s.btnWrap}>
-            <button className={s.closeBtn} onClick={handleExit}>
-              <Close className={s.svgClose} />
-            </button>
-          </div>
-        </header>
-
-        <article className={s.content} onClick={e => e.stopPropagation()}>
-
-          <form className={s.form} onSubmit={this.handleSignup}>
-            <FieldInput
-              label="Email"
-              type="text"
-              reference={c => (this._email = c)}
-              Icon={Email}
-            />
-            <FieldInput
-              label="Username"
-              type="text"
-              reference={c => (this._username = c)}
-              Icon={Person}
-            />
-            <FieldInput
-              label="Password"
-              type="password"
-              reference={c => (this._password = c)}
-              Icon={Lock}
-              RightIcon={Eye}
-            />
-
-            <button className={s.primaryBtn} type="submit">
-              {"Signup"}
-            </button>
-          </form>
-
-          <button className={s.secondaryBtn} onClick={handleToLogin}>
-            {"Login"}
-          </button>
-
-        </article>
-      </div>
+        <button className={s.primaryBtn} type="submit">
+          {"Signup"}
+        </button>
+        <button className={s.secondaryBtn} onClick={handleToLogin}>
+          {"Login"}
+        </button>
+      </ModalForm>
     )
   }
 }

@@ -6,7 +6,7 @@ const palettes = combineReducers({
   newest: paginate({
     types: [PALETTE_ARRAY.REQUEST, PALETTE_ARRAY.SUCCESS, PALETTE_ARRAY.FAILURE],
     hasSelection: action =>
-      action.options && action.options.sort && action.options.sort === 'newest',
+      action.options && action.options.sort && action.options.sort === '-createdAt',
   }),
 })
 

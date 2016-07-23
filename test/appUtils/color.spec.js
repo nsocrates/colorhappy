@@ -27,7 +27,7 @@ describe('Color Utilities', () => {
     const toRgb = hsl.toRgb
     const toHex = rgb.toHex
     expect(r(toRgb([211, 0.64, 0.40]))).to.deep.equal([37, 100, 167])
-    expect(toHex([37, 100, 167])).to.deep.equal('2564a7')
-    expect(test([211, 0.64, 0.40])).to.deep.equal('2564a7')
+    expect(toHex([37, 100, 167])).to.deep.equal('2564A7')
+    expect(test([211, 0.64, 0.40])).to.deep.equal('2564A7')
   })
 })

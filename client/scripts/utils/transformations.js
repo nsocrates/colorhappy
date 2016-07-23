@@ -11,3 +11,26 @@ export const stringifier = array => array.map(color => `${color}-`).join('')
  * @return {array} - An array containing items that were separated by dashes.
  */
 export const arrayifier = string => string.match(/[^-]+/g)
+
+export const q = {
+  /**
+   * Stringifies an object into a query string.
+   * @param  {Object} obj - The object to stringify.
+   * @return {String} - The query string.
+   */
+  stringify: obj => {
+    if (!obj) return ''
+
+    return (
+      Object.keys(obj).sort().map(key => {
+        const value = obj[key]
+        if (typeof value === 'undefined') return ''
+        if (value === null) return key
+
+        return `${key}=${value}`
+      })
+        .filter(n => !!n)
+        .join('&') : ''
+    )
+  },
+}

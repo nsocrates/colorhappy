@@ -7,6 +7,7 @@ import Sidebar from 'components/Sidebar/Sidebar'
 import Footer from 'components/Footer/Footer'
 import ModalHOC from 'components/Modal/ModalHOC'
 import Snackbar from 'components/Snackbar/Snackbar'
+import { RootModal } from 'components/Modal'
 import { appSelector } from 'reducers/selectors'
 import { toggleSidebar } from 'actions/ui'
 import { setToken } from 'actions/auth'
@@ -48,12 +49,13 @@ class App extends React.Component {
           {modalChildren}
         </section>
         <Footer />
-        <Snackbar dispatch={dispatch} notifications={notifications} />
+        <RootModal />
         <div
           className={s.sidebarOverlay}
           style={{ display: sidebar && 'block' }}
           onClick={() => dispatch(toggleSidebar())}
         />
+        <Snackbar dispatch={dispatch} notifications={notifications} />
       </div>
     )
   }

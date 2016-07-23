@@ -14,6 +14,7 @@ export const selectHeader = state => state.ui.header
 export const selectNotifications = state => state.notifications
 export const selectEditor = state => state.editor
 export const selectRouting = state => state.routing.locationBeforeTransitions
+export const selectModal = state => state.modal
 
 export const selectUser = (state, id) =>
   state.entities.users[id] || {}
@@ -54,6 +55,14 @@ export const makeEditorSelector = () =>
 export const makeUiSelector = () =>
   createSelector(
     selectSidebar, sidebar => ({ sidebar })
+  )
+
+export const makeModalSelector = () =>
+  createSelector(
+    selectModal, modal => ({
+      modalComponent: modal.modalComponent,
+      modalProps: modal.modalProps,
+    })
   )
 
 export const makeSettingsSelector = () =>

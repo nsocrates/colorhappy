@@ -16,8 +16,9 @@ function Loader({ loaderStyle, containerStyle }) {
   const loaderStyles = {
     width: '30px',
     height: '30px',
+    borderRadius: '2px',
     backgroundColor: '#37373a',
-    boxShadow: '0 0 1px #37373a',
+    boxShadow: '0 0 3px rgba(0,0,0,0.156863), 0 0 3px rgba(0,0,0,0.227451)',
     marginLeft: 'auto',
     marginRight: 'auto',
   }

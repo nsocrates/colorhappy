@@ -11,14 +11,7 @@ export default function debounce(fn, wait, immediate) {
   // be able to reference this due to closure.
   let timeout
 
-  return function (...theArgs) {
-    // Reference 'fn' in the context of this so that 'fn' and
-    // its arguments will have access to our timeout function
-    const context = this
-
-    // Assign all arguments passed to 'fn' into a variable
-    const args = theArgs
-
+  return function (...args) {
     // Should fn be called now?
     const callNow = immediate && !timeout
 
@@ -31,11 +24,13 @@ export default function debounce(fn, wait, immediate) {
 
       if (!immediate) {
         // Call fn with apply
-        fn.apply(context, args)
+        // Reference 'fn' in the context of this so that 'fn' and
+        // its arguments will have access to our timeout function
+        fn.apply(this, args)
       }
     }, wait)
 
     // Execute function if in immediate mode and no wait timer
-    if (callNow) fn.apply(context, args)
+    if (callNow) fn.apply(this, args)
   }
 }

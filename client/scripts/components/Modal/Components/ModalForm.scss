@@ -1,0 +1,65 @@
+@import "~styles/helpers";
+
+.container {
+  @include fun;
+  max-width: get($container-max-widths, sm);
+  display: table-cell;
+  padding-top: em(15px);
+  padding-bottom: em(30px);
+
+  @include media-breakpoint-up(md) {
+    vertical-align: middle;
+  }
+
+  @include media-breakpoint-up(lg) {
+    max-width: get($container-max-widths, md);
+  }
+}
+
+.header {
+  @include add-shadow-0;
+  display: table;
+  border-top-left-radius: em(4px);
+  border-top-right-radius: em(4px);
+  width: 100%;
+  table-layout: fixed;
+  position: relative;
+  background: $white;
+  padding: em(20px) em(30px);
+}
+
+.formTitle {
+  width: 100%;
+  display: table-cell;
+  vertical-align: middle;
+  margin: 0;
+  line-height: 1;
+}
+
+.btnWrap {
+  width: 50%;
+  min-width: 120px;
+  text-align: right;
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.closeBtn {
+  font-size: em(25px);
+}
+
+.content {
+  @include clearfix;
+  border-bottom-left-radius: em(4px);
+  border-bottom-right-radius: em(4px);
+  padding: map-get($spacing, base);
+  background: $white;
+  display: flex;
+  flex-flow: column nowrap;
+  height: 100%;
+
+  @include media-breakpoint-up(md) {
+    display: block;
+    height: auto;
+  }
+}

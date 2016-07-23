@@ -1,0 +1,20 @@
+@import "~styles/helpers";
+
+.container {
+  @include make-container;
+  min-width: 320px;
+  max-width: get($container-max-widths, sm);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  transform: translate(-50%, -50%);
+}
+
+.saveBtn {
+  @include btn-lg;
+  @include btn-ease($accent-color);
+  color: $white;
+  font-weight: 600;
+  float: right;
+}

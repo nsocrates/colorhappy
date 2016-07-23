@@ -15,7 +15,7 @@ const propTypes = {
   label: PropTypes.string,
   reference: PropTypes.func,
   type: PropTypes.string,
-  style: PropTypes.object,
+  className: PropTypes.string,
 }
 
 const defaultProps = {
@@ -36,16 +36,17 @@ class FieldInput extends React.Component {
 
   render() {
     const {
-      style,
       type,
       reference,
       Icon,
       RightIcon,
       label,
+      className,
       ...rest,
     } = this.props
+
     return (
-      <fieldset className={s.formGroup} style={style}>
+      <fieldset className={s.formGroup}>
         <legend className={s.formLegend}>
           {label}
         </legend>
@@ -53,7 +54,7 @@ class FieldInput extends React.Component {
           <input
             {...rest}
             ref={reference}
-            className={s.formInput}
+            className={className || s.formInput}
             type={this.state.showPassword && 'text' || type}
           />
           {Icon && <Icon className={s.svgIcon} />}
