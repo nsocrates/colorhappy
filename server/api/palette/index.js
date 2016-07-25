@@ -4,6 +4,7 @@ import { isAuthenticated } from '../../auth/auth.service'
 
 const router = new Router()
 
+
 router.get('/', controller.index)
 router.post('/', isAuthenticated(), controller.create)
 router.get('/:id', controller.show)

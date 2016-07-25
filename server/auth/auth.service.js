@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken'
 import expressJwt from 'express-jwt'
-import secrets from '../config/secrets'
+import config from '../config/environment'
 import compose from 'composable-middleware'
 import User from '../api/user/user.model'
 
@@ -10,7 +10,7 @@ import User from '../api/user/user.model'
 export function isAuthenticated() {
   return compose()
     // Validate JWT
-    .use(expressJwt({ secret: secrets.session }))
+    .use(expressJwt({ secret: config.secrets.session }))
     // Attach user to request
     .use((req, res, next) =>
       User.findById(req.user.id).exec()
@@ -25,7 +25,7 @@ export function isAuthenticated() {
 }
 
 export function signToken(id, role) {
-  return jwt.sign({ id, role }, secrets.session, {
+  return jwt.sign({ id, role }, config.secrets.session, {
     expiresIn: 60 * 60 * 24,
   })
 }

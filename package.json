@@ -13,11 +13,12 @@
     "build:dist": "NODE_ENV=production webpack --config ./webpack.config.babel.js",
     "build:server": "NODE_ENV=server webpack --config ./webpack.config.babel.js",
     "test": "NODE_ENV=test mocha \"test/**/*@(spec.js|spec.jsx)\"",
-    "lint": "eslint ./client/scripts --ext=js --ext=jsx; true"
+    "lint": "eslint ./client/scripts --ext=js --ext=jsx; true",
+    "seed": "psql -f ./server/sqldb/seed.sql"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/nsocrates/colorhappy.git"
+    "url": "git+https://github.com/nsocrates/colorhappy.git"
   },
   "keywords": [
     "colors"
@@ -25,7 +26,7 @@
   "author": "Socrates Nguyen",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.12.0",
+    "axios": "^0.13.1",
     "bcrypt": "^0.8.7",
     "bluebird": "^3.4.1",
     "body-parser": "^1.15.2",
@@ -35,30 +36,31 @@
     "express": "^4.14.0",
     "express-jwt": "^3.4.0",
     "history": "^3.0.0",
-    "jsonwebtoken": "^7.0.1",
+    "jsonwebtoken": "^7.1.6",
     "lodash": "^4.13.1",
     "method-override": "^2.3.6",
-    "mongodb": "^2.2.0",
-    "mongoose": "^4.5.3",
+    "mongodb": "^2.2.4",
+    "mongoose": "^4.5.6",
     "morgan": "^1.7.0",
-    "normalizr": "^2.1.0",
+    "normalizr": "^2.2.1",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
+    "pg-promise": "^5.2.5",
     "pretty-error": "^2.0.0",
     "react": "^15.2.1",
     "react-dom": "^15.2.1",
     "react-redux": "^4.4.5",
-    "react-router": "^2.5.2",
+    "react-router": "^2.6.0",
     "react-router-redux": "^4.0.5",
     "redux": "^3.5.2",
     "redux-saga": "^0.11.0",
     "reselect": "^2.5.3",
-    "validator": "^5.4.0"
+    "validator": "^5.5.0"
   },
   "devDependencies": {
     "autoprefixer": "^6.3.7",
-    "babel-cli": "^6.10.1",
-    "babel-core": "^6.10.4",
+    "babel-cli": "^6.11.4",
+    "babel-core": "^6.11.4",
     "babel-eslint": "^6.1.2",
     "babel-loader": "^6.2.4",
     "babel-plugin-transform-object-rest-spread": "^6.8.0",
@@ -70,12 +72,12 @@
     "chai": "^3.5.0",
     "css-loader": "^0.23.1",
     "enzyme": "^2.4.1",
-    "eslint": "^3.0.1",
+    "eslint": "^3.1.1",
     "eslint-config-airbnb": "^9.0.1",
-    "eslint-config-airbnb-base": "^4.0.0",
-    "eslint-import-resolver-webpack": "^0.3.2",
-    "eslint-plugin-import": "^1.10.2",
-    "eslint-plugin-jsx-a11y": "^1.5.5",
+    "eslint-config-airbnb-base": "^4.0.2",
+    "eslint-import-resolver-webpack": "^0.4.0",
+    "eslint-plugin-import": "^1.11.1",
+    "eslint-plugin-jsx-a11y": "^2.0.1",
     "eslint-plugin-react": "^5.2.2",
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.9.0",
@@ -98,5 +100,9 @@
   },
   "directories": {
     "test": "test"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/nsocrates/colorhappy/issues"
+  },
+  "homepage": "https://github.com/nsocrates/colorhappy#readme"
 }

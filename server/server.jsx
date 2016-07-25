@@ -30,7 +30,7 @@ const renderView = res => (InitialView, store, css) =>
 // https://github.com/reactjs/react-router/blob/master/docs/guides/ServerRendering.md
 const serve = (req, res) => {
   const history = createMemoryHistory()
-  const store = configureStore({}, history)
+  const store = configureStore({/* initialState */}, history)
   const routes = constructRoutes(store)
   match({ routes, location: req.url }, (error, redirectLocation, renderProps) => {
     if (error) return handleError(res)(error)

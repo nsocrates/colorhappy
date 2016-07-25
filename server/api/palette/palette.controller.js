@@ -1,117 +1,67 @@
-import Palette from './palette.model'
 import * as services from '../api.service'
-import User from '../user/user.model'
-import { profile } from '../user/user.selectors'
+import { db } from '../../sqldb'
 
-// Helper function to increment / decrement counts
-const updateUserLoveCount = (req, inc) => palette => {
-  if (palette) {
-    User.findByIdAndUpdate(req.user._id, {
-      $inc: { loveCount: inc },
-    }, {
-      upsert: false,
-      new: true,
-    }).exec()
-  }
-  return palette
-}
+const { Palette } = db
 
-// Helper function to increment / decrement counts
-const updateUserPaletteCount = (req, inc) => palette => {
-  User.findByIdAndUpdate(req.user._id, {
-    $inc: { paletteCount: inc },
-  }, {
-    upsert: false,
-    new: true,
-  }).exec()
-  return palette
-}
-
-// GET to index all palettes
+// GET to index all palettes.
 export function index(req, res) {
-  const {
-    limit = 15,
-    sort = '-createdAt',
-    startId = '',
-    startKey = '',
-} = req.query || {}
-
-  return Palette.partition({}, {
-    limit,
-    sort,
-    startId,
-    startKey,
-    populate: ['user', profile],
-  })
-    .then(services.handleNotFound(res))
+  return Palette.index()
     .then(services.respondWithResult(res))
     .catch(services.handleError(res))
 }
 
-// POST to create a new palette
+// POST to create a new palette.
 export function create(req, res) {
   return Palette.create(Object.assign({}, {
-    user: req.user,
-    userId: req.user._id,
+    user_id: req.user,
   }, req.body))
-    .then(updateUserPaletteCount(req, 1))
     .then(services.respondWithResult(res))
     .catch(services.handleError(res))
 }
 
-// DELETE to destroy a palette
+// DELETE to destroy a palette.
 export function destroy(req, res) {
-  return Palette.matchCriteria(req).exec()
-    .then(services.handleNotFound(res))
-    .then(updateUserPaletteCount(req, -1))
-    .then(services.removeEntity(res))
+  return Palette.destroy({
+    id: req.params.id,
+    user_id: req.user_id,
+  })
+    .then(services.respondWithResult(res))
     .catch(services.handleError(res))
 }
 
-// GET to show a palette
+// GET to show a palette.
 export function show(req, res) {
-  return Palette.findAndView(req)
+  return Palette.show({ id: req.params.id })
     .then(services.handleNotFound(res))
     .then(services.respondWithResult(res))
     .catch(services.handleError(res))
 }
 
-// PUT to update an existing palette
+// PUT to update an existing palette.
 export function update(req, res) {
-  const forbidden = [
-    '_id',
-    'loveCount',
-    'viewCount',
-    'loves',
-    'userId',
-    'user',
-  ]
-  return Palette.matchCriteria(req).exec()
+  return Palette.update(req.body)
     .then(services.handleNotFound(res))
-    .then(services.saveUpdates(req.body, forbidden))
     .then(services.respondWithResult(res))
     .catch(services.handleError(res))
 }
 
-// PUT to love a palette
+// PUT to love a palette.
 export function love(req, res) {
-  return Palette.findAndLove(req).exec()
-    .then(updateUserLoveCount(req, 1))
+  return Palette.favorite(req.body)
     .then(services.handleNotFound(res))
     .then(services.respondWithResult(res))
     .catch(services.handleError(res))
 }
 
-// DELETE to unlove a palette
+// DELETE to unlove a palette.
 export function unlove(req, res) {
-  return Palette.findAndUnlove(req).exec()
-    .then(updateUserLoveCount(req, -1))
+  return Palette.unfavorite(req.body)
     .then(services.handleNotFound(res))
     .then(services.respondWithResult(res))
     .catch(services.handleError(res))
 }
 
-// GET to save a palette as .scss
+// GET to download a palette as .scss.
 export function download(req, res) {
   // Label each hex as '$color[index]' and separate it with a newline.
   const str = req.params.hex.match(/[^-]+/g)
