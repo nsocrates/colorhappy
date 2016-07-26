@@ -3,10 +3,10 @@
  * Returns the new palette.
  */
 
-UPDATE palettes
+UPDATE Palettes
   SET title = ${title}
       description = ${description}
       colors = ${colors}
-  WHERE id = ${id}
+  WHERE palette_id = ${palette_id}
   AND user_id = ${user_id}
-  RETURNING *
+  RETURNING *;

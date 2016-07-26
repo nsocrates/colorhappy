@@ -1,138 +1,94 @@
-DROP DATABASE IF EXISTS colorhappy;
-CREATE DATABASE colorhappy;
-
-\c colorhappy;
-
--- ######################
--- # Func
--- ######################
-
-CREATE OR REPLACE FUNCTION next_id()
-  RETURNS varchar AS $$
-    DECLARE
-      time_component bigint;
-      machine_id int := FLOOR(random() * 16777215);
-      process_id int;
-      seq_id bigint := FLOOR(random() * 16777215);
-      result varchar:= '';
-    BEGIN
-      SELECT FLOOR(EXTRACT(EPOCH FROM clock_timestamp())) INTO time_component;
-      SELECT pg_backend_pid() INTO process_id;
-
-      result := result || lpad(to_hex(time_component), 8, '0');
-      result := result || lpad(to_hex(machine_id), 6, '0');
-      result := result || lpad(to_hex(process_id), 4, '0');
-      result := result || lpad(to_hex(seq_id), 6, '0');
-      RETURN result;
-    END;
-$$ LANGUAGE PLPGSQL;
-
-
--- ######################
--- # Users
--- ######################
-
-CREATE TABLE users (
-  id varchar(24) PRIMARY KEY NOT NULL default next_id(),
-  full_name text NOT NULL,
-  username text NOT NULL UNIQUE,
-  email text NOT NULL UNIQUE,
-  palette_count integer DEFAULT 0
-);
-
-ALTER TABLE users
-  ADD CONSTRAINT palette_count CHECK (palette_count >= 0);
-
-
--- ######################
--- # Palettes
--- ######################
-
-CREATE TABLE palettes (
-  id varchar(24) PRIMARY KEY NOT NULL default next_id(),
-  user_id varchar(24) NOT NULL,
-  title text DEFAULT 'My New Palette',
-  description text NULL,
-  colors text ARRAY[5] NOT NULL,
-  view_count integer DEFAULT 0,
-  favorite_count integer DEFAULT 0,
-  created_at timestamptz DEFAULT current_timestamp
-);
-
-ALTER TABLE palettes
-  ADD CONSTRAINT view_count CHECK (view_count >= 0);
-
-ALTER TABLE palettes
-  ADD CONSTRAINT favorite_count CHECK (favorite_count >= 0);
-
-ALTER TABLE palettes
-  ADD CONSTRAINT user_fk FOREIGN KEY (user_id) REFERENCES users (id)
-  MATCH FULL ON DELETE CASCADE;
-
-
--- ######################
--- # Palette's Favoriters
--- ######################
-
--- Contains favorites relation data.
-CREATE TABLE palette_favoriters (
-  palette_id varchar(24) NOT NULL,
-  user_id varchar(24) NOT NULL,
-  PRIMARY KEY (palette_id, user_id)
-);
-
-  -- palette_id is FOREIGN KEY with REFERENCE to palettes.palette_id
-ALTER TABLE palette_favoriters
-  ADD CONSTRAINT palette_fk FOREIGN KEY (palette_id) REFERENCES palettes (id)
-  MATCH FULL ON UPDATE CASCADE ON DELETE CASCADE;
-
-  -- user_id is FOREIGN KEY with REFERENCE to users.user_id
-ALTER TABLE palette_favoriters
-  ADD CONSTRAINT user_fk FOREIGN KEY (user_id) REFERENCES users (id)
-  MATCH FULL ON UPDATE CASCADE ON DELETE CASCADE;
-
-
--- #######################
+-- ##############################################################
 -- # Seed Data
--- #######################
+-- ##############################################################
+
+-- ## Drop all tables.
+-- ==========================
+DROP TABLE IF EXISTS Users, Palettes, Palette_User_Favorite CASCADE;
 
 -- ## Users
--- ##############
-INSERT INTO users (id, full_name, username, email)
+-- ### Password = '123'
+-- ===============================================================
+INSERT INTO Users (id, full_name, username, email, password_hash)
   VALUES (
-    'a00000000000000000000001',
-    'ColorHappy',
+    'u00000000000000000000001',
     'Color Happy',
-    'ch@this.com'
+    'ColorHappy',
+    'ch@this.com',
+    gen_hash('123')
   ), (
-    'a00000000000000000000002',
-    'Julia',
+    'u00000000000000000000002',
     'J Maestro',
-    'julia@site.com'
+    'julia',
+    'julia@site.com',
+    gen_hash('123')
   );
 
+INSERT INTO Users (username, email, password_hash)
+  VALUES ('mee', 'me@me.com', gen_hash('123'));
+
 -- ## Palettes
--- ##############
-INSERT INTO palettes (id, user_id, title, description, colors)
+-- =============================================================
+INSERT INTO Palettes (id, user_id, title, description, colors)
   VALUES (
-    '10000000000000000000000a',
-    'a00000000000000000000001',
+    'c00000000000000000000001',
+    'u00000000000000000000001',
     'Lambs on Doors',
     'From COLOURlovers',
     ARRAY['DD002C', 'DD8395', 'DDC9A7', '958871', '533817']
   ), (
-    '10000000000000000000000b',
-    'a00000000000000000000001',
+    'c00000000000000000000002',
+    'u00000000000000000000001',
     'My New Palette',
     'From COLOURlovers',
     ARRAY['DD002C', 'DD8395', 'DDC9A7', '958871', '533817']
+  ), (
+    'c00000000000000000000003',
+    'u00000000000000000000001',
+    'i demand a pancake',
+    'From COLOURlovers',
+    ARRAY['594F4F', '547980', '45ADA8', '9DE0AD', 'E5FCC2']
+  ), (
+    'c00000000000000000000004',
+    'u00000000000000000000001',
+    'Giant Goldfish',
+    'From COLOURlovers',
+    ARRAY['69D2E7', 'A7DBD8', 'E0E4CC', 'F38630', 'FA6900']
+  ), (
+    'c00000000000000000000005',
+    'u00000000000000000000001',
+    'let them eat cake',
+    'From COLOURlovers',
+    ARRAY['774F38', 'E08E79', 'F1D4AF', 'ECE5CE', 'C5E0DC']
+  ), (
+    'c00000000000000000000006',
+    'u00000000000000000000001',
+    'vintage card',
+    'From Adobe Kuler',
+    ARRAY['5C4B51', '8CBEB2', 'F2EBBF', 'F3B562', 'F06060']
+  ), (
+    'c00000000000000000000007',
+    'u00000000000000000000002',
+    'Happy Mom',
+    'From Adobe Kuler',
+    ARRAY['3FB8AF', '79BAAF', 'DAFFA7', 'FFA09D', 'FF5F60']
   );
 
--- ## Palette Favoriters
--- ###########################
-INSERT INTO palette_favoriters (palette_id, user_id)
+-- ## Palette User Favorite
+-- ========================================================
+INSERT INTO Palette_User_Favorite (palette_id, user_id)
   VALUES (
-    '10000000000000000000000a', 'a00000000000000000000002'
+    'c00000000000000000000001', 'u00000000000000000000002'
   ), (
-    '10000000000000000000000b', 'a00000000000000000000002'
+    'c00000000000000000000002', 'u00000000000000000000002'
+  ), (
+    'c00000000000000000000003', 'u00000000000000000000002'
+  ), (
+    'c00000000000000000000004', 'u00000000000000000000002'
+  ), (
+    'c00000000000000000000005', 'u00000000000000000000002'
+  ), (
+    'c00000000000000000000006', 'u00000000000000000000002'
+  ), (
+    'c00000000000000000000007', 'u00000000000000000000001'
   );

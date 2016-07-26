@@ -1,6 +1,6 @@
 /**
- * Show a single row from a table
+ * Show a single row from a table with matching id.
  */
 
 SELECT * FROM ${table~}
-  WHERE id = ${id}
+  WHERE id = ${id};

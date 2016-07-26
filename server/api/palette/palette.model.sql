@@ -1,8 +1,6 @@
-/*
-    Creates table Palettes.
-    NOTE: We only add schema here to demonstrate the ability of class QueryFile
-    to pre-format SQL with static formatting parameters when needs to be.
-*/
+-- ######################
+-- # Palettes
+-- ######################
 
 CREATE TABLE Palettes (
   id varchar(24) PRIMARY KEY NOT NULL default next_id(),
@@ -16,11 +14,11 @@ CREATE TABLE Palettes (
 );
 
 ALTER TABLE Palettes
-  ADD CONSTRAINT view_count CHECK (view_count >= 0);
-
-ALTER TABLE Palettes
-  ADD CONSTRAINT favorite_count CHECK (favorite_count >= 0);
-
-ALTER TABLE Palettes
+  ADD CONSTRAINT view_count CHECK (view_count >= 0),
+  ADD CONSTRAINT favorite_count CHECK (favorite_count >= 0),
   ADD CONSTRAINT user_fk FOREIGN KEY (user_id) REFERENCES users (id)
-  MATCH FULL ON DELETE CASCADE;
+    MATCH FULL ON UPDATE CASCADE ON DELETE CASCADE;
+
+CREATE TRIGGER increment_palette_count
+  AFTER INSERT OR UPDATE OR DELETE ON Palettes
+  FOR EACH ROW EXECUTE PROCEDURE trigger_increment(Users, palette_count, user_id, id);

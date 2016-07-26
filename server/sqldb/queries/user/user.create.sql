@@ -1,12 +1,12 @@
 /**
- *  POST to create a new user.
- *  Returns the new user.
+ * Creates a new User into the table.
  */
 
-INSERT INTO users (full_name, username, email)
+INSERT INTO Users (username, email, password_hash)
   VALUES (
     -- These are arguments passed in by the HTTP handler.
-    ${full_name}, ${username}, ${email}
+    -- gen_hash is a function defined on init.
+    ${username}, ${email}, gen_hash(${password})
   )
   -- Returns the created user.
   RETURNING *

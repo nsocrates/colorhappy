@@ -18,7 +18,7 @@ const options = {
   },
 }
 
-// Initialize pgp and bootstrap configurations.
+// Initialize pgp, bootstrap configurations, and create the Database object.
 const pgp = pgPromise(options)
 const db = pgp(config.pgp)
 

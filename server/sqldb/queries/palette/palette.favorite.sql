@@ -1,8 +1,8 @@
 /**
  *  Creates a favorite relationshiop between user and palette.
- *  Returns the relationship.
+ *  Returns a row of the relationship.
  */
 
-INSERT INTO palette_favoriters (palette_id, user_id)
+INSERT INTO Palette_User_Favorite (palette_id, user_id)
   VALUES (${palette_id}, ${user_id})
-  RETURNING *
+  RETURNING *;

@@ -2,7 +2,9 @@ import jwt from 'jsonwebtoken'
 import expressJwt from 'express-jwt'
 import config from '../config/environment'
 import compose from 'composable-middleware'
-import User from '../api/user/user.model'
+import { db } from '../sqldb'
+const { User } = db
+// import User from '../api/user/user.model'
 
 /**
  * Attaches the user object to the request if authenticated
@@ -13,7 +15,7 @@ export function isAuthenticated() {
     .use(expressJwt({ secret: config.secrets.session }))
     // Attach user to request
     .use((req, res, next) =>
-      User.findById(req.user.id).exec()
+      User.show({ id: req.user.id })
         .then(user => {
           if (!user) return res.status(401).end()
           req.user = user

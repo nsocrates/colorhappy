@@ -13,7 +13,7 @@ export function index(req, res) {
 // POST to create a new palette.
 export function create(req, res) {
   return Palette.create(Object.assign({}, {
-    user_id: req.user,
+    user_id: req.user.id,
   }, req.body))
     .then(services.respondWithResult(res))
     .catch(services.handleError(res))
@@ -23,7 +23,7 @@ export function create(req, res) {
 export function destroy(req, res) {
   return Palette.destroy({
     id: req.params.id,
-    user_id: req.user_id,
+    user_id: req.user.id,
   })
     .then(services.respondWithResult(res))
     .catch(services.handleError(res))
@@ -45,17 +45,23 @@ export function update(req, res) {
     .catch(services.handleError(res))
 }
 
-// PUT to love a palette.
-export function love(req, res) {
-  return Palette.favorite(req.body)
+// POST to create a favorite relationship between user and palette.
+export function favorite(req, res) {
+  return Palette.favorite({
+    user_id: req.user.id,
+    palette_id: req.params.id,
+  })
     .then(services.handleNotFound(res))
     .then(services.respondWithResult(res))
     .catch(services.handleError(res))
 }
 
-// DELETE to unlove a palette.
-export function unlove(req, res) {
-  return Palette.unfavorite(req.body)
+// DELETE to remove a favorite relationship between user and palette.
+export function unfavorite(req, res) {
+  return Palette.unfavorite({
+    user_id: req.user.id,
+    palette_id: req.params.id,
+  })
     .then(services.handleNotFound(res))
     .then(services.respondWithResult(res))
     .catch(services.handleError(res))

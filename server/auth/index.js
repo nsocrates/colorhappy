@@ -1,7 +1,8 @@
 import { Router } from 'express'
 import local from './local'
 import configureLocalPassport from './local/passport'
-import User from '../api/user/user.model'
+import { db } from '../sqldb'
+const { User } = db
 
 configureLocalPassport(User)
 
