@@ -56,33 +56,33 @@ class BrowserPaletteGroup extends Component {
     return (
       <article className={s.column}>
         <heading className={s.articleHeading}>
-          <section className={s.articleHeadingLeft}>
-            <h5 className={s.title}>
-              <Link className={s.titleLink} to={`/palette/${palette.id}`}>
-                {palette.title}
-              </Link>
-            </h5>
-            <small className={s.letterSpace}>
-              {"by"}
-            </small>
-            <Link className={s.user} to="/">
-              {user.username}
-            </Link>
-          </section>
           <aside className={s.articleHeadingRight}>
             <span className={s.countGroup}>
               <span className={s.count}>
-                {`${palette.viewCount} `}
+                {`${palette.view_count} `}
               </span>
               <Eye className={s.countIcon} />
             </span>
             <span className={s.countGroup}>
               <span className={s.count}>
-                {`${palette.loveCount} `}
+                {`${palette.favorite_count} `}
               </span>
               <Love className={s.countIcon} />
             </span>
           </aside>
+          <section className={s.articleHeadingLeft}>
+            <h5 className={s.textWrap__title}>
+              <Link className={s.titleLink} to={`/palette/${palette.id}`}>
+                {palette.title}
+              </Link>
+            </h5>
+            <div className={s.textWrap__small}>
+              <span className={s.textSpacer}>{"by"}</span>
+              <Link className={s.user} to={`/user/${user.id}`}>
+                {user.username}
+              </Link>
+            </div>
+          </section>
         </heading>
         <section className={s.articleBody}>
           {palette.colors.map((color, i) =>

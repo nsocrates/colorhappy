@@ -5,17 +5,16 @@ import s from './Browser.scss'
 import BrowserPaletteGroup from './BrowserPaletteGroup'
 import { Loader, BrowserLoader } from 'components/Loader'
 import { paletteArray } from 'actions/palettes'
-import { makeBrowserSelector } from 'reducers/selectors'
+import { makePaletteUserSelector } from 'reducers/selectors'
 
 const propTypes = {
-  children: PropTypes.node,
   dispatch: PropTypes.func.isRequired,
   // Palette Entity
-  palettes: PropTypes.object.isRequired,
-  users: PropTypes.object.isRequired,
+  paletteEntity: PropTypes.object.isRequired,
+  userEntity: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired,
   // Partitioned palettes
-  sorted: PropTypes.object.isRequired,
+  palettes: PropTypes.object,
 }
 
 class BrowserContainer extends Component {
@@ -26,40 +25,31 @@ class BrowserContainer extends Component {
 
   componentDidMount() {
     const { dispatch, location } = this.props
-    const sort = this.switchSort(location.query.sort)
 
-    dispatch(paletteArray.request({ sort }))
+    dispatch(paletteArray.request({ sort: location.query.sort || 'newest' }))
   }
 
   handleLoadMorePalettes(e) {
     e.preventDefault()
-    const { dispatch, sorted } = this.props
+    const { dispatch } = this.props
     dispatch(paletteArray.request({
-      sort: '-createdAt',
-      startId: sorted.startId,
-      startKey: sorted.startKey,
+      sort: 'newest',
+      startId: null,
+      startKey: null,
     }))
   }
 
-  switchSort(sort) {
-    switch (sort) {
-      case 'newest':
-      default:
-        return '-createdAt'
-    }
-  }
-
   render() {
-    const { palettes, users, sorted, dispatch } = this.props
+    const { paletteEntity, userEntity, palettes, dispatch } = this.props
 
-    if (!sorted.ids.length) return <Loader />
+    if (!palettes) return <Loader />
 
     return (
       <main className={s.container}>
         <div className={s.row}>
-          {sorted.ids.map((id, i) => {
-            const currPalette = palettes[id]
-            const user = users[currPalette.userId]
+          {palettes.ids.map((id, i) => {
+            const currPalette = paletteEntity[id]
+            const user = userEntity[currPalette.user_id]
             return (
               <BrowserPaletteGroup
                 palette={currPalette}
@@ -70,7 +60,7 @@ class BrowserContainer extends Component {
             )
           })}
         </div>
-        <BrowserLoader sorted={sorted} onClick={this.handleLoadMorePalettes} />
+        <BrowserLoader pagination={palettes} onClick={this.handleLoadMorePalettes} />
       </main>
     )
   }
@@ -79,7 +69,10 @@ class BrowserContainer extends Component {
 BrowserContainer.propTypes = propTypes
 
 const makeMapStateToProps = () => (state, props) =>
-  makeBrowserSelector()(state, props.location.query.sort)
+  makePaletteUserSelector(
+    'palettesBySortOrder',
+    props.location.query.sort || 'newest'
+  )(state)
 
 const WithStyles = withStyles(s)(BrowserContainer)
 export default connect(makeMapStateToProps)(WithStyles)

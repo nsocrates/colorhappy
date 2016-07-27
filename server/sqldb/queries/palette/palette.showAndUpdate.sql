@@ -4,5 +4,5 @@
 
 UPDATE Palettes
   SET view_count = view_count + 1
-  WHERE palette_id = ${palette_id}
+  WHERE id = ${id}
   RETURNING *;

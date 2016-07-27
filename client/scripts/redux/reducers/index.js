@@ -13,11 +13,11 @@ const rootReducer = combineReducers({
   routing,
   session,
   entities,
-  palettes,
   notifications,
   ui,
   editor,
   modal,
+  palettes,
 })
 
 export default rootReducer

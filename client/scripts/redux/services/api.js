@@ -13,11 +13,11 @@ const callApi = schema => (method, endpoint, options) => (
   axios[method](endpoint, options)
     .then(response => {
       const { data } = response
-      const { count, startId, startKey } = data
+      // const { count, startId, startKey } = data
       const collection = data.collection || data
 
       return schema
-        ? Object.assign({}, normalize(collection, schema), { count, startId, startKey })
+        ? Object.assign({}, normalize(collection, schema))
         : collection
     })
     .catch(error => Promise.reject([{
@@ -54,10 +54,11 @@ export function signup({ email, username, password }) {
 
 export const login = payload => fetch('post', '/auth/local', payload)
 export const getUser = ({ id }) => fetchUser('get', `/api/users/${id}`)
+export const getUserPalette = ({ id }) => fetchPaletteArray('get', `/api/users/${id}/palettes`)
 export const updateProfile = payload => fetchUser('put', '/api/users/me', payload)
 export const changePassword = payload => fetch('put', '/api/users/me/password', payload)
 export const getPalette = ({ id }) => fetchPalette('get', `/api/palettes/${id}`)
-export const getPaletteLove = ({ id }) => fetchPalette('put', `/api/palettes/${id}/love`)
+export const getPaletteLove = ({ id }) => fetchPalette('post', `/api/palettes/${id}/favorite`)
 export const getPaletteArray = opts => {
   const qs = q.stringify(opts)
   return fetchPaletteArray('get', `/api/palettes?${qs}`)

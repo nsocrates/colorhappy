@@ -4,6 +4,7 @@ import {
   UPDATE_PROFILE,
   CHANGE_PASSWORD,
   DISABLE_ACCOUNT,
+  USER_PALETTE,
 } from 'constants/actionTypes'
 import { action } from 'utils/action'
 
@@ -11,6 +12,12 @@ export const user = {
   request: payload => action(USER.REQUEST, { payload }),
   success: (payload, response) => action(USER.SUCCESS, { payload, response }),
   failure: (payload, error) => action(USER.FAILURE, { payload, error }),
+}
+
+export const userPalette = {
+  request: payload => action(USER_PALETTE.REQUEST, { payload }),
+  success: (payload, response) => action(USER_PALETTE.SUCCESS, { payload, response }),
+  failure: (payload, error) => action(USER_PALETTE.FAILURE, { payload, error }),
 }
 
 export const me = {

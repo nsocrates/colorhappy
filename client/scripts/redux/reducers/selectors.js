@@ -22,8 +22,8 @@ export const selectUser = (state, id) =>
 export const selectPalette = (state, id) =>
   state.entities.palettes[id] || {}
 
-export const selectSortedPalettes = (state, sort = 'newest') =>
-  state.palettes[sort] || {}
+export const selectPaginatedPalettes = state =>
+  state.palettes
 
 export const appSelector = createStructuredSelector({
   session: selectSession,
@@ -32,24 +32,19 @@ export const appSelector = createStructuredSelector({
   notifications: selectNotifications,
 })
 
-export const makeProfileSelector = () =>
-  createStructuredSelector({
-    user: selectUser,
-    palette: selectSortedPalettes[selectUser.id],
-  })
-
 export const makePaletteSelector = () =>
   createSelector(
     selectPalette, palette => ({ palette })
   )
 
-export const makeBrowserSelector = () =>
+export const makePaletteUserSelector = (...selectors) =>
   createSelector(
-    [selectEntities, selectSortedPalettes],
-    (entities, sortedPalettes) => ({
-      palettes: entities.palettes,
-      users: entities.users,
-      sorted: sortedPalettes,
+    [selectEntities, selectPaginatedPalettes],
+    (entities, paginatedPalettes) => ({
+      paletteEntity: entities.palettes,
+      userEntity: entities.users,
+      // Will traverse through the object with the given arguments.
+      palettes: selectors.reduce((acc, selector) => acc[selector], paginatedPalettes),
     })
   )
 

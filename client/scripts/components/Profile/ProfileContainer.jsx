@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import Profile from './Profile'
-import { makeProfileSelector, makeBrowserSelector } from 'reducers/selectors'
-import { paletteArray } from 'actions/palettes'
+import { makePaletteUserSelector } from 'reducers/selectors'
+import { user, userPalette } from 'actions/users'
 import { Loader } from 'components/Loader'
 
 const propTypes = {
@@ -11,19 +11,24 @@ const propTypes = {
   dispatch: PropTypes.func.isRequired,
   location: PropTypes.object.isRequired,
   sorted: PropTypes.object,
+  params: PropTypes.object,
+  paletteEntity: PropTypes.object.isRequired,
+  userEntity: PropTypes.object.isRequired,
+  palettes: PropTypes.object,
 }
 
 class ProfileContainer extends Component {
   componentDidMount() {
-    const { dispatch } = this.props
+    const { dispatch, params } = this.props
 
-    dispatch(paletteArray.request({ sort: '-createdAt' }))
+    dispatch(user.request({ id: params.id }))
+    dispatch(userPalette.request({ id: params.id }))
   }
 
   render() {
-    const { sorted } = this.props
+    const { palettes } = this.props
 
-    if (!sorted.ids.length) return <Loader />
+    if (!palettes) return <Loader />
 
     return (
       <Profile {...this.props} />
@@ -33,7 +38,7 @@ class ProfileContainer extends Component {
 
 ProfileContainer.propTypes = propTypes
 
-const makeMapStateToProps = () => state =>
-  makeBrowserSelector()(state, 'newest')
+const makeMapStateToProps = () => (state, props) =>
+  makePaletteUserSelector('palettesByUser', props.params.id)(state)
 
 export default connect(makeMapStateToProps)(ProfileContainer)

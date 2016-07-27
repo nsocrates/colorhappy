@@ -8,7 +8,7 @@ const initialState = []
 export default function notifications(state = initialState, action) {
   switch (action.type) {
     case NOTIF_PUBLISH:
-      return [action.payload, ...state]
+      return state.concat(action.payload)
     case NOTIF_DESTROY:
       return state.filter(notif => notif.id !== action.payload.id)
     default:

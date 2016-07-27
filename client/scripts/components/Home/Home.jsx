@@ -3,5 +3,5 @@ import React from 'react'
 import ProfileContainer from 'components/Profile/ProfileContainer'
 
 export default function Home(props) {
-  return <ProfileContainer />
+  return <h1>{"Home"}</h1>
 }

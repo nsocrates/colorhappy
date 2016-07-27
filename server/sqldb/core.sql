@@ -149,20 +149,20 @@ CREATE TABLE Users (
   palette_count integer DEFAULT 0
 );
 
+-- User View without password_hash
+CREATE VIEW v_User AS
+  SELECT id, full_name, username, email, loc, website, bio, palette_count
+  FROM Users;
+
 ALTER TABLE Users
-  ADD CONSTRAINT palette_count CHECK (palette_count >= 0),
-  ADD CONSTRAINT username CHECK (char_length(username) >= 3);
+  ADD CONSTRAINT user_counter CHECK (palette_count >= 0),
+  ADD CONSTRAINT username CHECK (char_length(username) >= 3 AND char_length(username) <= 15);
 
 -- Index the lowercase values of username and email so that we can
 -- use them in our queries.
 -- i.e. SELECT * FROM Users WHERE LOWER(username) = LOWER(${username})
 CREATE UNIQUE INDEX ON Users (LOWER(username));
 CREATE UNIQUE INDEX ON Users (LOWER(email));
-
--- User View without password_hash
-CREATE VIEW v_User AS
-  SELECT id, full_name, username, email, loc, website, bio, palette_count
-  FROM Users;
 
 
 -- ###################################################################
@@ -180,22 +180,24 @@ CREATE TABLE Palettes (
   created_at timestamptz DEFAULT current_timestamp
 );
 
+-- Attach User object to Palette
+CREATE VIEW v_Palette_User AS
+  -- This will nest user inside Palette
+  SELECT p.*, row_to_json(u.*) as "user"
+    FROM Palettes AS p
+    INNER JOIN v_User AS u
+      ON p.user_id = u.id;
+
 ALTER TABLE Palettes
-  ADD CONSTRAINT view_count CHECK (view_count >= 0),
-  ADD CONSTRAINT favorite_count CHECK (favorite_count >= 0),
+  ADD CONSTRAINT palette_view CHECK (view_count >= 0),
+  ADD CONSTRAINT palette_favorite CHECK (favorite_count >= 0),
+  ADD CONSTRAINT palette_title CHECK (char_length(title) <= 25),
   ADD CONSTRAINT user_fk FOREIGN KEY (user_id) REFERENCES users (id)
     MATCH FULL ON UPDATE CASCADE ON DELETE CASCADE;
 
 CREATE TRIGGER increment_palette_count
   AFTER INSERT OR UPDATE OR DELETE ON Palettes
   FOR EACH ROW EXECUTE PROCEDURE trigger_increment(Users, palette_count, user_id, id);
-
--- Attach username to Palette
-CREATE VIEW v_Palette_User AS
-  SELECT u.username, p.*
-    FROM Palettes AS p
-    INNER JOIN Users AS u
-      ON p.user_id = u.id;
 
 
 -- ###########################################################

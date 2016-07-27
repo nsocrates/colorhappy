@@ -34,9 +34,9 @@ export const paletteArray = {
 }
 
 /**
- * Pallet action creator to love specific palette.
+ * Pallet action creator to add a palette to favorites.
  * @type {Object}
- * @param {Object} [payload] - Data to be used by Axios when performing the fetch
+ * @param {Object} [payload] - Data to be used by Axios when performing the request.
  * @param {String} [payload.id] - The ID of the requested palette.
  */
 export const paletteLove = {

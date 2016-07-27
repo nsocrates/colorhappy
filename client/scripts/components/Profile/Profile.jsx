@@ -7,19 +7,22 @@ import { BrowserLoader } from 'components/Loader'
 
 const propTypes = {
   dispatch: PropTypes.func.isRequired,
+  userEntity: PropTypes.object.isRequired,
+  paletteEntity: PropTypes.object.isRequird,
+  palettes: PropTypes.object.isRequired,
 }
 
 function Profile(props) {
-  const { sorted, palettes, users, dispatch } = props
+  const { palettes, dispatch, userEntity, paletteEntity } = props
   return (
     <main className={s.container}>
       <div className={s.row__banner}>
         <ProfileHeader />
       </div>
       <div className={s.row}>
-        {sorted.ids.map((id, i) => {
-          const currPalette = palettes[id]
-          const user = users[currPalette.userId]
+        {palettes.ids.map((id, i) => {
+          const currPalette = paletteEntity[id]
+          const user = userEntity[currPalette.user_id]
           return (
             <BrowserPaletteGroup
               palette={currPalette}
@@ -30,7 +33,7 @@ function Profile(props) {
           )
         })}
       </div>
-      <BrowserLoader sorted={sorted} onClick={this.handleLoadMorePalettes} />
+      <BrowserLoader pagination={palettes} onClick={this.handleLoadMorePalettes} />
     </main>
   )
 }

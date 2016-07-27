@@ -1,12 +1,15 @@
 import paginate from 'utils/paginate'
 import { combineReducers } from 'redux'
-import { PALETTE_ARRAY } from 'constants/actionTypes'
+import { PALETTE_ARRAY, USER_PALETTE } from 'constants/actionTypes'
 
-const palettes = combineReducers({
-  newest: paginate({
-    types: [PALETTE_ARRAY.REQUEST, PALETTE_ARRAY.SUCCESS, PALETTE_ARRAY.FAILURE],
-    hasSortOption: action =>
-      action.options && action.options.sort && action.options.sort === '-createdAt',
+export const palettes = combineReducers({
+  palettesBySortOrder: paginate({
+    mapActionToKey: action => action.options.sort,
+    types: Object.values(PALETTE_ARRAY),
+  }),
+  palettesByUser: paginate({
+    mapActionToKey: action => action.payload.id,
+    types: Object.values(USER_PALETTE),
   }),
 })
 

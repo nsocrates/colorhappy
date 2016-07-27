@@ -10,6 +10,7 @@ export const UPDATE_PROFILE = createRequestTypes('UPDATE_PROFILE')
 export const CHANGE_PASSWORD = createRequestTypes('CHANGE_PASSWORD')
 export const DISABLE_ACCOUNT = createRequestTypes('DISABLE_ACCOUNT')
 export const USER = createRequestTypes('USER')
+export const USER_PALETTE = createRequestTypes('USER_PALETTE')
 export const ME = createRequestTypes('ME')
 
 export const LOGOUT = 'LOGOUT'

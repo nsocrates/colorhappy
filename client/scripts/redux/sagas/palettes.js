@@ -12,12 +12,12 @@ const callPaletteArray = tryApi.bind(null, paletteArray, api.getPaletteArray)
 const callPaletteLove = tryApi.bind(null, paletteLove, api.getPaletteLove)
 const callPaletteCreate = tryApi.bind(null, paletteSave, api.createPalette)
 
-// Valids palette love request; returns a string if the love is invalid.
+// Valids palette favorite request; returns a string if the favorite is invalid.
 function* isInvalidLove(payload) {
   const { isAuthenticated, id } = yield select(selectSession)
   const { userId } = yield select(selectPalette, payload.id)
-  if (!isAuthenticated) return 'Login or signup to love this palette'
-  if (userId === id) return 'You cannot love your own palette'
+  if (!isAuthenticated) return 'Login or signup to add this palette to your favorites'
+  if (userId === id) return 'You cannot favorite your own palette'
   return false
 }
 
@@ -47,7 +47,7 @@ function* watchPaletteLove() {
 
     const response = yield call(callPaletteLove, payload)
     if (response) {
-      yield call(createNotif, { message: 'Successfully loved palette' })
+      yield call(createNotif, { message: 'Added palette to favorites' })
     } else {
       yield call(createNotif, { message: 'Something went wrong...' })
     }
