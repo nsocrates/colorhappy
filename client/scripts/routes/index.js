@@ -1,6 +1,5 @@
 import React from 'react'
 import { Route, IndexRoute } from 'react-router'
-import Home from 'components/Home/Home'
 import App from 'components/App/App'
 import AuthContainer from 'components/Auth/AuthContainer'
 import PaletteContainer from 'components/Palette/PaletteContainer'
@@ -23,7 +22,7 @@ export default function constructRoutes(store) {
 
   return (
     <Route path="/" component={App}>
-      <IndexRoute component={Home} />
+      <IndexRoute component={BrowserContainer} />
       <Route path="/login" component={AuthContainer} />
       <Route path="/signup" component={AuthContainer} />
       <Route path="/settings" component={SettingsContainer} onEnter={handleAuth} />

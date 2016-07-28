@@ -146,21 +146,24 @@ CREATE TABLE Users (
   loc text NULL,
   website text NULL,
   bio text NULL,
-  palette_count integer DEFAULT 0
+  palette_count integer DEFAULT 0,
+  favorite_count integer DEFAULT 0,
+  created_at timestamptz DEFAULT current_timestamp
 );
 
 -- User View without password_hash
 CREATE VIEW v_User AS
-  SELECT id, full_name, username, email, loc, website, bio, palette_count
+  SELECT id, full_name, username, email, loc, website, bio, palette_count, favorite_count
   FROM Users;
 
 ALTER TABLE Users
-  ADD CONSTRAINT user_counter CHECK (palette_count >= 0),
+  ADD CONSTRAINT user_palettes CHECK (palette_count >= 0),
+  ADD CONSTRAINT user_favorites CHECK (favorite_count >= 0),
   ADD CONSTRAINT username CHECK (char_length(username) >= 3 AND char_length(username) <= 15);
 
 -- Index the lowercase values of username and email so that we can
 -- use them in our queries.
--- i.e. SELECT * FROM Users WHERE LOWER(username) = LOWER(${username})
+-- i.e. SELECT * FROM Users WHERE LOWER([username]) = LOWER(${[username]})
 CREATE UNIQUE INDEX ON Users (LOWER(username));
 CREATE UNIQUE INDEX ON Users (LOWER(email));
 
@@ -182,7 +185,7 @@ CREATE TABLE Palettes (
 
 -- Attach User object to Palette
 CREATE VIEW v_Palette_User AS
-  -- This will nest user inside Palette
+  -- This will nest User inside Palette
   SELECT p.*, row_to_json(u.*) as "user"
     FROM Palettes AS p
     INNER JOIN v_User AS u
@@ -195,7 +198,7 @@ ALTER TABLE Palettes
   ADD CONSTRAINT user_fk FOREIGN KEY (user_id) REFERENCES users (id)
     MATCH FULL ON UPDATE CASCADE ON DELETE CASCADE;
 
-CREATE TRIGGER increment_palette_count
+CREATE TRIGGER increment_user_palette_count
   AFTER INSERT OR UPDATE OR DELETE ON Palettes
   FOR EACH ROW EXECUTE PROCEDURE trigger_increment(Users, palette_count, user_id, id);
 
@@ -221,6 +224,11 @@ ALTER TABLE Palette_User_Favorite
     MATCH FULL ON UPDATE CASCADE ON DELETE CASCADE;
 
 -- Trigger to increment Palette.favorite_count
-CREATE TRIGGER increment_favorite_count
+CREATE TRIGGER increment_palette_favorite_count
   AFTER INSERT OR UPDATE OR DELETE ON Palette_User_Favorite
   FOR EACH ROW EXECUTE PROCEDURE trigger_increment(Palettes, favorite_count, palette_id, id);
+
+-- Trigger to increment User.favorite_count
+CREATE TRIGGER increment_user_favorite_count
+  AFTER INSERT OR UPDATE OR DELETE ON Palette_User_Favorite
+  FOR EACH ROW EXECUTE PROCEDURE trigger_increment(Users, favorite_count, user_id, id);

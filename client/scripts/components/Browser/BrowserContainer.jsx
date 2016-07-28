@@ -4,8 +4,8 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles'
 import s from './Browser.scss'
 import BrowserPaletteGroup from './BrowserPaletteGroup'
 import { Loader, BrowserLoader } from 'components/Loader'
-import { paletteArray } from 'actions/palettes'
-import { makePaletteUserSelector } from 'reducers/selectors'
+import { loadPalettes } from 'actions/palettes'
+import { makePaginatedPaletteUserSelector } from 'reducers/selectors'
 
 const propTypes = {
   dispatch: PropTypes.func.isRequired,
@@ -24,19 +24,17 @@ class BrowserContainer extends Component {
   }
 
   componentDidMount() {
-    const { dispatch, location } = this.props
-
-    dispatch(paletteArray.request({ sort: location.query.sort || 'newest' }))
+    this.handleLoadMorePalettes(null, false)
   }
 
-  handleLoadMorePalettes(e) {
-    e.preventDefault()
-    const { dispatch } = this.props
-    dispatch(paletteArray.request({
-      sort: 'newest',
-      startId: null,
-      startKey: null,
-    }))
+  handleLoadMorePalettes(e, isNext = true) {
+    if (e) e.preventDefault()
+    const { dispatch, location, palettes } = this.props
+    dispatch(loadPalettes({
+      sort: location.query.sort || 'created_at',
+      page: palettes ? palettes.pageCount + 1 : 1,
+      limit: 3,
+    }, isNext))
   }
 
   render() {
@@ -69,9 +67,9 @@ class BrowserContainer extends Component {
 BrowserContainer.propTypes = propTypes
 
 const makeMapStateToProps = () => (state, props) =>
-  makePaletteUserSelector(
+  makePaginatedPaletteUserSelector(
     'palettesBySortOrder',
-    props.location.query.sort || 'newest'
+    props.location.query.sort || 'created_at'
   )(state)
 
 const WithStyles = withStyles(s)(BrowserContainer)

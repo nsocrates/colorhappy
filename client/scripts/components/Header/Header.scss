@@ -10,9 +10,8 @@
 
 .c__header {
   @include clearfix;
-  @include fun;
   @include add-shadow-0;
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
@@ -21,6 +20,11 @@
   overflow: hidden;
   min-width: map-get($container, min);
   z-index: $z-header;
+
+  @include media-breakpoint-up(md) {
+    @include fun;
+    position: fixed;
+  }
 }
 
 .header {
@@ -34,15 +38,17 @@
 }
 
 .header__condensed {
-  composes: c__header;
-  height: map-get($header, c-height);
+  @include media-breakpoint-up(md) {
+    composes: c__header;
+    height: map-get($header, c-height);
 
-  .title {
-    font-size: map-get($font-size, h3);
-  }
+    .title {
+      font-size: map-get($font-size, h3);
+    }
 
-  .description {
-    display: none;
+    .description {
+      display: none;
+    }
   }
 }
 
@@ -69,7 +75,7 @@
   margin: 0;
   line-height: 1;
 
-  @include media-breakpoint-up(sm) {
+  @include media-breakpoint-up(md) {
     font-size: map-get($font-size, h1);
   }
 }

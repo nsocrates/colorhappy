@@ -8,9 +8,11 @@ const propTypes = {
 
 function PaletteBar({ children }) {
   return (
-    <ul className={s.barList}>
-      {children}
-    </ul>
+    <aside className={s.container}>
+      <div className={s.row}>
+        {children}
+      </div>
+    </aside>
   )
 }
 

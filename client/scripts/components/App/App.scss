@@ -15,6 +15,7 @@
   @include ease(0.2s, "standard", opacity);
   min-height: 100%;
   margin-bottom: -(map-get($footer, height));
+  background-color: $background-color;
 
   &::after {
     content: "";

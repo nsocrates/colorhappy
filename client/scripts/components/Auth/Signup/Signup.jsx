@@ -11,55 +11,81 @@ const propTypes = {
   handleExit: PropTypes.func,
   handleReplace: PropTypes.func,
   dispatch: PropTypes.func,
+  session: PropTypes.object,
 }
 
 class Signup extends Component {
   constructor(props) {
     super(props)
-    this.handleSignup = this.handleSignup.bind(this)
+    this.state = {
+      username: '',
+      email: '',
+      password: '',
+    }
+    this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleChange = this.handleChange.bind(this)
   }
 
-  handleSignup(e) {
+  handleChange(e) {
+    e.preventDefault()
+    this.setState({
+      [e.target.getAttribute('data-controller')]: e.target.value,
+    })
+  }
+
+  handleSubmit(e) {
     const { dispatch } = this.props
     e.preventDefault()
-    dispatch(signup.request({
-      email: this._email.value,
-      username: this._username.value,
-      password: this._password.value,
-    }))
+    dispatch(signup.request(this.state))
   }
 
   render() {
-    const { handleReplace, handleExit } = this.props
+    const { handleReplace, handleExit, session } = this.props
 
     const handleToLogin = handleReplace('/login')
 
+    const isDisabled = {
+      disabled: session.isAuthenticating,
+    }
+
     return (
-      <ModalForm onSubmit={this.handleSignup} onExit={handleExit} heading="Signup">
+      <ModalForm
+        onChange={this.handleChange}
+        onSubmit={this.handleSubmit}
+        onExit={handleExit}
+        heading="Signup"
+      >
         <FieldInput
+          data-controller="email"
+          value={this.state.email}
           label="Email"
           type="text"
-          reference={c => (this._email = c)}
           Icon={Email}
         />
         <FieldInput
+          data-controller="username"
+          value={this.state.username}
           label="Username"
           type="text"
-          reference={c => (this._username = c)}
           Icon={Person}
         />
         <FieldInput
+          data-controller="password"
+          value={this.state.password}
           label="Password"
           type="password"
-          reference={c => (this._password = c)}
           Icon={Lock}
           RightIcon={Eye}
         />
 
-        <button className={s.primaryBtn} type="submit">
-          {"Signup"}
+        <button
+          {...isDisabled}
+          className={s.formBtn__primary}
+          type="submit"
+        >
+          {session.isAuthenticating ? 'Loading...' : 'Signup'}
         </button>
-        <button className={s.secondaryBtn} onClick={handleToLogin}>
+        <button className={s.formBtn__secondary} onClick={handleToLogin}>
           {"Login"}
         </button>
       </ModalForm>

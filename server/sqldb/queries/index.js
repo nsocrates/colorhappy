@@ -47,25 +47,42 @@ const user = mapQuery('user')({
  * @return {String} - SQL string with named parameters.
  */
 function sqlify(table, columns) {
-  // Map out the columns and assign the named parameters
+  // Map out the columns and assign the named parameters.
   const q = Object.keys(columns).reduce((acc, key) => (
+
     // Skip id because we do not want to change that.
     key === 'id' ? acc : `${acc} ${key} = $<${key}>,`
   ), `UPDATE ${table} SET`)
 
-  // Remove last comma and append the WHERE clause before returning.
+  // Remove last comma and append the WHERE clause before returning the string.
   return `${q.substr(0, q.length - 1)} WHERE id = $<id> RETURNING *;`
+}
+
+/**
+ * Normalizes pagination query.
+ * @param  {Number} options.limit - Maximum number of results to return.
+ * @param  {Number} options.page - First n pages to skip.
+ * @param  {String} options.sort - Sort order (required in order to return a predictable set).
+ * @return {Object} - Object to be passed in as SQL named parameters.
+ */
+function paginate({ limit = 10, page = 1, sort = 'created_at' }) {
+  return {
+    // Convert page into offset by calculating the number of rows to skip.
+    page: limit * (page - 1),
+    limit: +limit,
+    sort,
+  }
 }
 
 /**
  * A protocol object that we expose to pgp.
  * It contains the repository for our database, which can be called through db.
  * @param  {Object} db - pgp Database protocol
- * @return {Object} - Palette entity and User entity
+ * @return {Object} - Palette object and User object
  */
-const entities = db => ({
+const queries = db => ({
   palette: {
-    index: () => db.any(palette.index),
+    index: payload => db.any(palette.index, paginate(payload)),
     show: payload => db.oneOrNone(palette.showAndUpdate, payload),
     create: body => db.one(palette.create, body),
     update: payload => db.one(palette.update, payload),
@@ -86,4 +103,4 @@ const entities = db => ({
   },
 })
 
-export default entities
+export default queries

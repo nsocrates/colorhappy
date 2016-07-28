@@ -21,20 +21,21 @@
 .loaderWrap {
   @include make-container;
   width: 100%;
-  marginLeft: auto;
-  marginRight: auto;
-  paddingTop: 100px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 100px;
 }
 
 .loaderIcon {
-  width: 30px;
-  height: 30px;
-  borderRadius: 2px;
-  backgroundColor: $text-color;
-  boxShadow: 0 0 3px rgba($black, 0.156863),
+  composes: loader;
+  width: em(30px);
+  height: em(30px);
+  border-radius: 2px;
+  background-color: $text-color;
+  box-shadow: 0 0 3px rgba($black, 0.156863),
              0 0 3px rgba($black, 0.227451);
-  marginLeft: auto;
-  marginRight: auto;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .loadMoreWrap {

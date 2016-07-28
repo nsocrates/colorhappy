@@ -1,9 +1,11 @@
 /**
  * pg-promise initialization
+ * =================================================================================
+ * https://github.com/vitaly-t/pg-promise-demo/blob/master/JavaScript/db/index.js
  */
 
 import pgPromise from 'pg-promise'
-import entities from './queries'
+import queries from './queries'
 import config from '../config/environment'
 
 const promise = require('bluebird')
@@ -13,8 +15,8 @@ const options = {
   promiseLib: promise,
   // Extend the database with custom methods and functions.
   extend: obj => {
-    obj.Palette = entities(obj).palette
-    obj.User = entities(obj).user
+    obj.Palette = queries(obj).palette
+    obj.User = queries(obj).user
   },
 }
 

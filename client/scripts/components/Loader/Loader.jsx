@@ -2,6 +2,11 @@ import React, { PropTypes } from 'react'
 import withStyles from 'isomorphic-style-loader/lib/withStyles'
 import s from './Loader.scss'
 
+const loaderIconPropTypes = {
+  style: PropTypes.object,
+  className: PropTypes.string,
+}
+
 const loaderPropTypes = {
   loaderStyle: PropTypes.object,
   containerStyle: PropTypes.object,
@@ -9,6 +14,12 @@ const loaderPropTypes = {
 
 const loadMorePropTypes = {
   onClick: PropTypes.func,
+}
+
+function _LoaderIcon({ style, className }) {
+  return (
+    <div className={`${s.loaderIcon} ${className}`} style={style} />
+  )
 }
 
 function _Loader({ loaderStyle, containerStyle }) {
@@ -30,12 +41,14 @@ function _LoadMore(props) {
 }
 
 function _EndResult() {
-  return <h4 className={s.endResult}>{"No More Palettes to Display."}</h4>
+  return <h5 className={s.endResult}>{"No More Palettes to Display."}</h5>
 }
 
+_LoaderIcon.propTypes = loaderIconPropTypes
 _Loader.propTypes = loaderPropTypes
 _LoadMore.propTypes = loadMorePropTypes
 
+export const LoaderIcon = withStyles(s)(_LoaderIcon)
 export const Loader = withStyles(s)(_Loader)
 export const LoadMore = withStyles(s)(_LoadMore)
 export const EndResult = withStyles(s)(_EndResult)

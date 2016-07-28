@@ -55,9 +55,9 @@ INSERT INTO Palettes (id, user_id, title, description, colors)
   ), (
     'c00000000000000000000002',
     'u00000000000000000000000',
-    'My New Palette',
+    'Dreamer',
     'From COLOURlovers',
-    ARRAY['121013', '5cb6f2', '68d675', 'faf8fb', 'ee6926']
+    ARRAY['7282A4', 'A68EBF', 'A0B5D9', '8ADBD3', 'B0EBB3']
   ), (
     'c00000000000000000000003',
     'u00000000000000000000000',
@@ -90,10 +90,34 @@ INSERT INTO Palettes (id, user_id, title, description, colors)
     ARRAY['3FB8AF', '79BAAF', 'DAFFA7', 'FFA09D', 'FF5F60']
   ), (
     'c00000000000000000000008',
-    'u00000000000000000000001',
-    'The Day',
-    'From The Day''s Color',
-    ARRAY['dd423e', 'df455f', '01afc3', '4e8b20', 'f5e27a']
+    'u00000000000000000000000',
+    '905 COLOURfriends',
+    'From COLOURlovers',
+    ARRAY['FF8076', 'FB2B79', 'C2798D', 'A2979B', '8BA9B1']
+  ), (
+    'c00000000000000000000009',
+    'u00000000000000000000000',
+    'Steven''s Palate',
+    'From COLOURlovers',
+    ARRAY['98DAE5', 'D3D2E8', 'D7E1F2', '9CA2AD', '666D78']
+  ), (
+    'c00000000000000000000010',
+    'u00000000000000000000000',
+    'coup de grâce',
+    'From COLOURlovers',
+    ARRAY['99B898', 'FECEA8', 'FF847C', 'E84A5F', '2A363B']
+  ), (
+    'c00000000000000000000011',
+    'u00000000000000000000000',
+    'QB Studio',
+    'From Adobe Kuler',
+    ARRAY['FFBC67', 'DA727E', 'AC6C82', '685C79', '455C7B']
+  ), (
+    'c00000000000000000000012',
+    'u00000000000000000000000',
+    'Tenui',
+    'From Adobe Kuler',
+    ARRAY['DBB4D8', 'F4F1F3', 'CBCDF0', '7BB3C0', '177D90']
   );
 
 -- ## Palette User Favorite

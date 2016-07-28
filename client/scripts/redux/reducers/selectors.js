@@ -1,3 +1,5 @@
+// Monolithic file containing selectors...
+
 import {
   createSelector,
   createStructuredSelector,
@@ -7,8 +9,6 @@ export const selectState = state => state
 export const selectEntities = state => state.entities
 export const selectSession = state => state.session
 export const selectIsModal = state => state.modal.isModal
-export const selectPaletteEntity = state => state.entities.palettes
-export const selectUserEntity = state => state.entities.users
 export const selectSidebar = state => state.ui.sidebar
 export const selectHeader = state => state.ui.header
 export const selectNotifications = state => state.notifications
@@ -25,6 +25,10 @@ export const selectPalette = (state, id) =>
 export const selectPaginatedPalettes = state =>
   state.palettes
 
+export const sessionSelector = createStructuredSelector({
+  session: selectSession,
+})
+
 export const appSelector = createStructuredSelector({
   session: selectSession,
   sidebar: selectSidebar,
@@ -32,12 +36,19 @@ export const appSelector = createStructuredSelector({
   notifications: selectNotifications,
 })
 
-export const makePaletteSelector = () =>
+export const makePaletteUserSelector = () =>
   createSelector(
-    selectPalette, palette => ({ palette })
+    [selectPalette, selectEntities],
+    (palette, entities) => {
+      const userId = palette.user_id
+      return {
+        palette,
+        user: entities.users[userId],
+      }
+    }
   )
 
-export const makePaletteUserSelector = (...selectors) =>
+export const makePaginatedPaletteUserSelector = (...selectors) =>
   createSelector(
     [selectEntities, selectPaginatedPalettes],
     (entities, paginatedPalettes) => ({
@@ -69,9 +80,9 @@ export const makeModalSelector = () =>
 
 export const makeSettingsSelector = () =>
   createSelector(
-    [selectSession, selectUserEntity],
-    (session, userEntity) => ({
+    [selectSession, selectEntities],
+    (session, entities) => ({
       session,
-      me: userEntity[session.id] || {},
+      me: entities.users[session.id] || {},
     })
   )

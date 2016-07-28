@@ -10,49 +10,74 @@ const propTypes = {
   handleReplace: PropTypes.func,
   handleExit: PropTypes.func,
   dispatch: PropTypes.func.isRequired,
+  session: PropTypes.object.isRequired,
 }
 
 class Login extends Component {
   constructor(props) {
     super(props)
-    this.handleLogin = this.handleLogin.bind(this)
+    this.state = {
+      username: 'seed',
+      password: '123',
+    }
+    this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleChange = this.handleChange.bind(this)
   }
 
-  handleLogin(e) {
+  handleSubmit(e) {
     const { dispatch } = this.props
     e.preventDefault()
 
     dispatch(login.request({
-      username: this._username.value,
-      password: this._password.value,
+      username: this.state.username,
+      password: this.state.password,
     }))
   }
 
-  render() {
-    const { handleReplace, handleExit } = this.props
+  handleChange(e) {
+    e.preventDefault()
+    this.setState({
+      [e.target.getAttribute('data-controller')]: e.target.value,
+    })
+  }
 
+  render() {
+    const { handleReplace, handleExit, session } = this.props
     const handleToSignup = handleReplace('/signup')
 
+    const isDisabled = {
+      disabled: session.isAuthenticating,
+    }
+
     return (
-      <ModalForm onExit={handleExit} onSubmit={this.handleLogin} heading="Login">
+      <ModalForm
+        onChange={this.handleChange}
+        onSubmit={this.handleSubmit}
+        onExit={handleExit}
+        heading="Login"
+      >
         <FieldInput
+          data-controller="username"
           label="Email or Username"
           type="text"
-          reference={c => (this._username = c)}
+          value={this.state.username}
           Icon={Person}
-          defaultValue="seed"
         />
         <FieldInput
+          data-controller="password"
           label="Password"
           type="password"
-          reference={c => (this._password = c)}
+          value={this.state.password}
           Icon={Lock}
-          defaultValue="123"
         />
-        <button className={s.primaryBtn} type="submit">
-          {"Login"}
+        <button
+          {...isDisabled}
+          className={s.formBtn__primary}
+          type="submit"
+        >
+          {session.isAuthenticating ? 'Logging in...' : 'Login'}
         </button>
-        <button className={s.secondaryBtn} onClick={handleToSignup}>
+        <button className={s.formBtn__secondary} onClick={handleToSignup}>
           {"Signup"}
         </button>
       </ModalForm>

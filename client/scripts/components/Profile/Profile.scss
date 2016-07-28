@@ -44,6 +44,7 @@
 .avatarWrap {
   position: relative;
   padding-bottom: 100%;
+  background-color: rgba($black, 0.05);
 }
 
 .avatar {
@@ -60,5 +61,11 @@
 .infoHeading {
   margin: 0;
   padding: 0;
+  font-weight: 700;
   color: $text-color;
+}
+
+.strong {
+  font-family: $heading-font-family;
+  font-weight: 700;
 }

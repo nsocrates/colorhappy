@@ -9,65 +9,88 @@ import { updateProfile } from 'actions/users'
 const propTypes = {
   dispatch: PropTypes.func.isRequired,
   me: PropTypes.object.isRequired,
+  session: PropTypes.object.isRequired,
 }
 
 class ProfileSection extends Component {
   constructor(props) {
     super(props)
+    this.state = {
+      full_name: props.me.full_name,
+      loc: props.me.loc,
+      website: props.me.website,
+      bio: props.me.bio,
+    }
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleChange = this.handleChange.bind(this)
   }
 
   handleSubmit(e) {
     e.preventDefault()
-    const payload = {
-      name: this._name.value.trim(),
-      location: this._location.value.trim(),
-      website: this._website.value.trim(),
-      bio: this._bio.value.trim(),
-    }
+
+    const payload = Object.keys(this.state).reduce((acc, key) => {
+      acc[key] = acc[key].trim()
+      return acc
+    }, this.state)
 
     this.props.dispatch(updateProfile.request(payload))
   }
+
+  handleChange(e) {
+    e.preventDefault()
+
+    this.setState({
+      [e.target.getAttribute('data-controller')]: e.target.value,
+    })
+  }
+
   render() {
-    const { me } = this.props
+    const { session } = this.props
+    const isDisabled = {
+      disabled: session.isUpdatingAccount,
+    }
     return (
       <div className={s.container}>
-        <form className={s.form} onSubmit={this.handleSubmit}>
+        <form className={s.form} onSubmit={this.handleSubmit} onChange={this.handleChange}>
 
           <FieldInput
             label="Name"
             type="text"
-            defaultValue={me.name}
+            data-controller="full_name"
+            value={this.state.full_name}
             Icon={Person}
-            reference={c => (this._name = c)}
           />
 
           <FieldInput
             label="Location"
             type="text"
-            defaultValue={me.location}
+            data-controller="loc"
+            value={this.state.loc}
             Icon={Location}
-            reference={c => (this._location = c)}
           />
 
           <FieldInput
             label="Website"
             type="text"
-            defaultValue={me.website}
+            data-controller="website"
+            value={this.state.website}
             Icon={Web}
-            reference={c => (this._website = c)}
           />
 
           <FieldTextArea
             label="Bio"
-            defaultValue={me.bio}
+            data-controller="bio"
+            value={this.state.bio}
             Icon={Create}
-            reference={c => (this._bio = c)}
           />
 
           <div className={s.btnGroup}>
-            <button type="submit" className={s.formBtn}>
-              {"Save Changes"}
+            <button
+              {...isDisabled}
+              type="submit"
+              className={s.formBtn}
+            >
+              {session.isUpdatingAccount ? 'Saving Changes...' : 'Save Changes'}
             </button>
           </div>
 

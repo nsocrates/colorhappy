@@ -1,8 +1,12 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import withStyles from 'isomorphic-style-loader/lib/withStyles'
 import s from './Profile.scss'
 
-function ProfileHeader(props) {
+const propTypes = {
+  user: PropTypes.object.isRequired,
+}
+
+function ProfileHeader({ user }) {
   return (
     <header className={s.banner}>
       <section className={s.cell__avatar}>
@@ -16,24 +20,25 @@ function ProfileHeader(props) {
       <ul className={s.cell}>
         <li className={s.info}>
           <h4 className={s.infoHeading}>
-            {"UsernameHere"}
+            {user.username}
           </h4>
         </li>
         <li className={s.info}>
-          {"Palettes: "}
-          <strong>
-            {"26"}
+          <strong className={s.strong}>
+            {user.palette_count}
           </strong>
+          {" Palettes"}
         </li>
         <li className={s.info}>
-          {"Favorites: "}
-          <strong>
-            {"12"}
+          <strong className={s.strong}>
+            {user.favorite_count}
           </strong>
+          {" Favorites"}
         </li>
       </ul>
     </header>
   )
 }
 
+ProfileHeader.propTypes = propTypes
 export default withStyles(s)(ProfileHeader)

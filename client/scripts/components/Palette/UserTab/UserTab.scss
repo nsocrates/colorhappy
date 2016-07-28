@@ -1,0 +1,92 @@
+@import "~styles/helpers";
+
+.container {
+  @include ease(0.25s, "standard", width);
+  padding: em(30px) em(15px);
+  background-color: $white;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 25%;
+  min-width: em(150px);
+  float: left;
+
+  @include media-breakpoint-up(md) {
+    min-width: unset;
+    width: em(130px);
+  }
+
+  @include media-breakpoint-up(lg) {
+    width: 20%;
+  }
+}
+
+.block {
+  margin-bottom: em(15px);
+
+  &__avatar {
+    composes: block;
+    width: em(100px);
+    margin-left: auto;
+    margin-right: auto;
+    overflow: hidden;
+    border-radius: 50%;
+  }
+
+  &__username {
+    composes: block;
+    display: none;
+
+    @include media-breakpoint-up(md) {
+      display: block;
+    }
+
+    @include media-breakpoint-up(lg) {
+      font-size: map-get($font-size, h4);
+    }
+  }
+}
+
+.avatarWrap {
+  position: relative;
+  padding-bottom: 100%;
+  background-color: rgba($black, 0.05);
+}
+
+.avatar {
+  border-radius: 50%;
+  position: absolute;
+}
+
+.username {
+  font-weight: 700;
+  text-align: center;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin: 0;
+  line-height: 1;
+}
+
+.link {
+  display: block;
+
+  &:hover {
+    color: $accent-color;
+  }
+
+  &__inline {
+    composes: link;
+    display: inline;
+  }
+}
+
+.stats {
+  text-align: center;
+}
+
+.strong {
+  font-family: $heading-font-family;
+  font-weight: 700;
+}

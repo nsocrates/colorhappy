@@ -1,2 +1,2 @@
-export { Loader, LoadMore, EndResult } from './Loader'
+export { Loader, LoadMore, EndResult, LoaderIcon } from './Loader'
 export BrowserLoader from './BrowserLoader'

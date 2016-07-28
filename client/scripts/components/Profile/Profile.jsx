@@ -8,16 +8,17 @@ import { BrowserLoader } from 'components/Loader'
 const propTypes = {
   dispatch: PropTypes.func.isRequired,
   userEntity: PropTypes.object.isRequired,
-  paletteEntity: PropTypes.object.isRequird,
+  paletteEntity: PropTypes.object.isRequired,
   palettes: PropTypes.object.isRequired,
+  params: PropTypes.object.isRequired,
 }
 
 function Profile(props) {
-  const { palettes, dispatch, userEntity, paletteEntity } = props
+  const { palettes, dispatch, userEntity, paletteEntity, params } = props
   return (
     <main className={s.container}>
       <div className={s.row__banner}>
-        <ProfileHeader />
+        <ProfileHeader user={userEntity[params.id]} />
       </div>
       <div className={s.row}>
         {palettes.ids.map((id, i) => {

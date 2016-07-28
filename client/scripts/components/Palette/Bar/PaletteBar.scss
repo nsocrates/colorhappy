@@ -1,6 +1,7 @@
 @import "~styles/helpers";
 
-.barList {
+.container {
+  @include make-container;
   @include add-shadow-0(inset);
   height: map-get($palette-bar, height);
   line-height: map-get($palette-bar, height);
@@ -15,27 +16,29 @@
   }
 }
 
-.barItem {
-  display: inline-block;
-  vertical-align: middle;
-  padding: 0 em(15px);
+.row {
+  @include make-row;
 }
 
-.barIcon,
-.barText {
+.column {
+  @include make-col(4);
   vertical-align: middle;
 }
 
-.barAction {
+.icon,
+.text {
+  vertical-align: middle;
+}
+
+.anchor {
   color: $text-color;
   display: block;
-  padding: 0 em(10px);
 
   &:hover {
     color: $accent-color;
   }
 }
 
-.barIcon {
+.icon {
   margin-right: em(5px);
 }

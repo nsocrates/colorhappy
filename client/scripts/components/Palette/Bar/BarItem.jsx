@@ -14,17 +14,17 @@ function BarItem(props) {
   const { Icon, label, anchor, ...rest } = props
   const Tag = anchor ? 'a' : Link
   return (
-    <li className={s.barItem}>
+    <article className={s.column}>
       <Tag
         {...rest}
-        className={s.barAction}
+        className={s.anchor}
       >
-        <Icon className={s.barIcon} />
-        <span className={s.barText}>
+        <Icon className={s.icon} />
+        <span className={s.text}>
           {label}
         </span>
       </Tag>
-    </li>
+    </article>
   )
 }
 

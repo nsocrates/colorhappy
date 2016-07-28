@@ -16,6 +16,7 @@
 
   @include media-breakpoint-up(md) {
     width: em(300px);
+    min-width: 50%;
   }
 
   &__off {

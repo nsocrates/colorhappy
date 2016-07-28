@@ -1,10 +1,10 @@
-import React, { Component, PropTypes } from 'react'
+import React, { PropTypes } from 'react'
 import withStyles from 'isomorphic-style-loader/lib/withStyles'
 import { Link } from 'react-router'
 import s from './Browser.scss'
 import BrowserPalette from './BrowserPalette'
 import { Love, Eye } from 'components/Svg'
-import { paletteLove, exportPalette } from 'actions/palettes'
+import { paletteLove } from 'actions/palettes'
 
 const propTypes = {
   palette: PropTypes.object,
@@ -12,92 +12,53 @@ const propTypes = {
   dispatch: PropTypes.func,
 }
 
-class BrowserPaletteGroup extends Component {
-  constructor(props) {
-    super(props)
-    this.handleClick = this.handleClick.bind(this)
-    this.handleMouseOver = this.handleMouseOver.bind(this)
-    this.handleMouseOut = this.handleMouseOut.bind(this)
-    this.handleExport = this.handleExport.bind(this)
-  }
+function BrowserPaletteGroup({ palette, user, dispatch }) {
+  const colors = palette.colors
+    .map(color => `${color}-`)
+    .join('')
 
-  handleClick(e) {
-    e.preventDefault()
-  }
-
-  handleMouseOver(e) {
-    e.currentTarget.style.opacity = '1'
-  }
-
-  handleMouseOut(e) {
-    e.currentTarget.style.opacity = ''
-  }
-
-  handleExport(e) {
-    const { palette, dispatch } = this.props
-    e.preventDefault()
-    const payload = palette.colors
-      .map(color => `${color}-`)
-      .join('')
-    dispatch(exportPalette.request(payload))
-  }
-
-  render() {
-    const {
-      palette,
-      user,
-      dispatch,
-    } = this.props
-
-    const colors = palette.colors
-      .map(color => `${color}-`)
-      .join('')
-
-    return (
-      <article className={s.column}>
-        <heading className={s.articleHeading}>
-          <aside className={s.articleHeadingRight}>
-            <span className={s.countGroup}>
-              <span className={s.count}>
-                {`${palette.view_count} `}
-              </span>
-              <Eye className={s.countIcon} />
+  return (
+    <article className={s.column}>
+      <heading className={s.articleHeading}>
+        <aside className={s.articleHeadingRight}>
+          <span className={s.countGroup}>
+            <span className={s.count}>
+              {`${palette.view_count} `}
             </span>
-            <span className={s.countGroup}>
-              <span className={s.count}>
-                {`${palette.favorite_count} `}
-              </span>
-              <Love className={s.countIcon} />
+            <Eye className={s.countIcon} />
+          </span>
+          <span className={s.countGroup}>
+            <span className={s.count}>
+              {`${palette.favorite_count} `}
             </span>
-          </aside>
-          <section className={s.articleHeadingLeft}>
-            <h5 className={s.textWrap__title}>
-              <Link className={s.titleLink} to={`/palette/${palette.id}`}>
-                {palette.title}
-              </Link>
-            </h5>
-            <div className={s.textWrap__small}>
-              <span className={s.textSpacer}>{"by"}</span>
-              <Link className={s.user} to={`/user/${user.id}`}>
-                {user.username}
-              </Link>
-            </div>
-          </section>
-        </heading>
-        <section className={s.articleBody}>
-          {palette.colors.map((color, i) =>
-            <BrowserPalette color={color} key={`${color}_${i}`} />
-          )}
-          <aside
-            className={s.overlay}
-            onMouseOver={this.handleMouseOver}
-            onMouseOut={this.handleMouseOut}
-          >
+            <Love className={s.countIcon} />
+          </span>
+        </aside>
+        <section className={s.articleHeadingLeft}>
+          <h5 className={s.textWrap__title}>
+            <Link className={s.titleLink} to={`/palette/${palette.id}`}>
+              {palette.title}
+            </Link>
+          </h5>
+          <div className={s.textWrap__small}>
+            <span className={s.textSpacer}>{"by"}</span>
+            <Link className={s.user} to={`/user/${user.id}`}>
+              {user.username}
+            </Link>
+          </div>
+        </section>
+      </heading>
+      <section className={s.articleBody}>
+        {palette.colors.map((color, i) =>
+          <BrowserPalette color={color} key={`${color}_${i}`} />
+        )}
+        <aside className={s.overlayContainer}>
+          <div className={s.overlayRow}>
             <label
               className={s.overlayItem}
               onClick={() => dispatch(paletteLove.request({ id: palette.id }))}
             >
-              {"Love"}
+              {"Like"}
             </label>
             <Link className={s.overlayItem} to={`/palette/${palette.id}`}>{"View"}</Link>
             <a
@@ -107,11 +68,11 @@ class BrowserPaletteGroup extends Component {
             >
               {"Export"}
             </a>
-          </aside>
-        </section>
-      </article>
-    )
-  }
+          </div>
+        </aside>
+      </section>
+    </article>
+  )
 }
 
 BrowserPaletteGroup.propTypes = propTypes

@@ -11,12 +11,12 @@ const propTypes = {
 }
 
 export default function BrowserLoader({ pagination, onClick }) {
-  const { isFetching, startId, startKey } = pagination
+  const { isFetching, hasMore } = pagination
   // Currently fetching
   if (isFetching) return <Loader />
 
   // Nothing remaining to fetch
-  if (!startId && !startKey) return <EndResult />
+  if (!hasMore) return <EndResult />
 
   // Default
   return <LoadMore onClick={onClick} />

@@ -31,6 +31,8 @@ export function* watchNotifs() {
     const { payload } = yield take(NOTIF_CREATE)
     const notifPayload = Object.assign({}, {
       id: Date.now(),
+      // Default message if not provided.
+      message: 'Something went wrong...',
       duration: 4000,
       action: 'dismiss',
     }, payload)

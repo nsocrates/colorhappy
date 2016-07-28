@@ -2,6 +2,7 @@
 
 .main {
   @include ease(0.25s, "standard", font-size);
+  @include clearfix;
   position: absolute;
   top: map-get($header, height);
   left: 0;
@@ -9,28 +10,26 @@
   bottom: 0;
   width: 100%;
   height: calc(100% - #{map-get($palette-container, c-height)});
+  min-height: rem(90px * 6);
 
   @include media-breakpoint-up(md) {
     top: map-get($header, md-height);
     height: calc(100% - #{map-get($palette-container, c-height-md)});
+    min-height: rem(325px);
   }
 }
 
 .paletteList {
   @include clearfix;
+  overflow: hidden;
+  width: auto;
   height: 100%;
   position: relative;
-  min-height: rem(110px);
-
-  @include media-breakpoint-up(md) {
-    min-height: rem(300px);
-  }
 }
 
 .paletteListItem {
   position: relative;
   height: 20%;
-  min-height: rem(110px);
   width: 100%;
   display: flex;
   align-items: center;
@@ -41,7 +40,6 @@
     position: absolute;
     text-align: center;
     height: 100%;
-    min-height: rem(300px);
     width: 20%;
 
     &:first-child {
@@ -113,10 +111,18 @@
   letter-spacing: em(0.25px);
   font-size: map-get($font-size, h4);
   margin-bottom: em(5px);
+
+  @include media-breakpoint-only(md) {
+    font-size: map-get($font-size, h5);
+  }
 }
 
 .rgbInput {
   composes: c__input;
   font-family: $base-font-family;
   font-size: map-get($font-size, h6);
+
+  @include media-breakpoint-only(md) {
+    font-size: $small-font-size;
+  }
 }

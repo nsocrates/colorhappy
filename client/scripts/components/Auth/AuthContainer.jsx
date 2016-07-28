@@ -6,11 +6,13 @@ import Modal from 'components/Modal/Modal'
 import { push, replace } from 'react-router-redux'
 import withStyles from 'isomorphic-style-loader/lib/withStyles'
 import s from './Auth.scss'
+import { sessionSelector } from 'reducers/selectors'
 
 const propTypes = {
   children: PropTypes.node,
   location: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired,
+  session: PropTypes.object.isRequired,
 }
 
 class AccountContainer extends Component {
@@ -66,9 +68,7 @@ class AccountContainer extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return { state }
-}
+const mapStateToProps = state => sessionSelector(state)
 
 AccountContainer.propTypes = propTypes
 

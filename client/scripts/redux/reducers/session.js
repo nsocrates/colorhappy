@@ -1,8 +1,17 @@
-import { LOGIN, SIGNUP, LOGOUT, SET_TOKEN, ME } from 'constants/actionTypes'
+import {
+  LOGIN,
+  SIGNUP,
+  LOGOUT,
+  SET_TOKEN,
+  ME,
+  UPDATE_PROFILE,
+  CHANGE_PASSWORD,
+} from 'constants/actionTypes'
 
 const initialState = {
   isAuthenticated: false,
   isAuthenticating: false,
+  isUpdatingAccount: false,
   errors: [],
   token: '',
   id: '',
@@ -39,6 +48,20 @@ export default function session(state = initialState, action) {
     case SIGNUP.FAILURE:
       return Object.assign({}, initialState, {
         errors: action.error,
+      })
+
+    case CHANGE_PASSWORD.REQUEST:
+    case UPDATE_PROFILE.REQUEST:
+      return Object.assign({}, state, {
+        isUpdatingAccount: true,
+      })
+
+    case CHANGE_PASSWORD.SUCCESS:
+    case UPDATE_PROFILE.SUCCESS:
+    case CHANGE_PASSWORD.FAILURE:
+    case UPDATE_PROFILE.FAILURE:
+      return Object.assign({}, state, {
+        isUpdatingAccount: false,
       })
     case LOGOUT:
       return initialState

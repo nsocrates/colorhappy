@@ -1,11 +1,5 @@
 @import "~styles/helpers";
 
-.c__formBtn {
-  @include btn-lg;
-  width: 100%;
-  margin-bottom: em(10px);
-}
-
 .container {
   display: table;
   table-layout: fixed;
@@ -34,16 +28,26 @@
   }
 }
 
-.primaryBtn {
-  @include btn-ease($accent-color);
-  composes: c__formBtn;
-  color: $white;
+.formBtn {
+  @include btn-lg;
+  width: 100%;
+  margin-bottom: em(10px);
   font-weight: 600;
-}
 
-.secondaryBtn {
-  composes: c__formBtn;
-  color: $accent-color;
-  font-weight: 600;
-  margin-bottom: 0;
+  &__primary {
+    @include btn-ease($accent-color);
+    composes: formBtn;
+    color: $white;
+
+    &:disabled {
+      cursor: not-allowed;
+      background-color: lighten($accent-color, 10%);
+    }
+  }
+
+  &__secondary {
+    composes: formBtn;
+    color: $accent-color;
+    margin-bottom: 0;
+  }
 }

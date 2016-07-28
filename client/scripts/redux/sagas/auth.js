@@ -30,6 +30,7 @@ function removeToken() {
   return null
 }
 
+// Authenticate the user and wait for a logout request.
 function* authenticate(token) {
   yield call(setToken, token)
   yield put(me.request())
@@ -51,6 +52,7 @@ function* authenticate(token) {
 }
 
 // Subroutine for handling authentication requests
+// Primary purpose of this function is to call our API function.
 function* authenticationRoutine(apiFn, action) {
   const { payload } = action
   const { token } = yield call(apiFn, payload)
@@ -60,6 +62,7 @@ function* authenticationRoutine(apiFn, action) {
   }
 }
 
+// Fire the authentication routine on every login/signup request.
 export function* watchAuth() {
   while (true) {
     yield [

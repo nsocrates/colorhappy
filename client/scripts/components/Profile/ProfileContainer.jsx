@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import Profile from './Profile'
-import { makePaletteUserSelector } from 'reducers/selectors'
+import { makePaginatedPaletteUserSelector } from 'reducers/selectors'
 import { user, userPalette } from 'actions/users'
 import { Loader } from 'components/Loader'
 
@@ -28,7 +28,7 @@ class ProfileContainer extends Component {
   render() {
     const { palettes } = this.props
 
-    if (!palettes) return <Loader />
+    if (!palettes || !palettes.ids.length) return <Loader />
 
     return (
       <Profile {...this.props} />
@@ -39,6 +39,6 @@ class ProfileContainer extends Component {
 ProfileContainer.propTypes = propTypes
 
 const makeMapStateToProps = () => (state, props) =>
-  makePaletteUserSelector('palettesByUser', props.params.id)(state)
+  makePaginatedPaletteUserSelector('palettesByUser', props.params.id)(state)
 
 export default connect(makeMapStateToProps)(ProfileContainer)

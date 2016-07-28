@@ -22,7 +22,7 @@ body {
   font-size: rem($base-font-size-sm);
   font-weight: $base-font-weight;
   line-height: $base-line-height;
-  background-color: $background-color;
+  background-color: $body-background;
   min-width: map-get($container, min);
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;

@@ -13,6 +13,8 @@ export const USER = createRequestTypes('USER')
 export const USER_PALETTE = createRequestTypes('USER_PALETTE')
 export const ME = createRequestTypes('ME')
 
+export const LOAD_PALETTES = 'LOAD_PALETTES'
+
 export const LOGOUT = 'LOGOUT'
 export const SET_TOKEN = 'SET_TOKEN'
 

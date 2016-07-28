@@ -5,6 +5,7 @@ import PaletteWrapper from './PaletteWrapper'
 import PaletteColor from './PaletteColor'
 import PaletteBar from './Bar/PaletteBar'
 import BarItem from './Bar/BarItem'
+import UserTab from './UserTab/UserTab'
 import { paletteLove } from 'actions/palettes'
 import { Love, ModeEdit, Download } from 'components/Svg'
 import { stringifier } from 'utils/transformations'
@@ -13,6 +14,7 @@ const propTypes = {
   palette: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired,
   params: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
 }
 
 class Palette extends Component {
@@ -28,7 +30,7 @@ class Palette extends Component {
   }
 
   render() {
-    const { palette } = this.props
+    const { palette, user } = this.props
     const stringified = stringifier(palette.colors)
     const colors = palette.colors.map((color, index) =>
       <PaletteColor
@@ -36,14 +38,24 @@ class Palette extends Component {
         key={`${color}_${index}`}
       />)
 
+    const TabComponent = <UserTab user={user} />
+    const BarComponent = (
+      <PaletteBar>
+        <BarItem to={"#"} Icon={Love} label={"Like"} onClick={this.handleLove} />
+        <BarItem to={`/editor/${stringified}`} Icon={ModeEdit} label={"Edit"} />
+        <BarItem
+          anchor
+          download
+          href={`//localhost:8000/api/palettes/download/${stringified}`}
+          Icon={Download}
+          label={"Export"}
+        />
+      </PaletteBar>
+    )
+
     return (
-      <PaletteWrapper>
+      <PaletteWrapper UserTab={TabComponent} Bar={BarComponent}>
         {colors}
-        <PaletteBar>
-          <BarItem to={"#"} Icon={Love} label={"Love"} onClick={this.handleLove} />
-          <BarItem to={`/editor/${stringified}`} Icon={ModeEdit} label={"Edit"} />
-          <BarItem href={`//localhost:8000/api/palettes/download/${stringified}`} Icon={Download} label={"Export"} anchor download />
-        </PaletteBar>
       </PaletteWrapper>
     )
   }

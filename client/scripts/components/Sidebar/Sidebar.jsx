@@ -15,6 +15,7 @@ class Sidebar extends Component {
   constructor(props) {
     super(props)
     this.handleKeyDown = this.handleKeyDown.bind(this)
+    this.handleLogout = this.handleLogout.bind(this)
   }
 
   shouldComponentUpdate(nextProps) {
@@ -27,17 +28,26 @@ class Sidebar extends Component {
     else this._sidebar.blur()
   }
 
-  handleKeyDown(e) {
+  handleClose() {
     const { dispatch } = this.props
-    if (e.key === 'Escape' || e.keycode === 27) {
-      e.preventDefault()
-      dispatch(toggleSidebar(false))
-    }
+    dispatch(toggleSidebar(false))
+  }
+
+  handleKeyDown(e) {
     e.preventDefault()
+    if (e.key === 'Escape' || e.keycode === 27) {
+      this.handleClose()
+    }
+  }
+
+  handleLogout() {
+    const { dispatch } = this.props
+    dispatch(logout())
+    this.handleClose()
   }
 
   render() {
-    const { sidebar, header, dispatch } = this.props
+    const { sidebar, header } = this.props
     return (
       <aside
         className={s.sidebar}
@@ -54,7 +64,7 @@ class Sidebar extends Component {
           <SidebarItem to={"/palettes"} label={"Palettes"} />
           <SidebarItem to={"/editor"} label={"Editor"} />
           <SidebarItem to={"/settings"} label={"Settings"} />
-          <SidebarItem to={"/"} label={"Logout"} onClick={() => dispatch(logout())} />
+          <SidebarItem to={"/"} label={"Logout"} onClick={this.handleLogout} />
         </ul>
       </aside>
     )

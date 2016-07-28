@@ -1,10 +1,15 @@
-import { PALETTE, PALETTE_ARRAY, PALETTE_LOVE, PALETTE_CREATE } from 'constants/actionTypes'
+import {
+  PALETTE,
+  PALETTE_LOVE,
+  PALETTE_CREATE,
+  LOAD_PALETTES,
+} from 'constants/actionTypes'
 import { palette, paletteArray, paletteLove, paletteSave } from 'actions/palettes'
 import { modal } from 'actions/modal'
 import { take, call, fork, select, put } from 'redux-saga/effects'
 import { api, tryApi } from 'services'
 import { createNotif } from 'sagas/notifications'
-import { selectSession, selectPalette } from 'reducers/selectors'
+import { selectSession, selectPalette, selectPaginatedPalettes } from 'reducers/selectors'
 import { validateHex } from 'utils/color/helpers'
 
 const callPalette = tryApi.bind(null, palette, api.getPalette)
@@ -16,18 +21,21 @@ const callPaletteCreate = tryApi.bind(null, paletteSave, api.createPalette)
 function* isInvalidLove(payload) {
   const { isAuthenticated, id } = yield select(selectSession)
   const { userId } = yield select(selectPalette, payload.id)
-  if (!isAuthenticated) return 'Login or signup to add this palette to your favorites'
-  if (userId === id) return 'You cannot favorite your own palette'
+  if (!isAuthenticated) return 'Login or signup to like this palette'
+  if (userId === id) return 'You cannot like your own palette'
   return false
 }
 
-function* watchPaletteArray() {
-  while (true) {
-    const { options } = yield take(PALETTE_ARRAY.REQUEST)
-    yield call(callPaletteArray, options)
-  }
+// Returns false if palette has been cached.
+export function* shouldFetchPalettes(options, isNext) {
+  if (isNext) return true
+  const { palettesBySortOrder } = yield select(selectPaginatedPalettes)
+  const pagedPalettes = palettesBySortOrder[options.sort] || {}
+  // Only return if the values in the ids array is empty.
+  return !(pagedPalettes.ids && pagedPalettes.ids.length)
 }
 
+// Watches for a palette.
 function* watchPalette() {
   while (true) {
     const { payload } = yield take(PALETTE.REQUEST)
@@ -35,6 +43,19 @@ function* watchPalette() {
   }
 }
 
+// Watches for an action to load palettes.
+function* watchPaletteArray() {
+  while (true) {
+    const { options, isNext } = yield take(LOAD_PALETTES)
+    const shouldCallPalette = yield call(shouldFetchPalettes, options, isNext)
+    if (shouldCallPalette) {
+      yield put(paletteArray.request(options))
+      yield call(callPaletteArray, options)
+    }
+  }
+}
+
+// Watches for a like action on palette.
 function* watchPaletteLove() {
   while (true) {
     const { payload } = yield take(PALETTE_LOVE.REQUEST)
@@ -42,6 +63,7 @@ function* watchPaletteLove() {
 
     if (isInvalid) {
       yield call(createNotif, { message: isInvalid })
+      // Restart watch.
       continue
     }
 
@@ -49,7 +71,8 @@ function* watchPaletteLove() {
     if (response) {
       yield call(createNotif, { message: 'Added palette to favorites' })
     } else {
-      yield call(createNotif, { message: 'Something went wrong...' })
+      // Message will default to 'Something went wrong...'
+      yield call(createNotif, {})
     }
   }
 }
@@ -59,6 +82,8 @@ function* watchPaletteCreate() {
   while (true) {
     const { payload } = yield take(PALETTE_CREATE.REQUEST)
     const { colors } = payload
+
+    // Make sure all hexidecimal values are valid colors before sending it to the server.
     const validated = colors.map(color => validateHex(color))
     if (!validated.every(valid => !!valid)) {
       yield call(createNotif, { message: `Invalid color in list: ${validated}` })

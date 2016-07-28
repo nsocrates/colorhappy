@@ -5,7 +5,7 @@ const { Palette } = db
 
 // GET to index all palettes.
 export function index(req, res) {
-  return Palette.index()
+  return Palette.index(req.query)
     .then(services.respondWithResult(res))
     .catch(services.handleError(res))
 }

@@ -7,10 +7,9 @@ import union from 'lodash/union'
 
 const initialState = {
   ids: [],
-  startId: null,
-  startKey: null,
   isFetching: false,
   pageCount: 0,
+  hasMore: false,
 }
 
 export default function paginate({ types, mapActionToKey }) {
@@ -38,6 +37,7 @@ export default function paginate({ types, mapActionToKey }) {
           ids: union(state.ids, action.response.result),
           nextPageUrl: action.response.nextPageUrl,
           pageCount: state.pageCount + 1,
+          hasMore: !!action.response.result.length,
         })
       case failureType:
         return merge({}, state, {

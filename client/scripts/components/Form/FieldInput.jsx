@@ -59,13 +59,13 @@ class FieldInput extends React.Component {
           />
           {Icon && <Icon className={s.svgIcon} />}
           {RightIcon &&
-            <button
+            <label
               className={s.svgBtnRight}
               onClick={this.handleVisibilityToggle}
               style={{ color: this.state.showPassword && '#70b7ba' }}
             >
               <RightIcon className={s.svgIconRight} />
-            </button>
+            </label>
           }
         </div>
       </fieldset>

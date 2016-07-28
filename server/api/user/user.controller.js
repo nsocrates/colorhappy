@@ -1,6 +1,7 @@
 import { signToken } from '../../auth/auth.service'
 import * as services from '../api.service'
 import { db } from '../../sqldb'
+import { validateUserSignup } from './user.validations'
 const { User } = db
 
 // GET to index all users.
@@ -12,8 +13,9 @@ export function index(req, res) {
 
 // POST to create a new user.
 export function create(req, res) {
-  return User.create(req.body)
-    .then(user => res.json({ token: signToken(user._id, user.role), user }))
+  return validateUserSignup(req.body)
+    .then(body => User.create(body))
+    .then(user => res.json({ token: signToken(user.id, user.role_status), user }))
     .catch(services.handleValidationError(res))
 }
 

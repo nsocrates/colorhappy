@@ -80,20 +80,23 @@ export default class Editor extends Component {
       )
     })
 
+    const BarComponent = (
+      <PaletteBar>
+        <BarItem to={"#"} Icon={Backup} label={"Save"} onClick={this.handleSave} />
+        <BarItem to={"#"} Icon={Shuffle} label={"Shuffle"} onClick={this.handleRandomize} />
+        <BarItem
+          anchor
+          download
+          href={`//localhost:8000/api/palettes/download/${stringified}`}
+          Icon={Download}
+          label={"Export"}
+        />
+      </PaletteBar>
+    )
+
     return (
-      <PaletteWrapper>
+      <PaletteWrapper Bar={BarComponent}>
         {colors}
-        <PaletteBar>
-          <BarItem to={"#"} Icon={Backup} label={"Save"} onClick={this.handleSave} />
-          <BarItem to={"#"} Icon={Shuffle} label={"Randomize"} onClick={this.handleRandomize} />
-          <BarItem
-            anchor
-            download
-            href={`//localhost:8000/api/palettes/download/${stringified}`}
-            Icon={Download}
-            label={"Export"}
-          />
-        </PaletteBar>
       </PaletteWrapper>
     )
   }
