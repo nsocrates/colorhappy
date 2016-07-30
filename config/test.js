@@ -1,7 +1,7 @@
 const path = require('path')
 
-const srcPath = path.join(__dirname, '..', 'client')
-const scriptsPath = path.join(__dirname, '..', 'client', 'scripts')
+const srcPath = path.join(__dirname, '..', 'app')
+const scriptsPath = path.join(__dirname, '..', 'app', 'scripts')
 
 module.exports = {
   resolve: {

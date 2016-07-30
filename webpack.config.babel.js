@@ -16,6 +16,7 @@ function getValidEnv(allowed, env) {
 const buildConfig = cfg => node => {
   const allowedEnvs = Object.keys(cfg)
   const envToUse = getValidEnv(allowedEnvs, node)
+
   return cfg[envToUse]
 }
 

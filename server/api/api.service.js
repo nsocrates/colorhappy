@@ -1,14 +1,11 @@
-import omit from 'lodash/omit'
-import merge from 'lodash/merge'
-
 export const handleValidationError = (res, statusCode = 422) => err => {
   console.log(err)
-  res.status(statusCode).json(err)
+  res.status(statusCode).json(err.message || err)
 }
 
 export const handleError = (res, statusCode = 500) => err => {
   console.log(err)
-  res.status(statusCode).send(err)
+  res.status(statusCode).send(err.message || err)
 }
 
 export const handleNotFound = res => entity => {
@@ -19,20 +16,6 @@ export const handleNotFound = res => entity => {
   return entity
 }
 
-export const removeEntity = res => entity => {
-  if (entity) {
-    return entity.remove()
-      .then(() => res.status(204).end())
-  }
-  return null
-}
-
 export const respondWithResult = (res, statusCode = 200) => entity => {
   if (entity) res.status(statusCode).json(entity)
-}
-
-export const saveUpdates = (updates, forbidden) => entity => {
-  const updated = merge(entity, omit(updates, forbidden))
-  return updated.save()
-    .then(updatedModel => updatedModel)
 }

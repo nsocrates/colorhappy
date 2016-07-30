@@ -2,7 +2,7 @@ import path from 'path'
 import webpack from 'webpack'
 import base from './base'
 import fs from 'fs'
-const outputPath = path.join(__dirname, '..', 'dist')
+import merge from 'lodash/merge'
 
 // Node externals
 const nodeModules = {}
@@ -49,16 +49,16 @@ const loaders = [{
   ],
 }]
 
-const config = Object.assign({}, base.config, {
+const config = merge({}, base.config, {
   name: 'server bundle',
+  context: path.join(__dirname, '..', 'server'),
   entry: {
-    server: path.resolve(__dirname, '..', 'server', 'server.jsx'),
+    server: './server.jsx',
   },
   target: 'node',
   output: {
     filename: 'server.js',
     libraryTarget: 'commonjs2',
-    path: outputPath,
   },
   externals: nodeModules,
   plugins: [

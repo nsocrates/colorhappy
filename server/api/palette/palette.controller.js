@@ -1,5 +1,5 @@
 import * as services from '../api.service'
-import { db } from '../../sqldb'
+import { db, pgp } from '../../sqldb'
 
 const { Palette } = db
 
@@ -8,6 +8,7 @@ export function index(req, res) {
   return Palette.index(req.query)
     .then(services.respondWithResult(res))
     .catch(services.handleError(res))
+    .finally(pgp.end())
 }
 
 // POST to create a new palette.
@@ -17,6 +18,7 @@ export function create(req, res) {
   }, req.body))
     .then(services.respondWithResult(res))
     .catch(services.handleError(res))
+    .finally(pgp.end())
 }
 
 // DELETE to destroy a palette.
@@ -27,6 +29,7 @@ export function destroy(req, res) {
   })
     .then(services.respondWithResult(res))
     .catch(services.handleError(res))
+    .finally(pgp.end())
 }
 
 // GET to show a palette.
@@ -35,6 +38,7 @@ export function show(req, res) {
     .then(services.handleNotFound(res))
     .then(services.respondWithResult(res))
     .catch(services.handleError(res))
+    .finally(pgp.end())
 }
 
 // PUT to update an existing palette.
@@ -43,6 +47,7 @@ export function update(req, res) {
     .then(services.handleNotFound(res))
     .then(services.respondWithResult(res))
     .catch(services.handleError(res))
+    .finally(pgp.end())
 }
 
 // POST to create a favorite relationship between user and palette.
@@ -54,6 +59,7 @@ export function favorite(req, res) {
     .then(services.handleNotFound(res))
     .then(services.respondWithResult(res))
     .catch(services.handleError(res))
+    .finally(pgp.end())
 }
 
 // DELETE to remove a favorite relationship between user and palette.
@@ -65,6 +71,7 @@ export function unfavorite(req, res) {
     .then(services.handleNotFound(res))
     .then(services.respondWithResult(res))
     .catch(services.handleError(res))
+    .finally(pgp.end())
 }
 
 // GET to download a palette as .scss.

@@ -1,0 +1,177 @@
+@import "~styles/helpers";
+
+.toolbar {
+  @include fun;
+  @include add-shadow-0(inset);
+  background-color: $white;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  top: 0;
+  color: $text-color;
+  display: table;
+  font-size: $small-font-size;
+  height: 100%;
+  line-height: 1;
+  margin: auto;
+  max-width: 200px;
+  table-layout: fixed;
+  text-align: left;
+  transform: translate3d(100%, 0, 0);
+  z-index: $z-toolbar;
+
+  @include media-breakpoint-up(md) {
+    transform: translate3d(0, 100%, 0);
+    max-width: unset;
+    top: unset;
+    left: 0;
+    height: auto;
+    margin: 0;
+    display: block;
+  }
+
+  &__visible {
+    composes: toolbar;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.toolbarContainer {
+  padding-left: rem(30px);
+  padding-right: rem(30px);
+  display: table-cell;
+  vertical-align: middle;
+  height: 100%;
+
+  @include media-breakpoint-up(md) {
+    padding-left: rem(10px);
+    padding-right: rem(10px);
+    padding-top: rem(30px);
+    padding-bottom: rem(30px);
+    display: block;
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-left: rem(15px);
+    padding-right: rem(15px);
+  }
+}
+
+.formGroup {
+  @include make-row;
+}
+
+.inputControl {
+  position: relative;
+  min-height: 1px;
+  float: left;
+
+  &__hex {
+    @include make-col-span(12);
+    padding: 0 rem(10px) rem(10px);
+    composes: inputControl;
+
+    @include media-breakpoint-up(lg) {
+      padding: 0 rem(15px) rem(15px);
+    }
+  }
+
+  &__rgb {
+    @include make-col-span(4);
+    composes: inputControl;
+    padding: 0 em(5px);
+
+    &:first-child {
+      padding-left: em(10px);
+      padding-right: 0;
+    }
+
+    &:last-child {
+      padding-right: em(10px);
+      padding-left: 0;
+    }
+
+    // Align with hex input
+    @include media-breakpoint-up(lg) {
+      &:first-child {
+        padding-left: em(15px);
+      }
+
+      &:last-child {
+        padding-right: em(15px);
+      }
+    }
+  }
+}
+
+.inputGroup {
+  display: block;
+}
+
+.inputCaption {
+  color: rgba($black, 0.38);
+  font-family: $heading-font-family;
+  font-weight: 600;
+  margin-bottom: em(5px);
+  display: block;
+}
+
+.input {
+  padding: rem(1px);
+  border-radius: em(3px);
+  border: 1px solid lighten($gray-dark, 60%);
+  width: 100%;
+  text-transform: lowercase;
+
+  &:focus {
+    box-shadow: 0 0 em(3px) $accent2-color;
+    border-color: $accent2-color;
+  }
+}
+
+.toggleWrap {
+  @include add-shadow(inset);
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  transform: translateX(-100%);
+
+  @include media-breakpoint-up(md) {
+    transform: translateY(-100%);
+    bottom: unset;
+    width: 100%;
+  }
+}
+
+.toggleBtn {
+  background-color: rgba($white, 0.4);
+  font-weight: 400;
+  font-family: $heading-font-family;
+  width: 100%;
+  height: 100%;
+  text-transform: uppercase;
+
+  @include media-breakpoint-up(md) {
+    padding: em(20px) 0;
+  }
+}
+
+.toggleLabel {
+  cursor: pointer;
+  transform: rotate(-90deg);
+  display: inline-block;
+
+  @include media-breakpoint-up(md) {
+    transform: none;
+  }
+}
+
+.toggleText,
+.toggleSvg {
+  vertical-align: middle;
+}
+
+.toggleSvg {
+  margin-right: em(7px);
+}

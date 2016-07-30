@@ -19,7 +19,7 @@ INSERT INTO Users (id, full_name, username, email, loc, website, bio, password_h
     'ch@this.com',
     'ColorsVille',
     'https://colorhappy12353223.com',
-    'More information coming soon...',
+    'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Libero non quaerat delectus consectetur voluptatum, animi eos. Unde eveniet, alias veniam dicta asperiores ipsam esse exercitationem dolorem et sequi, optio reprehenderit?',
     gen_hash('123')
   ), (
     'u00000000000000000000001',
@@ -34,12 +34,12 @@ INSERT INTO Users (id, full_name, username, email, loc, website, bio, password_h
 
 INSERT INTO Users (full_name, username, email, loc, website, bio, password_hash)
   VALUES (
-    'Palette Seed',
-    'seed',
+    'Palette Tester',
+    'test',
     'sd@sd.com',
     'Earth',
     'google.com',
-    'I am a sample user',
+    'I am a test user',
     gen_hash('123')
   );
 

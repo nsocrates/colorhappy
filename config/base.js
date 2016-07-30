@@ -1,8 +1,8 @@
 import path from 'path'
 import autoprefixer from 'autoprefixer'
 
-const srcPath = path.resolve(__dirname, '..', 'client')
-const scriptsPath = path.resolve(__dirname, '..', 'client', 'scripts')
+const srcPath = path.resolve(__dirname, '..', 'app')
+const scriptsPath = path.resolve(__dirname, '..', 'app', 'scripts')
 const outputPath = path.resolve(__dirname, '..', 'dist')
 
 const baseConfig = {

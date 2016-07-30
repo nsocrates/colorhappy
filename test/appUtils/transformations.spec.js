@@ -32,13 +32,6 @@ describe('QS', () => {
 
   it('handles an undefined object correctly', () => {
     const test = q.stringify
-    // const mock = {
-    //   color: 'red',
-    //   id: 12345,
-    //   user: undefined,
-    //   description: null,
-    // }
-
     expect(test(undefined)).to.deep.equal('')
   })
 })

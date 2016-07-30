@@ -3,6 +3,7 @@
 import path from 'path'
 import webpack from 'webpack'
 import base from './base'
+import merge from 'lodash/merge'
 
 const loaders = [{
   test: /\.(js|jsx)$/,
@@ -35,7 +36,7 @@ const loaders = [{
   ],
 }]
 
-const config = Object.assign({}, base.config, {
+const config = merge({}, base.config, {
   entry: {
     app: [
       'react-hot-loader/patch',
@@ -48,8 +49,8 @@ const config = Object.assign({}, base.config, {
   devtool: '#eval',
   name: 'client bundle',
   plugins: [
-    new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.HotModuleReplacementPlugin(),
+    new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.NoErrorsPlugin(),
     new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.bundle.js'),
     new webpack.DefinePlugin({

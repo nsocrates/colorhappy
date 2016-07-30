@@ -1,6 +1,6 @@
 import { signToken } from '../../auth/auth.service'
 import * as services from '../api.service'
-import { db } from '../../sqldb'
+import { db, pgp } from '../../sqldb'
 import { validateUserSignup } from './user.validations'
 const { User } = db
 
@@ -9,13 +9,16 @@ export function index(req, res) {
   return User.index()
     .then(services.respondWithResult(res))
     .catch(services.handleError(res))
+    .finally(pgp.end())
 }
 
 // POST to create a new user.
 export function create(req, res) {
   return validateUserSignup(req.body)
-    .then(body => User.create(body))
-    .then(user => res.json({ token: signToken(user.id, user.role_status), user }))
+    .then(() => User.create(req.body))
+    .then(user => res.json({
+      token: signToken(user.id, user.role_status), user,
+    }))
     .catch(services.handleValidationError(res))
 }
 
@@ -25,6 +28,7 @@ export function show(req, res) {
     .then(services.handleNotFound(res))
     .then(services.respondWithResult(res))
     .catch(services.handleError(res))
+    .finally(pgp.end())
 }
 
 // PUT to update a user's profile.
@@ -32,6 +36,7 @@ export function update(req, res) {
   return User.update(Object.assign({}, req.body, { id: req.user.id }))
     .then(services.respondWithResult(res))
     .catch(services.handleError(res))
+    .finally(pgp.end())
 }
 
 // PUT to update a user's password.
@@ -43,6 +48,7 @@ export function updatePassword(req, res) {
   })
     .then(services.respondWithResult(res))
     .catch(services.handleError(res))
+    .finally(pgp.end())
 }
 
 // GET me profile of authenticated user
@@ -56,6 +62,7 @@ export function showPalettes(req, res) {
     .then(services.handleNotFound(res))
     .then(services.respondWithResult(res))
     .catch(services.handleError(res))
+    .finally(pgp.end())
 }
 
 // GET palettes favorited by user
@@ -64,4 +71,5 @@ export function showFavorites(req, res) {
     .then(services.handleNotFound(res))
     .then(services.respondWithResult(res))
     .catch(services.handleError(res))
+    .finally(pgp.end())
 }

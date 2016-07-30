@@ -1,0 +1,61 @@
+@import "~styles/helpers";
+
+.loader {
+  animation: rotate 1.2s infinite ease-in-out;
+}
+
+@keyframes rotate {
+  0% {
+    transform: perspective(120px) rotateX(0) rotateY(0);
+  }
+
+  50% {
+    transform: perspective(120px) rotateX(-180deg) rotateY(0);
+  }
+
+  100% {
+    transform: perspective(120px) rotateX(-180deg) rotateY(-180deg);
+  }
+}
+
+.loaderIcon {
+  composes: loader;
+  width: em(30px);
+  height: em(30px);
+  border-radius: 2px;
+  background-color: $text-color;
+  box-shadow: 0 0 3px rgba($black, 0.156863),
+             0 0 3px rgba($black, 0.227451);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.loadWrap {
+  @include make-container;
+  height: em(130px);
+  margin: 0 auto;
+  text-align: center;
+  display: table;
+  table-layout: fixed;
+}
+
+.tableWrap {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.loadMoreBtn {
+  @include btn;
+  @include btn-ease($accent-color);
+  font-weight: 400;
+  color: $white;
+}
+
+.endResult {
+  @include make-container;
+  padding-top: em(30px);
+  padding-bottom: em(15px);
+  margin: 0;
+  text-align: center;
+  color: rgba($text-color, 0.28);
+}

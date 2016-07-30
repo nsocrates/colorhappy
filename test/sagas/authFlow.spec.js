@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { api, tryAuth } from '../../client/scripts/services'
+import { api, tryAuth } from '../../client/scripts/redux/services'
 import { login } from '../../client/scripts/redux/actions/auth'
 import { put, call } from 'redux-saga/effects'
 
