@@ -18,11 +18,14 @@ fs.readdirSync('node_modules')
 const loaders = [{
   test: /\.(js|jsx)$/,
   loader: 'babel',
-  include: [
-    path.join(__dirname, '..', 'client'),
-    path.join(__dirname, '..', 'server'),
-  ],
-  exclude: path.join(__dirname, '/node_modules/'),
+  include: path.join(__dirname, '..', 'app', 'scripts'),
+  exclude: path.join(__dirname, '..', 'node_modules'),
+  query: {
+    plugins: [
+      'transform-object-rest-spread',
+      'transform-runtime',
+    ],
+  },
 }, {
   test: /\.css$/,
   loaders: [
@@ -51,19 +54,17 @@ const loaders = [{
 
 const config = merge({}, base.config, {
   name: 'server bundle',
-  context: path.join(__dirname, '..', 'server'),
   entry: {
-    server: './server.jsx',
+    server: ['./scripts/server.jsx'],
   },
   target: 'node',
   output: {
-    filename: 'server.js',
     libraryTarget: 'commonjs2',
   },
   externals: nodeModules,
   plugins: [
-    new webpack.optimize.OccurenceOrderPlugin(),
-    new webpack.NoErrorsPlugin(),
+    // new webpack.optimize.OccurenceOrderPlugin(),
+    // new webpack.NoErrorsPlugin(),
     new webpack.DefinePlugin({
       __DEVCLIENT__: false,
       __DEVSERVER__: true,

@@ -2,8 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import Profile from './Profile'
 import { makePaginatedPaletteUserSelector } from 'reducers/selectors'
-import { user, userPalette } from 'actions/users'
-import { Loader } from 'components/Loader'
+import { loadUserPalettes, userPalette } from 'actions/users'
 
 const propTypes = {
   modalProps: PropTypes.object,
@@ -18,20 +17,40 @@ const propTypes = {
 }
 
 class ProfileContainer extends Component {
-  componentDidMount() {
-    const { dispatch, params } = this.props
+  constructor(props) {
+    super(props)
+    this.handleLoadUserPalettes = this.handleLoadUserPalettes.bind(this)
+    this.handleLoadMorePalettes = this.handleLoadMorePalettes.bind(this)
+  }
 
-    dispatch(user.request({ id: params.id }))
-    dispatch(userPalette.request({ id: params.id }))
+  componentDidMount() {
+    this.handleLoadUserPalettes()
+  }
+
+  handleLoadUserPalettes() {
+    const { dispatch, params } = this.props
+    dispatch(loadUserPalettes({ id: params.id }, false))
+  }
+
+  handleLoadMorePalettes(e) {
+    if (e) e.preventDefault()
+    const { dispatch, params, palettes } = this.props
+    dispatch(userPalette.request({
+      id: params.id,
+      options: {
+        sort: 'title',
+        page: palettes ? palettes.pageCount + 1 : 1,
+        limit: 3,
+      },
+    }))
   }
 
   render() {
-    const { palettes } = this.props
-
-    if (!palettes || !palettes.ids.length) return <Loader />
-
     return (
-      <Profile {...this.props} />
+      <Profile
+        {...this.props}
+        handleLoadMorePalettes={this.handleLoadMorePalettes}
+      />
     )
   }
 }

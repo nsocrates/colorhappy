@@ -58,8 +58,13 @@ export function me(req, res) {
 
 // GET palettes by user
 export function showPalettes(req, res) {
-  return User.showPalettes({ id: req.params.id })
-    .then(services.handleNotFound(res))
+  const { query = {} } = req
+  const payload = Object.assign({}, { id: req.params.id }, {
+    limit: query.limit || 10,
+    page: query.page || 1,
+    sort: query.sort || 'title',
+  })
+  return User.showUserPalettes(payload)
     .then(services.respondWithResult(res))
     .catch(services.handleError(res))
     .finally(pgp.end())

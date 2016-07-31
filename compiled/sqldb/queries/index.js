@@ -4,10 +4,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _keys = require('babel-runtime/core-js/object/keys');
-
-var _keys2 = _interopRequireDefault(_keys);
-
 var _pgPromise = require('pg-promise');
 
 var _environment = require('../../config/environment');
@@ -64,7 +60,7 @@ var palette = mapQuery('palette')({
 
 var user = mapQuery('user')({
   common: ['index', 'show'],
-  core: ['authenticate', 'create', 'updatePassword', 'showPalettes', 'showFavorites']
+  core: ['authenticate', 'create', 'updatePassword', 'showUserPalettes', 'showFavorites']
 });
 
 /**
@@ -74,7 +70,7 @@ var user = mapQuery('user')({
  */
 function sqlify(table, columns) {
   // Map out the columns and assign the named parameters.
-  var q = (0, _keys2.default)(columns).reduce(function (acc, key) {
+  var q = Object.keys(columns).reduce(function (acc, key) {
     return (
 
       // Skip id because we do not want to change that.
@@ -93,20 +89,20 @@ function sqlify(table, columns) {
  * @param  {String} options.sort - Sort order (required in order to return a predictable set).
  * @return {Object} - Object to be passed in as SQL named parameters.
  */
-function paginate(_ref2) {
-  var _ref2$limit = _ref2.limit;
-  var limit = _ref2$limit === undefined ? 10 : _ref2$limit;
-  var _ref2$page = _ref2.page;
-  var page = _ref2$page === undefined ? 1 : _ref2$page;
-  var _ref2$sort = _ref2.sort;
-  var sort = _ref2$sort === undefined ? 'created_at' : _ref2$sort;
+function paginate(payload) {
+  var _payload$limit = payload.limit;
+  var limit = _payload$limit === undefined ? 10 : _payload$limit;
+  var _payload$page = payload.page;
+  var page = _payload$page === undefined ? 1 : _payload$page;
+  var _payload$sort = payload.sort;
+  var sort = _payload$sort === undefined ? 'created_at' : _payload$sort;
 
-  return {
+  return Object.assign({}, payload, {
     // Convert page into offset by calculating the number of rows to skip.
     page: limit * (page - 1),
     limit: +limit,
     sort: sort
-  };
+  });
 }
 
 /**
@@ -160,8 +156,8 @@ var queries = function queries(db) {
       updatePassword: function updatePassword(payload) {
         return db.one(user.updatePassword, payload);
       },
-      showPalettes: function showPalettes(payload) {
-        return db.any(user.showPalettes, payload);
+      showUserPalettes: function showUserPalettes(payload) {
+        return db.any(user.showUserPalettes, paginate(payload));
       },
       showFavorites: function showFavorites(payload) {
         return db.any(user.showFavorites, payload);

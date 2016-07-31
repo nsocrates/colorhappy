@@ -4,11 +4,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.validate = undefined;
-
-var _promise = require('babel-runtime/core-js/promise');
-
-var _promise2 = _interopRequireDefault(_promise);
-
 exports.validateUserSignup = validateUserSignup;
 
 var _validator = require('validator');
@@ -24,7 +19,7 @@ var validate = exports.validate = function validate(field) {
     var message = _ref.message;
     var _ref$options = _ref.options;
     var options = _ref$options === undefined ? {} : _ref$options;
-    return new _promise2.default(function (resolve, reject) {
+    return new Promise(function (resolve, reject) {
       var isOkay = _validator2.default[method](field, options);
       return isOkay ? resolve(field) : reject({ field: field, message: message });
     });
@@ -41,7 +36,7 @@ function validateUserSignup(_ref2) {
   var validateUsername = validate(username);
   var validatePassword = validate(password);
 
-  return _promise2.default.all([validateEmail({
+  return Promise.all([validateEmail({
     method: 'isEmail',
     message: "Doesn't look like a valid email..."
   }), validateUsername({
@@ -57,8 +52,8 @@ function validateUserSignup(_ref2) {
     options: { min: 3 },
     message: 'Password must be at least 3 characters long'
   })]).then(function () {
-    return _promise2.default.resolve({ email: email, username: username, password: password });
+    return Promise.resolve({ email: email, username: username, password: password });
   }).catch(function (error) {
-    return _promise2.default.reject(error);
+    return Promise.reject(error);
   });
 }

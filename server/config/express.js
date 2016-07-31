@@ -15,7 +15,9 @@ export default function configureExpress(app) {
   app.use(cookieParser())
   app.use(bodyParser.json())
   app.use(bodyParser.urlencoded({ extended: true }))
-  app.use(express.static(path.resolve(__dirname, '..', 'static')))
+
+  // Path to the root of our distribution folder.
+  app.use(express.static(path.join(__dirname, '..', '..', 'dist')))
   app.use(methodOverride())
 
   // Initialize Passport

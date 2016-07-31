@@ -3,7 +3,8 @@ import autoprefixer from 'autoprefixer'
 
 const srcPath = path.resolve(__dirname, '..', 'app')
 const scriptsPath = path.resolve(__dirname, '..', 'app', 'scripts')
-const outputPath = path.resolve(__dirname, '..', 'dist')
+const outputPath = path.resolve(__dirname, '..', 'dist', 'assets')
+const publicPath = '/assets/'
 
 const baseConfig = {
   context: srcPath,
@@ -11,8 +12,10 @@ const baseConfig = {
   output: {
     filename: '[name].js',
     path: outputPath,
+    publicPath,
   },
   devServer: {
+    publicPath,
     hot: true,
     noInfo: true,
     stats: {

@@ -1,6 +1,7 @@
 import { takeEvery } from 'redux-saga'
-import { call, fork } from 'redux-saga/effects'
+import { call, fork, select } from 'redux-saga/effects'
 import { user, userPalette, me, updateProfile, changePassword } from 'actions/users'
+import { selectPaginatedPalettes } from 'reducers/selectors'
 import { createNotif } from 'sagas/notifications'
 import { api, tryApi } from 'services'
 import {
@@ -9,7 +10,8 @@ import {
   ME,
   UPDATE_PROFILE,
   CHANGE_PASSWORD,
-  // DELETE_ACCOUNT,
+  LOAD_USER_PALETTES,
+  // DELETE_ACCOUNT -- TODO,
 } from 'constants/actionTypes'
 
 const callUser = tryApi.bind(null, user, api.getUser)
@@ -34,10 +36,40 @@ function* userUpdateRoutine(apiFn, message, action) {
   }
 }
 
-// Monolithic watch Saga.
+// Async function that fetches User before Palette.
+function* userPaletteRoutine(payload) {
+  // Fetch user's profile first.
+  const response = yield call(callUser, payload)
+  if (response) {
+    // Then fetch user's palettes.
+    return yield call(callUserPalette, payload)
+  }
+  return null
+}
+
+// Returns false if request has been cached.
+function* shouldFetchUserPalettes(payload, isNext) {
+  if (isNext) return true
+  const { palettesByUser } = yield select(selectPaginatedPalettes)
+  const pagedPalettes = palettesByUser[payload.id] || {}
+  // Only return if the values in the ids array is empty.
+  return !(pagedPalettes.ids && pagedPalettes.ids.length)
+}
+
+// Calls userPaletteRoutine if palletes are not in cache.
+function* shouldLoadUserPalettes(action) {
+  const { payload, isNext } = action
+  const shouldCallRoutine = yield call(shouldFetchUserPalettes, payload, isNext)
+  if (shouldCallRoutine) {
+    yield call(userPaletteRoutine, payload)
+  }
+}
+
+// Watchers
 function* watchUser() {
   while (true) {
     yield [
+      takeEvery(LOAD_USER_PALETTES, shouldLoadUserPalettes),
       takeEvery(USER.REQUEST, userRoutine, callUser),
       takeEvery(USER_PALETTE.REQUEST, userRoutine, callUserPalette),
       takeEvery(ME.REQUEST, userRoutine, callMe),

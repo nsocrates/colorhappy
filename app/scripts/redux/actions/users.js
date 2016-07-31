@@ -5,6 +5,7 @@ import {
   CHANGE_PASSWORD,
   DISABLE_ACCOUNT,
   USER_PALETTE,
+  LOAD_USER_PALETTES,
 } from 'constants/actionTypes'
 import { action } from 'utils/action'
 
@@ -43,3 +44,6 @@ export const disableAccount = {
   success: (payload, response) => action(DISABLE_ACCOUNT.SUCCESS, { payload, response }),
   failure: (payload, error) => action(DISABLE_ACCOUNT.FAILURE, { payload, error }),
 }
+
+// Payload is an object with property name 'id'
+export const loadUserPalettes = payload => action(LOAD_USER_PALETTES, { payload })

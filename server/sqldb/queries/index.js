@@ -38,7 +38,7 @@ const palette = mapQuery('palette')({
 
 const user = mapQuery('user')({
   common: ['index', 'show'],
-  core: ['authenticate', 'create', 'updatePassword', 'showPalettes', 'showFavorites'],
+  core: ['authenticate', 'create', 'updatePassword', 'showUserPalettes', 'showFavorites'],
 })
 
 /**
@@ -65,13 +65,14 @@ function sqlify(table, columns) {
  * @param  {String} options.sort - Sort order (required in order to return a predictable set).
  * @return {Object} - Object to be passed in as SQL named parameters.
  */
-function paginate({ limit = 10, page = 1, sort = 'created_at' }) {
-  return {
+function paginate(payload) {
+  const { limit = 10, page = 1, sort = 'created_at' } = payload
+  return Object.assign({}, payload, {
     // Convert page into offset by calculating the number of rows to skip.
     page: limit * (page - 1),
     limit: +limit,
     sort,
-  }
+  })
 }
 
 /**
@@ -98,7 +99,7 @@ const queries = db => ({
     create: payload => db.one(user.create, payload),
     update: payload => db.one(sqlify('Users', payload), payload),
     updatePassword: payload => db.one(user.updatePassword, payload),
-    showPalettes: payload => db.any(user.showPalettes, payload),
+    showUserPalettes: payload => db.any(user.showUserPalettes, paginate(payload)),
     showFavorites: payload => db.any(user.showFavorites, payload),
   },
 })

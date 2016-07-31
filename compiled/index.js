@@ -16,11 +16,14 @@ var _routes = require('./config/routes');
 
 var _routes2 = _interopRequireDefault(_routes);
 
-var _server = require('../dist/server');
+var _server = require('../dist/assets/server');
 
 var _server2 = _interopRequireDefault(_server);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// const App = require('../dist/assets/server')
+// import htmlfile from '../dist/index.html'
 
 // Initialize server
 var app = (0, _express2.default)();
@@ -44,7 +47,7 @@ if (process.env.NODE_ENV === 'development') {
 (0, _routes2.default)(app);
 
 // Register SSR middleware
-// app.get('*', SSR_MIDDLEWARE)
+// app.get('*', App.default)
 app.use(_server2.default);
 
 app.listen(app.get('port'), function () {

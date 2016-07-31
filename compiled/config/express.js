@@ -50,7 +50,9 @@ function configureExpress(app) {
   app.use((0, _cookieParser2.default)());
   app.use(_bodyParser2.default.json());
   app.use(_bodyParser2.default.urlencoded({ extended: true }));
-  app.use(_express2.default.static(_path2.default.resolve(__dirname, '..', 'static')));
+
+  // Path to the root of our distribution folder.
+  app.use(_express2.default.static(_path2.default.join(__dirname, '..', '..', 'dist')));
   app.use((0, _methodOverride2.default)());
 
   // Initialize Passport

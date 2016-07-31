@@ -8,14 +8,14 @@ const configs = {
   server,
 }
 
-function getValidEnv(allowed, env) {
-  const isValid = !!env && allowed.indexOf(env) !== -1
-  return isValid ? env : 'development'
+const getValidEnv = allowedEnv => currentEnv => {
+  const isValid = !!currentEnv && allowedEnv.indexOf(currentEnv) !== -1
+  return isValid ? currentEnv : 'development'
 }
 
-const buildConfig = cfg => node => {
-  const allowedEnvs = Object.keys(cfg)
-  const envToUse = getValidEnv(allowedEnvs, node)
+const buildConfig = cfg => processEnv => {
+  const allowedEnvs = getValidEnv(Object.keys(cfg))
+  const envToUse = allowedEnvs(processEnv)
 
   return cfg[envToUse]
 }

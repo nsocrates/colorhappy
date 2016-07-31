@@ -7,7 +7,6 @@ import {
   LOAD_PALETTES,
 } from 'constants/actionTypes'
 
-
 /**
  * Pallet action creator to get a specific palette.
  * @type {Object}
@@ -60,4 +59,5 @@ export const paletteSave = {
   failure: (payload, error) => action(PALETTE_CREATE.FAILURE, { payload, error }),
 }
 
+// Load initial palette list
 export const loadPalettes = (options, isNext) => action(LOAD_PALETTES, { options, isNext })

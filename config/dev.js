@@ -3,13 +3,19 @@
 import path from 'path'
 import webpack from 'webpack'
 import base from './base'
-import merge from 'lodash/merge'
 
 const loaders = [{
   test: /\.(js|jsx)$/,
   loader: 'babel',
-  include: path.join(__dirname, '..', 'client'),
-  exclude: path.join(__dirname, '/node_modules/'),
+  include: path.join(__dirname, '..', 'app', 'scripts'),
+  exclude: path.join(__dirname, '..', 'node_modules'),
+  query: {
+    plugins: [
+      'transform-object-rest-spread',
+      'transform-runtime',
+      'react-hot-loader/babel',
+    ],
+  },
 }, {
   test: /\.css$/,
   loaders: [
@@ -36,12 +42,12 @@ const loaders = [{
   ],
 }]
 
-const config = merge({}, base.config, {
+const config = Object.assign({}, base.config, {
   entry: {
     app: [
       'react-hot-loader/patch',
       'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000&reload=true',
-      './scripts/index.jsx',
+      './scripts/client.jsx',
     ],
     vendor: ['./scripts/vendor/index.js'],
   },
@@ -50,8 +56,8 @@ const config = merge({}, base.config, {
   name: 'client bundle',
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.optimize.OccurenceOrderPlugin(),
-    new webpack.NoErrorsPlugin(),
+    // new webpack.optimize.OccurenceOrderPlugin(),
+    // new webpack.NoErrorsPlugin(),
     new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.bundle.js'),
     new webpack.DefinePlugin({
       __DEVCLIENT__: true,

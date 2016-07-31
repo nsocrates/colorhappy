@@ -14,7 +14,7 @@ function layout(body, initialState, cssModules) {
     <!DOCTYPE html>
     <html>
     <head>
-      <title>Application</title>
+      <title>Color Happy</title>
       <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
       <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
       <style id="serverStyles">${cssModules}</style>
@@ -24,8 +24,8 @@ function layout(body, initialState, cssModules) {
       <script type="text/javascript" charset="utf-8">
         window.__INITIAL_STATE__ = ${initialState};
       </script>
-      <script src="./vendor.bundle.js"></script>
-      <script src="./app.js"></script>
+      <script type="text/javascript" src="/assets/vendor.bundle.js"></script>
+      <script type="text/javascript" src="/assets/app.js"></script>
     </body>
     </html>
   `)

@@ -4,10 +4,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _keys = require('babel-runtime/core-js/object/keys');
-
-var _keys2 = _interopRequireDefault(_keys);
-
 var _development = require('./development');
 
 var _development2 = _interopRequireDefault(_development);
@@ -30,7 +26,7 @@ function getValidEnv(allowed, env) {
 
 var buildConfig = function buildConfig(cfg) {
   return function (env) {
-    var allowedEnvs = (0, _keys2.default)(cfg);
+    var allowedEnvs = Object.keys(cfg);
     var envToUse = getValidEnv(allowedEnvs, env);
     return cfg[envToUse];
   };

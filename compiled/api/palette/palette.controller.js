@@ -3,11 +3,6 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-
-var _assign = require('babel-runtime/core-js/object/assign');
-
-var _assign2 = _interopRequireDefault(_assign);
-
 exports.index = index;
 exports.create = create;
 exports.destroy = destroy;
@@ -25,19 +20,25 @@ var _sqldb = require('../../sqldb');
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 var Palette = _sqldb.db.Palette;
 
 // GET to index all palettes.
 
 function index(req, res) {
-  return Palette.index(req.query).then(services.respondWithResult(res)).catch(services.handleError(res)).finally(_sqldb.pgp.end());
+  var _req$query = req.query;
+  var query = _req$query === undefined ? {} : _req$query;
+
+  var options = {
+    limit: query.limit || 10,
+    page: query.page || 1,
+    sort: query.sort || 'created_at'
+  };
+  return Palette.index(options).then(services.respondWithResult(res)).catch(services.handleError(res)).finally(_sqldb.pgp.end());
 }
 
 // POST to create a new palette.
 function create(req, res) {
-  return Palette.create((0, _assign2.default)({}, {
+  return Palette.create(Object.assign({}, {
     user_id: req.user.id
   }, req.body)).then(services.respondWithResult(res)).catch(services.handleError(res)).finally(_sqldb.pgp.end());
 }

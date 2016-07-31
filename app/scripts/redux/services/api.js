@@ -36,15 +36,22 @@ export function signup(payload) {
     .catch(error => Promise.reject(error))
 }
 
-export const createPalette = payload => fetchPalette('post', '/api/palettes', payload)
+// Shame list..
 export const login = payload => fetch('post', '/auth/local', payload)
-export const getUser = ({ id }) => fetchUser('get', `/api/users/${id}`)
-export const getUserPalette = ({ id }) => fetchPaletteArray('get', `/api/users/${id}/palettes`)
-export const updateProfile = payload => fetchUser('put', '/api/users/me', payload)
 export const changePassword = payload => fetch('put', '/api/users/me/password', payload)
+export const getUser = ({ id }) => fetchUser('get', `/api/users/${id}`)
+export const updateProfile = payload => fetchUser('put', '/api/users/me', payload)
+export const createPalette = payload => fetchPalette('post', '/api/palettes', payload)
 export const getPalette = ({ id }) => fetchPalette('get', `/api/palettes/${id}`)
 export const getPaletteLove = ({ id }) => fetchPalette('post', `/api/palettes/${id}/favorite`)
+
 export const getPaletteArray = opts => {
   const qs = q.stringify(opts)
   return fetchPaletteArray('get', `/api/palettes?${qs}`)
 }
+
+export const getUserPalette = ({ id, opts }) => {
+  const qs = q.stringify(opts)
+  return fetchPaletteArray('get', `/api/users/${id}/palettes?${qs}`)
+}
+
