@@ -5,8 +5,6 @@ import configureExpress from './config/express'
 import configureRoutes from './config/routes'
 // We compile SSR middleware first otherwise we get path errors
 import SSR_MIDDLEWARE from '../dist/assets/server'
-// const App = require('../dist/assets/server')
-// import htmlfile from '../dist/index.html'
 
 // Initialize server
 const app = express()
@@ -27,7 +25,6 @@ configureExpress(app)
 configureRoutes(app)
 
 // Register SSR middleware
-// app.get('*', App.default)
 app.use(SSR_MIDDLEWARE)
 
 app.listen(app.get('port'), () =>

@@ -6,5 +6,5 @@
     "client/scripts/routes/index.js",
     "client/scripts/redux/reducers/index.js"
   ],
-  "exec": "npm run build:dev:server; npm run dev"
+  "exec": "npm run build:dev:server; npm run start:dev"
 }
