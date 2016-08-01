@@ -1,6 +1,6 @@
 import bodyParser from 'body-parser'
 import cookieParser from 'cookie-parser'
-import environment from './environment'
+import config from './environment'
 import express from 'express'
 import methodOverride from 'method-override'
 import morgan from 'morgan'
@@ -9,7 +9,7 @@ import path from 'path'
 import PrettyError from 'pretty-error'
 
 export default function configureExpress(app) {
-  app.set('port', environment.port)
+  app.set('port', config.port)
   app.disable('x-powered-by')
   app.set('view cache', false)
   app.use(cookieParser())

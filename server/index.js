@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import path from 'path'
 import express from 'express'
+import configureSSL from './config/ssl'
 import configureExpress from './config/express'
 import configureRoutes from './config/routes'
 // We compile SSR middleware first otherwise we get path errors
@@ -21,6 +22,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 // Bootstrap configurations
+configureSSL(app)
 configureExpress(app)
 configureRoutes(app)
 
