@@ -12,20 +12,21 @@ import StylesContext from 'components/StylesContext/StylesContext'
 function layout(body, initialState, cssModules) {
   return (`
     <!DOCTYPE html>
-    <html>
+    <html lang="en">
     <head>
-      <title>Color Happy</title>
-      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+      <title>Color Happy</title>
       <style id="serverStyles">${cssModules}</style>
     </head>
     <body>
       <div id="root" style="height:100%">${body}</div>
-      <script type="text/javascript" charset="utf-8">
+      <script>
         window.__INITIAL_STATE__ = ${initialState};
       </script>
-      <script type="text/javascript" src="/assets/vendor.bundle.js"></script>
-      <script type="text/javascript" src="/assets/app.js"></script>
+      <script src="/assets/vendor.bundle.js" charset="UTF-8"></script>
+      <script src="/assets/app.js" charset="UTF-8"></script>
     </body>
     </html>
   `)
