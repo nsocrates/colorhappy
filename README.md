@@ -6,7 +6,7 @@ Uses [pg-promise](https://github.com/vitaly-t/pg-promise) to implement Postgres.
 
 ## Demo
 
-Check it out [here](https://colorhappy.herokuapp.com) [WIP].
+Check it out [here](https://colorhappy.herokuapp.com).
 
 ## Installation
 
