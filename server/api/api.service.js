@@ -3,12 +3,10 @@
  */
 
 export const handleValidationError = (res, statusCode = 422) => err => {
-  console.log(err)
   res.status(statusCode).json(err.message || err)
 }
 
 export const handleError = (res, statusCode = 500) => err => {
-  console.log(err)
   res.status(statusCode).send(err.message || err)
 }
 

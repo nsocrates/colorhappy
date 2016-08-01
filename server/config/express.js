@@ -7,6 +7,7 @@ import morgan from 'morgan'
 import passport from 'passport'
 import path from 'path'
 import PrettyError from 'pretty-error'
+import compression from 'compression'
 
 export default function configureExpress(app) {
   app.set('port', config.port)
@@ -15,10 +16,12 @@ export default function configureExpress(app) {
   app.use(cookieParser())
   app.use(bodyParser.json())
   app.use(bodyParser.urlencoded({ extended: true }))
+  app.use(methodOverride())
+
+  if (config.env === 'production') app.use(compression())
 
   // Path to the root of our distribution folder.
   app.use(express.static(path.join(__dirname, '..', '..', 'dist')))
-  app.use(methodOverride())
 
   // Initialize Passport
   app.use(passport.initialize())
