@@ -2,7 +2,6 @@ import { action } from 'utils/action'
 import {
   PALETTE,
   PALETTE_ARRAY,
-  PALETTE_LOVE,
   PALETTE_CREATE,
   LOAD_PALETTES,
 } from 'constants/actionTypes'
@@ -33,17 +32,6 @@ export const paletteArray = {
   request: (options, isNext) => action(PALETTE_ARRAY.REQUEST, { options, isNext }),
   success: (options, response) => action(PALETTE_ARRAY.SUCCESS, { options, response }),
   failure: (options, error) => action(PALETTE_ARRAY.FAILURE, { error }),
-}
-
-/**
- * Pallet action creator to add a palette to favorites.
- * @type {Object}
- * @param {String} [payload.id] - The ID of the requested palette.
- */
-export const paletteLove = {
-  request: payload => action(PALETTE_LOVE.REQUEST, { payload }),
-  success: (payload, response) => action(PALETTE_LOVE.SUCCESS, { payload, response }),
-  failure: (payload, error) => action(PALETTE_LOVE.FAILURE, { payload, error }),
 }
 
 /**

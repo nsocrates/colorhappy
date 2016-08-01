@@ -15,6 +15,7 @@ export const selectNotifications = state => state.notifications
 export const selectEditor = state => state.editor
 export const selectRouting = state => state.routing.locationBeforeTransitions
 export const selectModal = state => state.modal
+export const selectMe = state => state.me
 
 export const selectUser = (state, id) =>
   state.entities.users[id] || {}
@@ -50,23 +51,13 @@ export const makePaletteUserSelector = () =>
 
 export const makePaginatedPaletteUserSelector = (...selectors) =>
   createSelector(
-    [selectEntities, selectPaginatedPalettes],
-    (entities, paginatedPalettes) => ({
+    [selectEntities, selectPaginatedPalettes, selectSession],
+    (entities, paginatedPalettes, session) => ({
+      session,
       paletteEntity: entities.palettes,
       userEntity: entities.users,
       // Will traverse through the object with the given arguments.
       palettes: selectors.reduce((acc, selector) => acc[selector], paginatedPalettes),
-    })
-  )
-
-export const makePaginatedUserFavoriteSelector = () =>
-  createSelector(
-    [selectEntities, selectPaginatedPalettes, selectSession],
-    (entities, pagedPalettes, session) => ({
-      session,
-      paletteEntity: entities.palettes,
-      userEntity: entities.users,
-      palettes: pagedPalettes.favoritesByUser[session.id],
     })
   )
 
@@ -95,5 +86,16 @@ export const makeSettingsSelector = () =>
     (session, entities) => ({
       session,
       me: entities.users[session.id] || {},
+    })
+  )
+
+export const makeSessionMeSelector = selector =>
+  createSelector(
+    [selectEntities, selectSession, selectMe],
+    (entities, session, me) => ({
+      userEntity: entities.users,
+      paletteEntity: entities.palettes,
+      palettes: me[selector],
+      session,
     })
   )

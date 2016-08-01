@@ -5,15 +5,12 @@ export const LOGIN = createRequestTypes('LOGIN')
 export const SIGNUP = createRequestTypes('SIGNUP')
 export const PALETTE = createRequestTypes('PALETTE')
 export const PALETTE_ARRAY = createRequestTypes('PALETTE_ARRAY')
-export const PALETTE_LOVE = createRequestTypes('PALETTE_LOVE')
 export const PALETTE_CREATE = createRequestTypes('PALETTE_CREATE')
 export const UPDATE_PROFILE = createRequestTypes('UPDATE_PROFILE')
 export const CHANGE_PASSWORD = createRequestTypes('CHANGE_PASSWORD')
 export const DISABLE_ACCOUNT = createRequestTypes('DISABLE_ACCOUNT')
 export const USER = createRequestTypes('USER')
 export const USER_PALETTE = createRequestTypes('USER_PALETTE')
-
-export const UNFAVORITE = createRequestTypes('UNFAVORITE')
 export const USER_FAVORITE = createRequestTypes('USER_FAVORITE')
 
 export const LOAD_PALETTES = 'LOAD_PALETTES'
@@ -44,4 +41,14 @@ export const UPDATE_COLOR = 'UPDATE_COLOR'
 export const LOAD_COLORS = 'LOAD_COLORS'
 export const NEW_PALETTE = 'NEW_PALETTE'
 
-export const ROUTE_TRANSITION = 'ROUTE_TRANSITION'
+/**
+ * Auth user actions
+ */
+// Favorite
+export const AUTH_FAVORITE = createRequestTypes('AUTH_FAVORITE')
+export const AUTH_UNFAVORITE = createRequestTypes('AUTH_UNFAVORITE')
+export const AUTH_GET_FAVORITES = createRequestTypes('GET_AUTH_FAVORITES')
+
+// Palette
+export const AUTH_DELETE = createRequestTypes('AUTH_DELETE')
+export const AUTH_CREATE = createRequestTypes('AUTH_CREATE')

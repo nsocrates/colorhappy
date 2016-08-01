@@ -44,8 +44,8 @@ export const getUser = ({ id }) => fetchUser('get', `/api/users/${id}`)
 export const updateProfile = payload => fetchUser('put', '/api/users/me', payload)
 export const createPalette = payload => fetchPalette('post', '/api/palettes', payload)
 export const getPalette = ({ id }) => fetchPalette('get', `/api/palettes/${id}`)
-export const getPaletteLove = ({ id }) => fetchPalette('post', `/api/palettes/${id}/favorite`)
 
+export const favoritePalette = ({ id }) => fetchPalette('post', `/api/palettes/${id}/favorite`)
 export const unfavoritePalette = ({ id }) => fetch('delete', `/api/palettes/${id}/favorite`)
 
 export const getPaletteArray = opts => {

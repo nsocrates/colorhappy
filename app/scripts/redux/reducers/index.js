@@ -8,6 +8,7 @@ import ui from './ui'
 import notifications from './notifications'
 import editor from './editor'
 import modal from './modal'
+import me from './me'
 
 const rootReducer = combineReducers({
   routing,
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
   editor,
   modal,
   palettes,
+  me,
 })
 
 export default rootReducer

@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react'
 import { Link } from 'react-router'
 import withStyles from 'isomorphic-style-loader/lib/withStyles'
 import s from '../Browser.scss'
-import { paletteLove } from 'actions/palettes'
+import { favorite } from 'actions/favorite'
 
 const propTypes = {
   dispatch: PropTypes.func.isRequired,
@@ -16,7 +16,7 @@ function BrowserOverlay({ dispatch, paletteId, colorChain }) {
       <div className={s.overlayRow}>
         <label
           className={s.overlayItem}
-          onClick={() => dispatch(paletteLove.request({ id: paletteId }))}
+          onClick={() => dispatch(favorite.request({ id: paletteId }))}
         >
           {"Like"}
         </label>

@@ -4,8 +4,8 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles'
 import s from './Browser.scss'
 import BrowserFavoriteGroup from './BrowserFavoriteGroup'
 import { Loader, PageController } from 'components/Loader'
-import { makePaginatedUserFavoriteSelector } from 'reducers/selectors'
-import { loadUserFavorites } from 'actions/users'
+import { makeSessionMeSelector } from 'reducers/selectors'
+import { getFavorites } from 'actions/favorite'
 
 const propTypes = {
   dispatch: PropTypes.func.isRequired,
@@ -26,26 +26,28 @@ class BrowserContainer extends Component {
   }
 
   componentDidMount() {
-    this.handleLoadUserFavorites(null, false)
+    // Always fetch first page on componentDidMount
+    this.handleLoadUserFavorites(true)
   }
 
   // We pass this method to PageController.
   // Passing true as an argument to handleLoadUserFavorites forces fetching.
   handleLoadMorePalettes(e) {
     e.preventDefault()
-    this.handleLoadUserFavorites(true)
+    this.handleLoadUserFavorites()
   }
 
-  handleLoadUserFavorites(isNext = false) {
+  handleLoadUserFavorites(init) {
     const { dispatch, session, palettes } = this.props
-    dispatch(loadUserFavorites({
+    const page = init ? 1 : palettes.pageCount + 1
+    dispatch(getFavorites.request({
       id: session.id,
       options: {
+        page,
         sort: 'title',
-        page: palettes ? palettes.pageCount + 1 : 1,
         limit: 25,
       },
-    }, isNext))
+    }))
   }
 
   render() {
@@ -78,11 +80,8 @@ class BrowserContainer extends Component {
 
 BrowserContainer.propTypes = propTypes
 
-const makeMapStateToProps = () => (state, props) =>
-  makePaginatedUserFavoriteSelector(
-    'favoritesByUser',
-    props.location.query.sort || 'title'
-  )(state)
+const makeMapStateToProps = () => state =>
+  makeSessionMeSelector('favorites')(state)
 
 const WithStyles = withStyles(s)(BrowserContainer)
 export default connect(makeMapStateToProps)(WithStyles)

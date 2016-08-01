@@ -9,11 +9,9 @@ import { makePaginatedPaletteUserSelector } from 'reducers/selectors'
 
 const propTypes = {
   dispatch: PropTypes.func.isRequired,
-  // Palette Entity
   paletteEntity: PropTypes.object.isRequired,
   userEntity: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired,
-  // Partitioned palettes
   palettes: PropTypes.object,
 }
 
