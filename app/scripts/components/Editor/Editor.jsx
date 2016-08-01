@@ -3,6 +3,7 @@ import { Download, Backup, Shuffle } from 'components/Svg'
 import { modal } from 'actions/modal'
 import { notif } from 'actions/notifications'
 import { stringifier } from 'utils/transformations'
+import { BASE_URL } from 'constants/api'
 import {
   PaletteWrapper,
   PaletteColor,
@@ -87,7 +88,7 @@ export default class Editor extends Component {
         <BarItem
           anchor
           download
-          href={`//localhost:8000/api/palettes/download/${stringified}`}
+          href={`${BASE_URL}/api/palettes/download/${stringified}`}
           Icon={Download}
           label={"Export"}
         />

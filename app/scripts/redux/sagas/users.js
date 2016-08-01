@@ -24,7 +24,7 @@ import {
 const callUser = tryApi.bind(null, user, api.getUser)
 const callUserPalette = tryApi.bind(null, userPalette, api.getUserPalette)
 const callUserFavorite = tryApi.bind(null, userFavorite, api.getUserFavorite)
-const callMe = tryApi.bind(null, me, api.getUser)
+const callMe = tryApi.bind(null, me, api.getMe)
 const callUpdate = tryApi.bind(null, updateProfile, api.updateProfile)
 const callChangePassword = tryApi.bind(null, changePassword, api.changePassword)
 
@@ -77,7 +77,9 @@ function* shouldFetchFavorites(payload, isNext) {
   return !(pagedPalettes.ids && pagedPalettes.ids.length)
 }
 
-// Calls userPaletteRoutine if palletes are not in cache.
+/**
+ * Calls userPaletteRoutine if palletes are not in cache.
+ */
 function* shouldLoadUserPalettes(action) {
   const { payload, isNext } = action
   const shouldCallRoutine = yield call(shouldFetchUserPalettes, payload, isNext)

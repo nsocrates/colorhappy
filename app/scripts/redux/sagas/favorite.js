@@ -12,7 +12,7 @@ import {
 // Binders
 const callFavorite = tryApi.bind(null, favorite, api.favoritePalette)
 const callUnfavorite = tryApi.bind(null, unfavorite, api.unfavoritePalette)
-const callGetFavorites = tryApi.bind(null, getFavorites, api.getUserFavorite)
+const callGetFavorites = tryApi.bind(null, getFavorites, api.getMeFavorite)
 
 // Valids palette favorite request; returns a string if the favorite is invalid.
 function* isInvalidFavorite(payload) {

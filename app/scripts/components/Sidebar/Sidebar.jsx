@@ -61,7 +61,6 @@ class Sidebar extends Component {
         }}
       >
         <ul className={s.navList}>
-          <SidebarItem to={"/"} label={"Home"} />
           <SidebarItem to={`/user/${session.id}`} label={"Profile"} />
           <SidebarItem to={"/favorites"} label={"Favorites"} />
           <SidebarItem to={"/editor"} label={"Editor"} />

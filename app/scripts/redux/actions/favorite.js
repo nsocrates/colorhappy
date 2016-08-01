@@ -27,8 +27,7 @@ export const favorite = {
 
 /**
  * Index auth user's favorite palettes
- * @param {String} [payload.id] - ID of auth user.
- * @param {Object} [payload.options] - Pagination options.
+ * @param {Object} [payload] - Pagination options.
  */
 export const getFavorites = {
   request: payload => action(AUTH_GET_FAVORITES.REQUEST, { payload }),

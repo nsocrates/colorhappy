@@ -9,6 +9,7 @@ import UserTab from './UserTab/UserTab'
 import { paletteLove } from 'actions/palettes'
 import { Love, ModeEdit, Download } from 'components/Svg'
 import { stringifier } from 'utils/transformations'
+import { BASE_URL } from 'constants/api'
 
 const propTypes = {
   palette: PropTypes.object.isRequired,
@@ -46,7 +47,7 @@ class Palette extends Component {
         <BarItem
           anchor
           download
-          href={`//localhost:8000/api/palettes/download/${stringified}`}
+          href={`${BASE_URL}/api/palettes/download/${stringified}`}
           Icon={Download}
           label={"Export"}
         />

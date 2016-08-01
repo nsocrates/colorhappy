@@ -38,15 +38,12 @@ class BrowserContainer extends Component {
   }
 
   handleLoadUserFavorites(init) {
-    const { dispatch, session, palettes } = this.props
+    const { dispatch, palettes } = this.props
     const page = init ? 1 : palettes.pageCount + 1
     dispatch(getFavorites.request({
-      id: session.id,
-      options: {
-        page,
-        sort: 'title',
-        limit: 25,
-      },
+      page,
+      sort: 'title',
+      limit: 25,
     }))
   }
 
@@ -57,7 +54,7 @@ class BrowserContainer extends Component {
 
     return (
       <main className={s.container}>
-        <h1>Favorites</h1>
+        <h3>Favorites</h3>
         <div className={s.row}>
           {palettes.ids.map((id, i) => {
             const currPalette = paletteEntity[id]

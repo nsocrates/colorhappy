@@ -3,6 +3,7 @@ import { Link } from 'react-router'
 import withStyles from 'isomorphic-style-loader/lib/withStyles'
 import s from '../Browser.scss'
 import { favorite } from 'actions/favorite'
+import { BASE_URL } from 'constants/api'
 
 const propTypes = {
   dispatch: PropTypes.func.isRequired,
@@ -24,7 +25,7 @@ function BrowserOverlay({ dispatch, paletteId, colorChain }) {
         <a
           download
           className={s.overlayItem}
-          href={`//localhost:8000/api/palettes/download/${colorChain}`}
+          href={`${BASE_URL}/api/palettes/download/${colorChain}`}
         >
           {"Export"}
         </a>

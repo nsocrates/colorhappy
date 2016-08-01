@@ -42,7 +42,7 @@ const user = mapQuery('user')({
 })
 
 /**
- * Helper function to format an object into an SQL query string.
+ * Helper function to format an object into an SQL query string with UPDATE operation.
  * @param  {Object} column - Key value pair of the columns to update.
  * @return {String} - SQL string with named parameters.
  */
@@ -100,7 +100,7 @@ const queries = db => ({
     update: payload => db.one(sqlify('Users', payload), payload),
     updatePassword: payload => db.one(user.updatePassword, payload),
     showUserPalettes: payload => db.any(user.showUserPalettes, paginate(payload)),
-    showFavorites: payload => db.any(user.showFavorites, payload),
+    showFavorites: payload => db.any(user.showFavorites, paginate(payload)),
   },
 })
 

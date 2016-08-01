@@ -5,11 +5,19 @@ import { BASE_URL } from 'constants/api'
 import { q } from 'utils/transformations'
 import { validateUserSignup } from './validation'
 
-// Set defaults for axios
+/**
+ * ****************************************
+ * Axios defaults
+ * ****************************************
+ */
 axios.defaults.baseURL = BASE_URL
 axios.defaults.headers.post['Content-Type'] = 'application/json'
 
-// API function to fetch a response
+/**
+ * ****************************************
+ * API function to fetch a response
+ * ****************************************
+ */
 const callApi = schema => (method, endpoint, options) => (
   axios[method](endpoint, options)
     .then(response => {
@@ -23,35 +31,54 @@ const callApi = schema => (method, endpoint, options) => (
     .catch(error => Promise.reject(error))
 )
 
-// API helper functions
+/**
+ * ****************************************
+ * API helper functions
+ * ****************************************
+ */
 const fetch = callApi()
 const fetchUser = callApi(Schemas.User)
 const fetchPaletteArray = callApi(Schemas.PaletteArray)
 const fetchPalette = callApi(Schemas.Palette)
 
-// API services
+/**
+ * ****************************************
+ * API route services
+ * ****************************************
+ */
+
+// ========================================
+// Authentication API
+// ========================================
 export function signup(payload) {
-  // Run through Validator first
   return validateUserSignup(payload)
     .then(() => fetch('post', '/api/users/', payload))
     .catch(error => Promise.reject(error))
 }
-
-// Shame list..
 export const login = payload => fetch('post', '/auth/local', payload)
-export const changePassword = payload => fetch('put', '/api/users/me/password', payload)
-export const getUser = ({ id }) => fetchUser('get', `/api/users/${id}`)
-export const updateProfile = payload => fetchUser('put', '/api/users/me', payload)
-export const createPalette = payload => fetchPalette('post', '/api/palettes', payload)
-export const getPalette = ({ id }) => fetchPalette('get', `/api/palettes/${id}`)
 
-export const favoritePalette = ({ id }) => fetchPalette('post', `/api/palettes/${id}/favorite`)
-export const unfavoritePalette = ({ id }) => fetch('delete', `/api/palettes/${id}/favorite`)
+// ========================================
+// Me API
+// ========================================
+export const getMe = () => fetchUser('get', '/api/me')
 
-export const getPaletteArray = opts => {
-  const qs = q.stringify(opts)
-  return fetchPaletteArray('get', `/api/palettes?${qs}`)
+export const getMePalette = options => {
+  const qs = q.stringify(options)
+  return fetchPaletteArray('get', `/api/me/palettes?${qs}`)
 }
+
+export const getMeFavorite = options => {
+  const qs = q.stringify(options)
+  return fetchPaletteArray('get', `/api/me/favorites?${qs}`)
+}
+
+export const updateProfile = payload => fetchUser('put', '/api/me', payload)
+export const changePassword = payload => fetch('put', '/api/me/password', payload)
+
+// ========================================
+// User API
+// ========================================
+export const getUser = ({ id }) => fetchUser('get', `/api/users/${id}`)
 
 export const getUserPalette = ({ id, options }) => {
   const qs = q.stringify(options)
@@ -63,4 +90,16 @@ export const getUserFavorite = ({ id, options }) => {
   const qs = q.stringify(options)
   const endpoint = `/api/users/${id}/favorites?${qs}`
   return fetchPaletteArray('get', endpoint)
+}
+
+// ========================================
+// Palette API
+// ========================================
+export const createPalette = payload => fetchPalette('post', '/api/palettes', payload)
+export const getPalette = ({ id }) => fetchPalette('get', `/api/palettes/${id}`)
+export const favoritePalette = ({ id }) => fetchPalette('post', `/api/palettes/${id}/favorite`)
+export const unfavoritePalette = ({ id }) => fetch('delete', `/api/palettes/${id}/favorite`)
+export const getPaletteArray = opts => {
+  const qs = q.stringify(opts)
+  return fetchPaletteArray('get', `/api/palettes?${qs}`)
 }
