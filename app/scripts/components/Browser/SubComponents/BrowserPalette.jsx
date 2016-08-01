@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
 import withStyles from 'isomorphic-style-loader/lib/withStyles'
-import s from './Browser.scss'
+import s from '../Browser.scss'
 
 const propTypes = {
   color: PropTypes.string,

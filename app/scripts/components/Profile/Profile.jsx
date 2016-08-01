@@ -3,13 +3,13 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles'
 import s from './Profile.scss'
 import ProfileHeader from './ProfileHeader'
 import BrowserPaletteGroup from 'components/Browser/BrowserPaletteGroup'
-import { BrowserLoader, Loader } from 'components/Loader'
+import { PageController, Loader } from 'components/Loader'
 
 const propTypes = {
   dispatch: PropTypes.func.isRequired,
   userEntity: PropTypes.object.isRequired,
   paletteEntity: PropTypes.object.isRequired,
-  palettes: PropTypes.object.isRequired,
+  palettes: PropTypes.object,
   params: PropTypes.object.isRequired,
   handleLoadMorePalettes: PropTypes.func.isRequired,
 }
@@ -45,7 +45,7 @@ function Profile(props) {
           )
         })}
       </div>
-      <BrowserLoader pagination={palettes} onClick={handleLoadMorePalettes} />
+      <PageController pagination={palettes} onClick={handleLoadMorePalettes} />
     </main>
   )
 }

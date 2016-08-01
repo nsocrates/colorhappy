@@ -10,7 +10,7 @@ const propTypes = {
   onClick: PropTypes.func,
 }
 
-export default function BrowserLoader({ pagination, onClick }) {
+export default function PageController({ pagination, onClick }) {
   const { isFetching, hasMore } = pagination
   // Currently fetching
   if (isFetching) return <Loader />
@@ -22,4 +22,4 @@ export default function BrowserLoader({ pagination, onClick }) {
   return <LoadMore onClick={onClick} />
 }
 
-BrowserLoader.propTypes = propTypes
+PageController.propTypes = propTypes

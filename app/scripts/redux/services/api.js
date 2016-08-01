@@ -1,11 +1,12 @@
 import axios from 'axios'
 import { normalize } from 'normalizr'
 import Schemas from 'constants/schemas'
+import { BASE_URL } from 'constants/api'
 import { q } from 'utils/transformations'
 import { validateUserSignup } from './validation'
 
 // Set defaults for axios
-axios.defaults.baseURL = 'http://localhost:8000'
+axios.defaults.baseURL = BASE_URL
 axios.defaults.headers.post['Content-Type'] = 'application/json'
 
 // API function to fetch a response
@@ -45,13 +46,21 @@ export const createPalette = payload => fetchPalette('post', '/api/palettes', pa
 export const getPalette = ({ id }) => fetchPalette('get', `/api/palettes/${id}`)
 export const getPaletteLove = ({ id }) => fetchPalette('post', `/api/palettes/${id}/favorite`)
 
+export const unfavoritePalette = ({ id }) => fetch('delete', `/api/palettes/${id}/favorite`)
+
 export const getPaletteArray = opts => {
   const qs = q.stringify(opts)
   return fetchPaletteArray('get', `/api/palettes?${qs}`)
 }
 
-export const getUserPalette = ({ id, opts }) => {
-  const qs = q.stringify(opts)
-  return fetchPaletteArray('get', `/api/users/${id}/palettes?${qs}`)
+export const getUserPalette = ({ id, options }) => {
+  const qs = q.stringify(options)
+  const endpoint = `/api/users/${id}/palettes?${qs}`
+  return fetchPaletteArray('get', endpoint)
 }
 
+export const getUserFavorite = ({ id, options }) => {
+  const qs = q.stringify(options)
+  const endpoint = `/api/users/${id}/favorites?${qs}`
+  return fetchPaletteArray('get', endpoint)
+}

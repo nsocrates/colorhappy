@@ -58,12 +58,7 @@ export function me(req, res) {
 
 // GET palettes by user
 export function showPalettes(req, res) {
-  const { query = {} } = req
-  const payload = Object.assign({}, { id: req.params.id }, {
-    limit: query.limit || 10,
-    page: query.page || 1,
-    sort: query.sort || 'title',
-  })
+  const payload = services.normalizeQuery({ id: req.params.id })(req.query)
   return User.showUserPalettes(payload)
     .then(services.respondWithResult(res))
     .catch(services.handleError(res))
@@ -72,7 +67,8 @@ export function showPalettes(req, res) {
 
 // GET palettes favorited by user
 export function showFavorites(req, res) {
-  return User.showFavorites({ id: req.params.id })
+  const payload = services.normalizeQuery({ id: req.params.id })(req.query)
+  return User.showFavorites(payload)
     .then(services.handleNotFound(res))
     .then(services.respondWithResult(res))
     .catch(services.handleError(res))

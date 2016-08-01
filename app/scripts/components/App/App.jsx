@@ -36,7 +36,12 @@ class App extends React.Component {
           dispatch={dispatch}
           ui={{ header, sidebar }}
         />
-        <Sidebar sidebar={sidebar} header={header} dispatch={dispatch} />
+        <Sidebar
+          sidebar={sidebar}
+          header={header}
+          dispatch={dispatch}
+          session={session}
+        />
         <section className={s.contentWrap} style={{ opacity: sidebar && '0.65' }}>
           {children}
         </section>

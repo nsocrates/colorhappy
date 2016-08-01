@@ -1,6 +1,6 @@
 /**
  * Deletes a relationship between palette and user.
- * Returns the number of rows deleted.
+ * Returns details of the deleted row.
  */
 
  DELETE FROM Palette_User_Favorite

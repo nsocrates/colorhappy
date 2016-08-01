@@ -40,7 +40,7 @@ class ProfileContainer extends Component {
       options: {
         sort: 'title',
         page: palettes ? palettes.pageCount + 1 : 1,
-        limit: 3,
+        limit: 25,
       },
     }))
   }

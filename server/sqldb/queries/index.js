@@ -89,7 +89,7 @@ const queries = db => ({
     update: payload => db.one(palette.update, payload),
     destroy: payload => db.none(palette.destroy, payload),
     favorite: payload => db.one(palette.favorite, payload),
-    unfavorite: payload => db.none(palette.unfavorite, payload),
+    unfavorite: payload => db.one(palette.unfavorite, payload),
   },
 
   user: {

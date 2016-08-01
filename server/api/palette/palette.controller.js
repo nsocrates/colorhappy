@@ -5,13 +5,8 @@ const { Palette } = db
 
 // GET to index all palettes.
 export function index(req, res) {
-  const { query = {} } = req
-  const options = {
-    limit: query.limit || 10,
-    page: query.page || 1,
-    sort: query.sort || 'created_at',
-  }
-  return Palette.index(options)
+  const payload = services.normalizeQuery()(req.query)
+  return Palette.index(payload)
     .then(services.respondWithResult(res))
     .catch(services.handleError(res))
     .finally(pgp.end())

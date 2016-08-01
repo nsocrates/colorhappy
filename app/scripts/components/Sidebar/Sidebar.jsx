@@ -9,6 +9,7 @@ const propTypes = {
   sidebar: PropTypes.bool.isRequired,
   dispatch: PropTypes.func.isRequired,
   header: PropTypes.bool.isRequired,
+  session: PropTypes.object.isRequired,
 }
 
 class Sidebar extends Component {
@@ -47,7 +48,7 @@ class Sidebar extends Component {
   }
 
   render() {
-    const { sidebar, header } = this.props
+    const { sidebar, header, session } = this.props
     return (
       <aside
         className={s.sidebar}
@@ -61,8 +62,8 @@ class Sidebar extends Component {
       >
         <ul className={s.navList}>
           <SidebarItem to={"/"} label={"Home"} />
-          <SidebarItem to={"/palettes"} label={"Favorites"} />
-          <SidebarItem to={"/palettes"} label={"Palettes"} />
+          <SidebarItem to={`/user/${session.id}`} label={"Profile"} />
+          <SidebarItem to={"/favorites"} label={"Favorites"} />
           <SidebarItem to={"/editor"} label={"Editor"} />
           <SidebarItem to={"/settings"} label={"Settings"} />
           <SidebarItem to={"/"} label={"Logout"} onClick={this.handleLogout} />

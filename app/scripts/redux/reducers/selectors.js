@@ -59,6 +59,17 @@ export const makePaginatedPaletteUserSelector = (...selectors) =>
     })
   )
 
+export const makePaginatedUserFavoriteSelector = () =>
+  createSelector(
+    [selectEntities, selectPaginatedPalettes, selectSession],
+    (entities, pagedPalettes, session) => ({
+      session,
+      paletteEntity: entities.palettes,
+      userEntity: entities.users,
+      palettes: pagedPalettes.favoritesByUser[session.id],
+    })
+  )
+
 export const makeEditorSelector = () =>
   createStructuredSelector({
     session: selectSession,

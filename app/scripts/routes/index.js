@@ -3,6 +3,7 @@ import { Route, IndexRoute } from 'react-router'
 import App from 'components/App/App'
 import PaletteContainer from 'components/Palette/PaletteContainer'
 import BrowserContainer from 'components/Browser/BrowserContainer'
+import BrowserFavoriteContainer from 'components/Browser/BrowserFavoriteContainer'
 import SettingsContainer from 'components/Settings/SettingsContainer'
 import EditorContainer from 'components/Editor/EditorContainer'
 import ProfileContainer from 'components/Profile/ProfileContainer'
@@ -22,11 +23,12 @@ export default function constructRoutes(store) {
   return (
     <Route path="/" component={App}>
       <IndexRoute component={BrowserContainer} />
-      <Route path="/settings" component={SettingsContainer} onEnter={handleAuth} />
       <Route path="/palettes" component={BrowserContainer} />
       <Route path="/palette(/:id)" component={PaletteContainer} />
       <Route path="/editor(/:hex)" component={EditorContainer} />
       <Route path="/user/:id" component={ProfileContainer} />
+      <Route path="/settings" component={SettingsContainer} onEnter={handleAuth} />
+      <Route path="/favorites" component={BrowserFavoriteContainer} onEnter={handleAuth} />
     </Route>
   )
 }

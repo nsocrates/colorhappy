@@ -1,6 +1,6 @@
 import paginate from 'utils/paginate'
 import { combineReducers } from 'redux'
-import { PALETTE_ARRAY, USER_PALETTE } from 'constants/actionTypes'
+import { PALETTE_ARRAY, USER_PALETTE, USER_FAVORITE } from 'constants/actionTypes'
 
 export const palettes = combineReducers({
   palettesBySortOrder: paginate({
@@ -10,6 +10,10 @@ export const palettes = combineReducers({
   palettesByUser: paginate({
     mapActionToKey: action => action.payload.id,
     types: Object.values(USER_PALETTE),
+  }),
+  favoritesByUser: paginate({
+    mapActionToKey: action => action.payload.id,
+    types: Object.values(USER_FAVORITE),
   }),
 })
 

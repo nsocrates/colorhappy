@@ -25,18 +25,18 @@ export default function session(state = initialState, action) {
         id: action.response.result,
       })
     case SET_TOKEN:
-      return {
+      return Object.assign({}, state, {
         isAuthenticating: false,
         isAuthenticated: true,
         token: action.payload.token,
-      }
+      })
     case LOGIN.REQUEST:
     case SIGNUP.REQUEST:
-      return {
+      return Object.assign({}, state, {
         isAuthenticating: true,
         isAuthenticated: false,
         errors: [],
-      }
+      })
     case LOGIN.SUCCESS:
     case SIGNUP.SUCCESS:
       return Object.assign({}, state, {

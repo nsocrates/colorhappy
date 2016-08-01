@@ -2,10 +2,10 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import withStyles from 'isomorphic-style-loader/lib/withStyles'
 import s from './Browser.scss'
-import BrowserPaletteGroup from './BrowserPaletteGroup'
+import BrowserFavoriteGroup from './BrowserFavoriteGroup'
 import { Loader, PageController } from 'components/Loader'
-import { loadPalettes } from 'actions/palettes'
-import { makePaginatedPaletteUserSelector } from 'reducers/selectors'
+import { makePaginatedUserFavoriteSelector } from 'reducers/selectors'
+import { loadUserFavorites } from 'actions/users'
 
 const propTypes = {
   dispatch: PropTypes.func.isRequired,
@@ -15,25 +15,36 @@ const propTypes = {
   location: PropTypes.object.isRequired,
   // Partitioned palettes
   palettes: PropTypes.object,
+  session: PropTypes.object.isRequired,
 }
 
 class BrowserContainer extends Component {
   constructor(props) {
     super(props)
     this.handleLoadMorePalettes = this.handleLoadMorePalettes.bind(this)
+    this.handleLoadUserFavorites = this.handleLoadUserFavorites.bind(this)
   }
 
   componentDidMount() {
-    this.handleLoadMorePalettes(null, false)
+    this.handleLoadUserFavorites(null, false)
   }
 
-  handleLoadMorePalettes(e, isNext = true) {
-    if (e) e.preventDefault()
-    const { dispatch, location, palettes } = this.props
-    dispatch(loadPalettes({
-      sort: location.query.sort || 'created_at',
-      page: palettes ? palettes.pageCount + 1 : 1,
-      limit: 25,
+  // We pass this method to PageController.
+  // Passing true as an argument to handleLoadUserFavorites forces fetching.
+  handleLoadMorePalettes(e) {
+    e.preventDefault()
+    this.handleLoadUserFavorites(true)
+  }
+
+  handleLoadUserFavorites(isNext = false) {
+    const { dispatch, session, palettes } = this.props
+    dispatch(loadUserFavorites({
+      id: session.id,
+      options: {
+        sort: 'title',
+        page: palettes ? palettes.pageCount + 1 : 1,
+        limit: 25,
+      },
     }, isNext))
   }
 
@@ -44,12 +55,13 @@ class BrowserContainer extends Component {
 
     return (
       <main className={s.container}>
+        <h1>Favorites</h1>
         <div className={s.row}>
           {palettes.ids.map((id, i) => {
             const currPalette = paletteEntity[id]
             const user = userEntity[currPalette.user_id]
             return (
-              <BrowserPaletteGroup
+              <BrowserFavoriteGroup
                 palette={currPalette}
                 user={user}
                 key={i}
@@ -67,9 +79,9 @@ class BrowserContainer extends Component {
 BrowserContainer.propTypes = propTypes
 
 const makeMapStateToProps = () => (state, props) =>
-  makePaginatedPaletteUserSelector(
-    'palettesBySortOrder',
-    props.location.query.sort || 'created_at'
+  makePaginatedUserFavoriteSelector(
+    'favoritesByUser',
+    props.location.query.sort || 'title'
   )(state)
 
 const WithStyles = withStyles(s)(BrowserContainer)

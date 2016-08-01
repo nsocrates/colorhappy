@@ -5,6 +5,7 @@ import uiFlow from './ui'
 import userFlow from './users'
 import notificationFlow from './notifications'
 import editorFlow from './editor'
+import favoriteFlow from './favorite'
 
 // Expose sagas to Redux store
 // These functions are executed as soon as the Store is ready
@@ -16,5 +17,6 @@ export default function* root() {
     fork(userFlow),
     fork(notificationFlow),
     fork(editorFlow),
+    fork(favoriteFlow),
   ]
 }

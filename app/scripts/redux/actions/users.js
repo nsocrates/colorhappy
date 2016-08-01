@@ -5,7 +5,9 @@ import {
   CHANGE_PASSWORD,
   DISABLE_ACCOUNT,
   USER_PALETTE,
+  USER_FAVORITE,
   LOAD_USER_PALETTES,
+  LOAD_USER_FAVORITES,
 } from 'constants/actionTypes'
 import { action } from 'utils/action'
 
@@ -19,6 +21,12 @@ export const userPalette = {
   request: payload => action(USER_PALETTE.REQUEST, { payload }),
   success: (payload, response) => action(USER_PALETTE.SUCCESS, { payload, response }),
   failure: (payload, error) => action(USER_PALETTE.FAILURE, { payload, error }),
+}
+
+export const userFavorite = {
+  request: payload => action(USER_FAVORITE.REQUEST, { payload }),
+  success: (payload, response) => action(USER_FAVORITE.SUCCESS, { payload, response }),
+  failure: (payload, error) => action(USER_FAVORITE.FAILURE, { payload, error }),
 }
 
 export const me = {
@@ -47,3 +55,7 @@ export const disableAccount = {
 
 // Payload is an object with property name 'id'
 export const loadUserPalettes = payload => action(LOAD_USER_PALETTES, { payload })
+
+// Load initial palette favorite list
+export const loadUserFavorites = (payload, isNext) =>
+  action(LOAD_USER_FAVORITES, { payload, isNext })
