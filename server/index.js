@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import path from 'path'
 import express from 'express'
+import config from './config/environment'
 import configureSSL from './config/ssl'
 import configureExpress from './config/express'
 import configureRoutes from './config/routes'
@@ -30,4 +31,4 @@ configureRoutes(app)
 app.use(SSR_MIDDLEWARE)
 
 app.listen(app.get('port'), () =>
-  console.log(`\nExpress server listening on port ${app.get('port')} in ${app.get('env')} mode`))
+  console.log(`\nExpress server listening on ${config.domain} in ${app.get('env')} mode`))

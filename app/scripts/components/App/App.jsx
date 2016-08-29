@@ -10,11 +10,15 @@ import { RootModal } from 'components/Modal'
 import { appSelector } from 'reducers/selectors'
 import { toggleSidebar } from 'actions/ui'
 import { setToken } from 'actions/auth'
+import { replace } from 'react-router-redux'
 
 class App extends React.Component {
   componentDidMount() {
     const token = localStorage.getItem('TOKEN')
-    if (token) this.props.dispatch(setToken({ token }))
+    if (token) {
+      this.props.dispatch(setToken({ token }))
+      this.props.dispatch(replace('/palettes'))
+    }
   }
 
   render() {

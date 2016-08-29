@@ -7,6 +7,7 @@ import BrowserFavoriteContainer from 'components/Browser/BrowserFavoriteContaine
 import SettingsContainer from 'components/Settings/SettingsContainer'
 import EditorContainer from 'components/Editor/EditorContainer'
 import ProfileContainer from 'components/Profile/ProfileContainer'
+import LandingPage from 'components/LandingPage/LandingPage'
 
 export default function constructRoutes(store) {
   function handleAuth(nextState, replace, cb) {
@@ -22,7 +23,7 @@ export default function constructRoutes(store) {
 
   return (
     <Route path="/" component={App}>
-      <IndexRoute component={BrowserContainer} />
+      <IndexRoute component={LandingPage} />
       <Route path="/palettes" component={BrowserContainer} />
       <Route path="/palette(/:id)" component={PaletteContainer} />
       <Route path="/editor(/:hex)" component={EditorContainer} />

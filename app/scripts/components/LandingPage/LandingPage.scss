@@ -1,0 +1,86 @@
+@import "~styles/helpers";
+
+.container {
+  position: relative;
+  height: calc(100vh - #{map-get($header, height)} - #{map-get($footer, height)});
+  width: 100%;
+
+  @include media-breakpoint-up(md) {
+    height: calc(100vh - #{map-get($header, md-height)} - #{map-get($footer, height)});
+  }
+}
+
+.bg {
+  background-image: url("../../../images/splash.jpg");
+  background-size: 250%;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  opacity: 0.9;
+  position: relative;
+  width: 100%;
+  height: 100%;
+
+  @include media-breakpoint-up(md) {
+    background-size: cover;
+  }
+}
+
+.bgFilter {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: $text-color;
+  opacity: 0.6;
+}
+
+.splash {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: $white;
+  text-align: center;
+  width: 100%;
+}
+
+.group {
+  color: $white;
+  text-align: center;
+  width: 100%;
+  margin-bottom: 30px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.headline,
+.byline {
+  margin-bottom: 0;
+}
+
+.headline {
+  font-size: map-get($font-size, jumbo);
+}
+
+.byline {
+  font-weight: 400;
+}
+
+.btnCta {
+  @include btn;
+  @include btn-lg;
+  @include btn-ease($accent-color);
+  color: $white;
+  font-weight: $bold-font-weight;
+  font-family: $heading-font-family;
+  margin-right: 30px;
+}
+
+.btnSecondary {
+  color: $white;
+  font-weight: $bold-font-weight;
+  font-family: $heading-font-family;
+  border-bottom: 2px solid $white;
+  padding-bottom: 1px;
+}
